@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CHEES GAMBIT</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stockfish/stockfish.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+
+<div id="splash">
+<h1>♔ CHEES GAMBIT ♔</h1>
+</div>
+
+<div id="main">
+
+<header>
+<div class="profile" id="profileIcon">G</div>
+<h1>CHEES GAMBIT</h1>
+
+<div class="modeSwitch">
+<span>Light</span>
+<label class="switch">
+<input type="checkbox" id="modeToggle">
+<span class="slider"></span>
+</label>
+<span>Dark</span>
+</div>
+
+</header>
+
+<div class="menu" id="menu">
+<button onclick="startGame('easy')">EASY</button>
+<button onclick="startGame('medium')">MEDIUM</button>
+<button onclick="startGame('hard')">HARD</button>
+</div>
+
+<div id="gameArea">
+<div id="board"></div>
+<button onclick="restartGame()" class="restart">RESTART</button>
+</div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
