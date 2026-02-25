@@ -3,10 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>CHEES GAMBIT</title>
-<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.css"/>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/stockfish/stockfish.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -15,34 +21,25 @@
 <h1>♔ CHEES GAMBIT ♔</h1>
 </div>
 
-<div id="main">
-
 <header>
-<div class="profile" id="profileIcon">G</div>
+<div class="profile">G</div>
 <h1>CHEES GAMBIT</h1>
 
-<div class="modeSwitch">
-<span>Light</span>
 <label class="switch">
 <input type="checkbox" id="modeToggle">
 <span class="slider"></span>
 </label>
-<span>Dark</span>
-</div>
-
 </header>
 
-<div class="menu" id="menu">
-<button onclick="startGame('easy')">EASY</button>
-<button onclick="startGame('medium')">MEDIUM</button>
-<button onclick="startGame('hard')">HARD</button>
+<div class="menu">
+<button onclick="startGame(5)">EASY</button>
+<button onclick="startGame(10)">MEDIUM</button>
+<button onclick="startGame(18)">HARD</button>
 </div>
 
 <div id="gameArea">
-<div id="board"></div>
-<button onclick="restartGame()" class="restart">RESTART</button>
-</div>
-
+<div id="board" style="width: 400px; margin:auto;"></div>
+<button onclick="restartGame()">RESTART</button>
 </div>
 
 <script src="script.js"></script>
