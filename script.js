@@ -1,54 +1,59 @@
-let game;
-let engine;
-let level = "easy";
-
-document.getElementById("modeToggle").addEventListener("change",function(){
-document.body.classList.toggle("light");
-});
+4let board = null
+let game = new Chess()
+let engine = STOCKFISH()
+let depth = 5
 
 setTimeout(()=>{
 document.getElementById("splash").style.display="none";
-},2000);
+},2000)
 
-function startGame(lvl){
-level = lvl;
-document.getElementById("menu").style.display="none";
-document.getElementById("gameArea").style.display="block";
+document.getElementById("modeToggle").addEventListener("change",function(){
+document.body.classList.toggle("light")
+})
 
-game = new Chess();
-engine = STOCKFISH();
+function startGame(d){
+depth = d
+document.querySelector(".menu").style.display="none"
+document.getElementById("gameArea").style.display="block"
 
-engine.onmessage = function(event){
-if(event.data.includes("bestmove")){
-let move = event.data.split(" ")[1];
-game.move(move);
-}
-};
-
-playerMove();
+board = Chessboard('board', {
+draggable: true,
+position: 'start',
+onDrop: onDrop
+})
 }
 
-function playerMove(){
-document.onclick = function(){
-if(game.game_over()) return;
+function onDrop(source, target) {
+let move = game.move({
+from: source,
+to: target,
+promotion: 'q'
+})
 
-let moves = game.moves();
-let move = moves[Math.floor(Math.random()*moves.length)];
-game.move(move);
+if (move === null) return 'snapback'
 
-engine.postMessage("position fen " + game.fen());
+engine.postMessage("position fen " + game.fen())
+engine.postMessage("go depth " + depth)
 
-if(level==="easy") engine.postMessage("go depth 5");
-if(level==="medium") engine.postMessage("go depth 10");
-if(level==="hard") engine.postMessage("go depth 18");
+engine.onmessage = function(event) {
+if (event.data.includes("bestmove")) {
+let bestMove = event.data.split(" ")[1]
+game.move({
+from: bestMove.substring(0,2),
+to: bestMove.substring(2,4),
+promotion: 'q'
+})
+board.position(game.fen())
 
 if(game.game_over()){
-confetti();
-alert("YOU WIN 👑");
+confetti()
+alert("YOU WIN 👑")
+}
 }
 }
 }
 
 function restartGame(){
-location.reload();
+location.reload()
 }
+● Commit directly to the main branch
