@@ -91,7 +91,7 @@ if (canvas !== null) {
 
     ctx.fillStyle = "#fdfcfb";
     ctx.fillRect(0, 0, 400, 400);
-
+if (direction === null) return;
     for (let i = 0; i < snake.length; i++) {
       ctx.fillStyle = i === 0 ? "green" : "lightgreen";
       ctx.fillRect(snake[i].x, snake[i].y, box, box);
