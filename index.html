@@ -17,12 +17,10 @@ body{
   color:gold;
   font-family:serif;
 }
-
 #board{
   width:350px;
   margin:20px auto;
 }
-
 button{
   padding:10px 20px;
   background:gold;
@@ -56,7 +54,6 @@ function onDrop (source, target) {
     to: target,
     promotion: 'q'
   })
-
   if (move === null) return 'snapback'
 }
 
