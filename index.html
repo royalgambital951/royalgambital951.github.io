@@ -2,64 +2,82 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <title>Royal Chess+ | Strategy</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Gambit | Royal Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-mode">
 
     <div id="splash-screen">
-        <div class="logo-animation">
-            <h1 class="royal-text">CHESS<span>+</span></h1>
-        </div>
+        <h1 class="royal-title">CHESS GAMBIT</h1>
+        <p class="tradition-text">Royal & Traditional Strategy</p>
     </div>
 
-    <div id="name-modal" class="modal">
-        <div class="modal-content">
+    <div id="login-modal" class="modal">
+        <div class="modal-content 3d-box">
             <span class="close-btn" onclick="startAsGuest()">❌</span>
-            <div class="input-area">
-                <input type="text" id="username-input" placeholder='{"NAME = SEM ALTMEN"}'>
-                <button onclick="saveName()">SAVE NAME</button>
-                <p class="guest-link" onclick="startAsGuest()">Or Play As Guest</p>
+            <h2 class="cinzel-font">CREATE ACCOUNT</h2>
+            <div class="input-group">
+                <input type="text" id="username" placeholder='{“NAME = SEM ALTMEN”}'>
+                <input type="password" id="password" placeholder='{EX. :- 12345@ }'>
+                <button class="gold-btn 3d-effect" onclick="saveProfile()">SIGN UP / SIGN IN</button>
             </div>
+            <p class="guest-link" onclick="startAsGuest()">Play as Guest</p>
         </div>
     </div>
 
     <header>
-        <div class="theme-wrapper">
-            <span class="label">Light</span>
-            <div class="switch-box" onclick="toggleTheme()">
-                <div id="switch-dot"></div>
+        <div class="header-left">
+            <div id="quotes-box" class="quotes-nav">"Victory belongs to the most persevering."</div>
+        </div>
+        
+        <div class="header-center">
+            <div class="theme-switch-container">
+                <span class="tiny-text">LIGHT</span>
+                <div class="switch-bg" onclick="toggleTheme()">
+                    <div id="switch-handle"></div>
+                </div>
+                <span class="tiny-text">DARK</span>
             </div>
-            <span class="label">Dark</span>
         </div>
 
-        <div id="profile-container" onclick="openStats()">
-            <div id="profile-logo" class="colorful-circle">G</div>
+        <div class="header-right">
+            <div class="coin-display 3d-effect">
+                <span id="total-coins">0</span> <img src="coin-icon.png" class="mini-coin">
+            </div>
+            <div id="profile-icon" class="ragin-gola 3d-effect" onclick="openProfile()">G</div>
         </div>
     </header>
 
-    <div id="main-menu" class="container">
-        <div id="board" style="width: 400px; margin: 20px auto;"></div>
+    <main class="game-area">
+        <div class="board-border">
+            <div id="myBoard"></div>
+        </div>
 
-        <div class="options-container">
-            <div class="option-box" id="comp-box">
-                <button class="main-btn" onclick="showLevels()">COMPUTER +</button>
-                <div id="levels" class="hidden">
-                    <span onclick="setGame('easy')">EASY</span>
-                    <span onclick="setGame('medium')">MEDIUM</span>
-                    <span onclick="setGame('hard')">HARD</span>
-                </div>
+        <div class="menu-grid">
+            <div class="menu-card 3d-box" onclick="showModes('comp')">
+                <h3>COMPUTER +</h3>
             </div>
-
-            <div class="option-box">
-                <button class="main-btn" onclick="setGame('friend')">WITH FRIEND</button>
+            <div class="menu-card 3d-box" onclick="showModes('friend')">
+                <h3>WITH FRIEND</h3>
+            </div>
+            <div class="menu-card 3d-box" onclick="showModes('online')">
+                <h3>ONLINE</h3>
             </div>
         </div>
-    </div>
+        
+        <div class="side-controls">
+            <div class="control-btn 3d-effect" title="Back Step">↩️</div>
+            <div class="control-btn 3d-effect" title="Idea">💡 <br> <small>IDEA</small></div>
+            <div class="control-btn 3d-effect" title="Settings">⚙️</div>
+        </div>
+    </main>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script src="script.js"></script>
 </body>
