@@ -145,3 +145,41 @@ if (canvas) {
 
   let game = setInterval(draw, 100);
 }
+// ===== PUZZLE GAME =====
+
+const puzzleBoard = document.getElementById("puzzleBoard");
+
+if (puzzleBoard) {
+  let numbers = [1,2,3,4,5,6,7,8,""];
+  numbers.sort(() => Math.random() - 0.5);
+
+  numbers.forEach((num, index) => {
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
+    cell.textContent = num;
+    cell.addEventListener("click", () => moveTile(index));
+    puzzleBoard.appendChild(cell);
+  });
+
+  function moveTile(index) {
+    const emptyIndex = numbers.indexOf("");
+    const validMoves = [index-1, index+1, index-3, index+3];
+
+    if (validMoves.includes(emptyIndex)) {
+      [numbers[index], numbers[emptyIndex]] =
+      [numbers[emptyIndex], numbers[index]];
+      updateBoard();
+    }
+  }
+
+  function updateBoard() {
+    puzzleBoard.innerHTML = "";
+    numbers.forEach((num, index) => {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      cell.textContent = num;
+      cell.addEventListener("click", () => moveTile(index));
+      puzzleBoard.appendChild(cell);
+    });
+  }
+}
