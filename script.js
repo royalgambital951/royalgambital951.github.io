@@ -73,7 +73,7 @@ if (canvas !== null) {
   const ctx = canvas.getContext("2d");
   const box = 20;
   let snake = [{x: 9 * box, y: 10 * box}];
-  let direction = "RIGHT";
+  let direction = nul;
 
   let food = {
     x: Math.floor(Math.random() * 19) * box,
