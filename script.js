@@ -41,3 +41,34 @@ function showPossibleMoves(square) {
         // Highlight square logic
     });
 }
+// User ke coins ka hisaab
+let userCoins = 0;
+
+// Coin jitne ka function
+function winCoins(level) {
+    let prize = 0;
+    if (level === 'easy') prize = 10;
+    else if (level === 'medium') prize = 20;
+    else if (level === 'hard') prize = 50;
+    
+    userCoins += prize;
+    document.getElementById('total-coins').innerText = userCoins; // UI update
+    
+    // Celebration Sound aur Confetti
+    playWinningEffect();
+}
+
+// 3D Coin View Logic
+function show3DCoin() {
+    const coinElement = document.getElementById('main-coin');
+    coinElement.classList.toggle('coin-rotate'); // Animation shuru/band karne ke liye
+    
+    // Background blur karna
+    document.querySelector('main').style.filter = "blur(5px)";
+    
+    // 3 se 4 second baad wapas normal
+    setTimeout(() => {
+        document.querySelector('main').style.filter = "none";
+        coinElement.classList.remove('coin-rotate');
+    }, 4000);
+}
