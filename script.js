@@ -58,3 +58,18 @@ function restartGame() {
 }
 
 createBoard();
+const quotes = [
+  "Success is earned daily.",
+  "Small steps lead to big results.",
+  "Consistency beats talent.",
+  "Think big, start small.",
+  "Your future is created today."
+];
+
+function showDailyQuote() {
+  const today = new Date().getDate();
+  const quoteIndex = today % quotes.length;
+  document.getElementById("dailyQuote").textContent = quotes[quoteIndex];
+}
+
+showDailyQuote();
