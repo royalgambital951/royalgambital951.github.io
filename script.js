@@ -1,56 +1,63 @@
-// 1. Splash Control & Confetti
-setTimeout(() => {
-    document.getElementById('splash-screen').style.display = 'none';
-    
-    // Welcome Confetti (Plastic Bochar)
-    confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-    });
+// 1. Splash Screen & Confetti
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        splash.style.transition = "opacity 0.5s";
+        splash.style.opacity = "0";
+        
+        setTimeout(() => {
+            splash.style.display = 'none';
+            // Welcome Confetti
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            // Show Name Modal
+            document.getElementById('name-modal').style.display = 'flex';
+        }, 500);
+    }, 2000);
+});
 
-    // Logo hatne ke baad Name Modal dikhana
-    document.getElementById('name-modal').style.display = 'flex';
-}, 2000);
-
-// 2. Name & Profile Logic
+// 2. Profile Logic
 function saveName() {
     let name = document.getElementById('username-input').value;
-    if(name) {
-        let firstChar = name.match(/[a-zA-Z]/); // Pehla stylish letter
-        let displayLetter = firstChar ? firstChar[0].toUpperCase() : name.charAt(0).toUpperCase();
-        document.getElementById('profile-logo').innerText = displayLetter;
-        document.getElementById('name-modal').style.display = 'none';
-    }
+    let letter = (name && name.trim() !== "") ? name.trim().charAt(0).toUpperCase() : "G";
+    document.getElementById('profile-logo').innerText = letter;
+    document.getElementById('name-modal').style.display = 'none';
+    initBoard();
 }
 
 function startAsGuest() {
     document.getElementById('profile-logo').innerText = "G";
     document.getElementById('name-modal').style.display = 'none';
+    initBoard();
 }
 
-// 3. Theme Switcher (Left=Light, Right=Dark)
+// 3. Theme Toggle (Left=Light, Right=Dark)
 let isDark = true;
 function toggleTheme() {
     isDark = !isDark;
-    const body = document.body;
-    const dot = document.getElementById('switch-dot');
-    
-    if(isDark) {
-        body.className = 'dark-mode';
-    } else {
-        body.className = 'light-mode';
+    document.body.className = isDark ? 'dark-mode' : 'light-mode';
+    // Slider movement handle karne ke liye CSS class toggle kar sakte hain
+}
+
+// 4. Menu & Board Logic
+function toggleLevels() {
+    const levels = document.getElementById('difficulty-levels');
+    levels.style.display = (levels.style.display === 'block') ? 'none' : 'block';
+}
+
+var board = null;
+function initBoard() {
+    // Check if board already exists to avoid errors
+    if (board === null) {
+        board = Chessboard('myBoard', {
+            draggable: true,
+            dropOffBoard: 'snapback',
+            position: 'start'
+        });
     }
 }
 
-// 4. Game Modes
-function showLevels() {
-    document.getElementById('levels').classList.toggle('hidden');
+function initGame(mode) {
+    alert("Starting Game Mode: " + mode.toUpperCase());
+    initBoard();
+    // Computer Logic yahan add hogi
 }
-
-function setGame(mode) {
-    alert("Game Started: " + mode.toUpperCase());
-    // Yahan Board Initialize hoga
-    var board = Chessboard('board', 'start');
-}
-
