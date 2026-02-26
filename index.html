@@ -4,23 +4,42 @@
 <meta charset="UTF-8">
 <title>Royal Gambit Chess</title>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.js"></script>
 
-<link rel="stylesheet" href="style.css">
+<style>
+body{
+  text-align:center;
+  background:#222;
+  color:gold;
+  font-family:serif;
+}
+
+#board{
+  width:350px;
+  margin:20px auto;
+}
+
+button{
+  padding:10px 20px;
+  background:gold;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+</style>
 </head>
 
 <body>
-  
+
 <h1>♔ ROYAL GAMBIT ♔</h1>
 
-<div id="board" style="width: 400px; margin: auto;"></div>
+<div id="board"></div>
 
-<button onclick="resetGame()">Restart Game</button>
+<button onclick="resetGame()">Restart</button>
 
 <script>
 var board = null
