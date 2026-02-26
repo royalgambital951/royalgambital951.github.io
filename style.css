@@ -104,3 +104,12 @@ footer {
   background: #5a3e2b;
   color: white;
 }
+.controls button {
+  margin: 5px;
+  padding: 10px 15px;
+  font-size: 20px;
+  border-radius: 10px;
+  border: none;
+  background: brown;
+  color: white;
+}
