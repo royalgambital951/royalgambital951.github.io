@@ -1,29 +1,41 @@
 const board = document.getElementById("board");
 const statusText = document.getElementById("status");
+
 let currentPlayer = "X";
+let gameActive = true;
 let cells = [];
 
 function createBoard() {
   board.innerHTML = "";
-  cells = [];
+  cells = Array(9).fill("");
+
   for (let i = 0; i < 9; i++) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
     cell.addEventListener("click", () => handleClick(cell, i));
     board.appendChild(cell);
-    cells.push("");
   }
 }
 
 function handleClick(cell, index) {
-  if (cells[index] !== "") return;
+  if (!gameActive || cells[index] !== "") return;
+
   cells[index] = currentPlayer;
   cell.textContent = currentPlayer;
+
   if (checkWinner()) {
     statusText.textContent = currentPlayer + " Wins!";
-  } else {
-    currentPlayer = currentPlayer === "X" ? "O" : "X";
+    gameActive = false;
+    return;
   }
+
+  if (!cells.includes("")) {
+    statusText.textContent = "Game Draw!";
+    gameActive = false;
+    return;
+  }
+
+  currentPlayer = currentPlayer === "X" ? "O" : "X";
 }
 
 function checkWinner() {
@@ -32,6 +44,7 @@ function checkWinner() {
     [0,3,6],[1,4,7],[2,5,8],
     [0,4,8],[2,4,6]
   ];
+
   return winPatterns.some(pattern =>
     pattern.every(i => cells[i] === currentPlayer)
   );
@@ -39,6 +52,7 @@ function checkWinner() {
 
 function restartGame() {
   currentPlayer = "X";
+  gameActive = true;
   statusText.textContent = "";
   createBoard();
 }
