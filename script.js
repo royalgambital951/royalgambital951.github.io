@@ -1,63 +1,43 @@
-// 1. Splash Screen & Confetti
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        const splash = document.getElementById('splash-screen');
-        splash.style.transition = "opacity 0.5s";
-        splash.style.opacity = "0";
-        
-        setTimeout(() => {
-            splash.style.display = 'none';
-            // Welcome Confetti
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            // Show Name Modal
-            document.getElementById('name-modal').style.display = 'flex';
-        }, 500);
-    }, 2000);
-});
-
-// 2. Profile Logic
-function saveName() {
-    let name = document.getElementById('username-input').value;
-    let letter = (name && name.trim() !== "") ? name.trim().charAt(0).toUpperCase() : "G";
-    document.getElementById('profile-logo').innerText = letter;
-    document.getElementById('name-modal').style.display = 'none';
-    initBoard();
+// 1. Typewriter Suvichar (💡 Effect)
+function typeQuote(text) {
+    let i = 0;
+    let speed = 50;
+    document.getElementById("quotes-box").innerHTML = "";
+    function typing() {
+        if (i < text.length) {
+            document.getElementById("quotes-box").innerHTML += text.charAt(i);
+            // Tik-Tik Sound Play here
+            i++;
+            setTimeout(typing, speed);
+        }
+    }
+    typing();
 }
 
-function startAsGuest() {
-    document.getElementById('profile-logo').innerText = "G";
-    document.getElementById('name-modal').style.display = 'none';
-    initBoard();
+// 2. Winning Celebration
+function onGameOver(winnerName, coinsEarned) {
+    // King Shine Effect (CSS animation)
+    confetti({
+        particleCount: 200,
+        spread: 90,
+        origin: { y: 0.7 }
+    });
+    // Show Winner Modal
+    alert(`Winner: ${winnerName} \n Coins Won: ${coinsEarned}`);
 }
 
-// 3. Theme Toggle (Left=Light, Right=Dark)
-let isDark = true;
-function toggleTheme() {
-    isDark = !isDark;
-    document.body.className = isDark ? 'dark-mode' : 'light-mode';
-    // Slider movement handle karne ke liye CSS class toggle kar sakte hain
-}
-
-// 4. Menu & Board Logic
-function toggleLevels() {
-    const levels = document.getElementById('difficulty-levels');
-    levels.style.display = (levels.style.display === 'block') ? 'none' : 'block';
-}
-
-var board = null;
-function initBoard() {
-    // Check if board already exists to avoid errors
-    if (board === null) {
-        board = Chessboard('myBoard', {
-            draggable: true,
-            dropOffBoard: 'snapback',
-            position: 'start'
-        });
+// 3. Admin Login Logic
+function checkAdmin(user, pass) {
+    if(user === "RONAK KUMAWAT" && pass === "30/11") {
+        openAdminPanel();
     }
 }
 
-function initGame(mode) {
-    alert("Starting Game Mode: " + mode.toUpperCase());
-    initBoard();
-    // Computer Logic yahan add hogi
+// 4. Board Hints (Direction)
+function showPossibleMoves(square) {
+    // Chess.js integration to show dots on board
+    var moves = game.moves({ square: square, verbose: true });
+    moves.forEach(m => {
+        // Highlight square logic
+    });
 }
