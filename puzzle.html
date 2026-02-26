@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Puzzle Game - Royal Game Hub</title>
-  <link rel="stylesheet" href="style.css">
+    <title>Puzzle Game - Royal Gambit</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1 class="title">🧩 Number Puzzle</h1>
+<header>
+    <h1>🧩 Puzzle Challenge</h1>
+    <a href="index.html" class="btn">⬅ Back</a>
+</header>
 
-<div id="puzzleBoard" class="board"></div>
+<div class="puzzle-container">
+    <div id="puzzle-board"></div>
+</div>
 
-<br><br>
-<a href="index.html" class="btn">⬅ Back to Home</a>
+<div class="controls">
+    <button onclick="shuffle()">Shuffle</button>
+</div>
 
-<script src="script.js"></script>
+<script src="puzzle.js"></script>
 </body>
 </html>
