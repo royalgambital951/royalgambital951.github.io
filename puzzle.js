@@ -17,6 +17,9 @@ function stopTimer() {
 
 function createBoard() {
     board.innerHTML = "";
+    
+    document.getElementById("win-message").style.display = "none";
+ 
     tiles = [];
     moveCount = 0;
     time = 0;
@@ -78,21 +81,19 @@ function shuffle() {
 }
 
 function checkWin() {
-    let win = true;
+    let winningPattern = [1,2,3,4,5,6,7,8,""];
 
-    for (let i = 0; i < 8; i++) {
-        if (tiles[i] !== i + 1) {
-            win = false;
-            break;
+    for (let i = 0; i < 9; i++) {
+        if (tiles[i] !== winningPattern[i]) {
+            return;
         }
     }
 
-    if (win) {
-        stopTimer();
-        setTimeout(() => {
-            document.getElementById("win-message").style.display = "block";
-        }, 200);
-    }
+    stopTimer();
+
+    setTimeout(() => {
+        document.getElementById("win-message").style.display = "block";
+    }, 200);
 }
 
 createBoard();
