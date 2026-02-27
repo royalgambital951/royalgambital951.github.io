@@ -130,3 +130,6 @@ if (direction === null) return;
 
   let game = setInterval(draw, 120);
   }
+window.onload = function(){
+init();
+};
