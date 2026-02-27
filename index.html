@@ -3,29 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Puzzle Game</title>
-<link rel="stylesheet" href="style.css">
+<title>Royal Gambit</title>
 
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to bottom right, #f9fff9, #e6ffe6);
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
     text-align: center;
-}
-
-/* Floral decoration background */
-body::before {
-    content: "";
-    background: url('https://www.transparenttextures.com/patterns/green-dust-and-scratches.png');
-    opacity: 0.2;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
 }
 
 /* Header */
@@ -33,58 +21,91 @@ header {
     padding: 20px;
 }
 
-.logo {
-    font-size: 28px;
+.logo img {
+    width: 140px;
+}
+
+.site-name {
+    font-size: 26px;
     font-weight: 700;
-    color: #2d6a4f;
+    letter-spacing: 2px;
+    margin-top: 10px;
 }
 
-.tagline {
-    font-size: 14px;
-    color: #555;
-}
-
-/* Game container */
+/* Game Container */
 .container {
     max-width: 400px;
-    margin: auto;
-    background: white;
+    margin: 20px auto;
+    background: #111;
     padding: 20px;
     border-radius: 15px;
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 20px rgba(255,215,0,0.4);
 }
 
-h1 {
-    color: #1b4332;
+/* Puzzle Board Fix */
+#board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    margin: 20px 0;
+}
+
+.tile {
+    background: gold;
+    color: black;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 25px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tile:hover {
+    background: #ffd700;
+    transform: scale(1.05);
+}
+
+button {
+    background: gold;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+button:hover {
+    background: #ffd700;
 }
 
 /* About Section */
 .about {
     padding: 40px 20px;
-    background: #f0fff4;
+    background: #1c1c1c;
 }
 
 .about h2 {
-    color: #2d6a4f;
+    color: gold;
 }
 
 /* Footer */
 footer {
-    background: #1b4332;
-    color: white;
+    background: #000;
     padding: 20px;
+    font-size: 14px;
 }
 
 footer a {
-    color: #95d5b2;
+    color: gold;
     text-decoration: none;
 }
 
 .social a {
-    margin: 0 10px;
+    margin: 0 8px;
 }
 
-/* Responsive */
+/* Mobile Fix */
 @media (max-width: 600px) {
     .container {
         width: 90%;
@@ -96,40 +117,44 @@ footer a {
 <body>
 
 <header>
-    <div class="logo">🌿 Royal Puzzle</div>
-    <div class="tagline">Classic & Elegant Sliding Puzzle Experience</div>
+    <div class="logo">
+        <img src="logo.png" alt="Royal Gambit Logo">
+    </div>
+    <div class="site-name">ROYAL GAMBIT</div>
 </header>
 
 <div class="container">
-    <h1>Sliding Puzzle Game</h1>
+    <h2>Sliding Puzzle Challenge</h2>
     <p>Moves: <span id="moves">0</span> | Time: <span id="timer">0</span>s</p>
+
     <div id="board"></div>
+
     <button onclick="createBoard()">Restart Game</button>
-    <p id="win-message" style="display:none; color:green; font-weight:bold;">
-        🎉 Congratulations! You solved the puzzle!
+
+    <p id="win-message" style="display:none; color:gold; font-weight:bold;">
+        🎉 Victory! Puzzle Solved!
     </p>
 </div>
 
 <section class="about">
-    <h2>About Us</h2>
+    <h2>About Royal Gambit</h2>
     <p>
-        Royal Puzzle is a beautifully crafted classic sliding puzzle game 
-        designed for relaxation and brain training. 
-        Enjoy a smooth and elegant gaming experience.
+        Royal Gambit is a premium strategy gaming platform inspired by chess,
+        intelligence and tactical mastery. Play. Think. Conquer.
     </p>
 </section>
 
 <footer>
-    <p><strong>Address:</strong> Near Airport Road, Ajmer Kishangarh, Rajasthan</p>
-    <p><strong>Contact:</strong> example@email.com | +91 00000 00000</p>
+    <p><strong>Address:</strong> Ajmer Kishangarh, Rajasthan, India</p>
+    <p><strong>Contact:</strong> +91 98765 43210</p>
 
     <div class="social">
-        <a href="#">Facebook</a> |
         <a href="#">Instagram</a> |
-        <a href="#">YouTube</a>
+        <a href="#">YouTube</a> |
+        <a href="#">Facebook</a>
     </div>
 
-    <p>© 2026 Royal Puzzle. All Rights Reserved.</p>
+    <p>© 2026 Royal Gambit. All Rights Reserved.</p>
 </footer>
 
 <script src="script.js"></script>
