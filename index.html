@@ -5,342 +5,65 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Royal Gambit</title>
 
-<style>
-body{
-margin:0;
-font-family: 'Segoe UI', sans-serif;
-background:#f2f4f8;
-color:#222;
-text-align:center;
-}
-
-/* HEADER */
-header{
-background:white;
-padding:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
-}
-
-.logo img{
-height:55px;
-width:auto;
-}
-
-.menu{
-font-size:22px;
-cursor:pointer;
-}
-
-/* DROPDOWN */
-.dropdown{
-display:none;
-position:absolute;
-right:15px;
-top:60px;
-background:white;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
-border-radius:10px;
-padding:10px;
-}
-
-.dropdown a{
-display:block;
-padding:8px;
-text-decoration:none;
-color:#333;
-}
-
-.dropdown a:hover{
-background:#f0f0f0;
-}
-
-/* BUTTONS */
-.game-buttons{
-margin:30px 0;
-}
-
-.game-buttons button{
-padding:12px 25px;
-margin:10px;
-border:none;
-border-radius:12px;
-background:#2c3e50;
-color:white;
-font-size:16px;
-cursor:pointer;
-box-shadow:5px 5px 12px #c8d0e7,
--5px -5px 12px #ffffff;
-transition:0.3s;
-}
-
-.game-buttons button:hover{
-transform:translateY(-3px);
-}
-
-/* GAME SECTIONS */
-.game-section{
-display:none;
-margin-top:20px;
-}
-
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(3,90px);
-gap:10px;
-justify-content:center;
-margin:20px 0;
-}
-
-.tile{
-width:90px;
-height:90px;
-background:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:22px;
-border-radius:15px;
-box-shadow:6px 6px 12px #d1d9e6,
--6px -6px 12px #ffffff;
-cursor:pointer;
-}
-
-.empty{
-background:transparent;
-box-shadow:none;
-}
-
-button{
-padding:8px 18px;
-border:none;
-border-radius:8px;
-background:#2c3e50;
-color:white;
-cursor:pointer;
-margin-top:10px;
-}
-
-/* FOOTER */
-footer{
-margin-top:50px;
-background:#111;
-color:white;
-padding:30px 20px;
-}
-
-footer a{
-color:#ddd;
-text-decoration:none;
-margin:0 8px;
-}
-
-footer a:hover{
-color:white;
-}
-
-/* MOBILE */
-@media(max-width:600px){
-.grid{
-grid-template-columns:repeat(3,70px);
-}
-.tile{
-width:70px;
-height:70px;
-}
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <header>
-<div class="logo">
-  <img src="logo.png" alt="Royal Gambit Logo">
-</div>
-<div class="menu" onclick="toggleMenu()">⋮</div>
-<div class="dropdown" id="dropdown">
-<a href="#about">About Us</a>
-<a href="#contact">Contact</a>
-</div>
+  <div class="logo">
+    <img src="logo.png" alt="Royal Gambit Logo">
+  </div>
+
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+  <nav id="nav">
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
 </header>
 
 <h2>Select Game</h2>
 
 <div class="game-buttons">
-<button onclick="showGame('sliding')">Sliding Puzzle</button>
-<button onclick="showGame('memory')">Memory Game</button>
-<button onclick="showGame('tictactoe')">Tic Tac Toe</button>
+  <button onclick="showGame('sliding')">Sliding Puzzle</button>
+  <button onclick="showGame('memory')">Memory Game</button>
+  <button onclick="showGame('tictactoe')">Tic Tac Toe</button>
 </div>
 
 <!-- SLIDING PUZZLE -->
 <div id="sliding" class="game-section">
-<h3>Sliding Puzzle</h3>
-<p>Moves: <span id="moves">0</span> | Time: <span id="time">0</span>s</p>
-<div class="grid" id="grid"></div>
-<button onclick="init()">Restart</button>
+  <h3>Sliding Puzzle</h3>
+  <p>Moves: <span id="moves">0</span> | Time: <span id="time">0</span>s</p>
+  <div class="grid" id="grid"></div>
+  <button onclick="initPuzzle()">Restart</button>
 </div>
 
 <!-- MEMORY GAME -->
 <div id="memory" class="game-section">
-<h3>Memory Game</h3>
-<div class="grid" id="memoryGrid"></div>
-<button onclick="startMemory()">Restart</button>
+  <h3>Memory Game</h3>
+  <div class="grid" id="memoryGrid"></div>
+  <button onclick="startMemory()">Restart</button>
 </div>
 
 <!-- TIC TAC TOE -->
 <div id="tictactoe" class="game-section">
-<h3>Tic Tac Toe</h3>
-<div class="grid" id="ttt"></div>
-<button onclick="resetTTT()">Restart</button>
+  <h3>Tic Tac Toe</h3>
+  <div class="grid" id="ttt"></div>
+  <p id="tttStatus"></p>
+  <button onclick="resetTTT()">Restart</button>
 </div>
 
-<!-- ABOUT -->
 <section id="about">
-<h2>About Us</h2>
-<p>Royal Gambit is a professional classical gaming platform built with elegance and modern design.</p>
+  <h2>About Us</h2>
+  <p>Royal Gambit is a professional classical gaming platform built with elegance and modern design.</p>
 </section>
 
-<!-- FOOTER -->
 <footer id="contact">
-<p><b>Address:</b> Ajmer Kishangarh, Rajasthan, India</p>
-<p><b>Contact:</b> +91 98765 43210</p>
-<p>
-<a href="#">Instagram - RoyalGambit</a> |
-<a href="#">Facebook - RoyalGambit</a> |
-<a href="#">Twitter - RoyalGambit</a>
-</p>
+  <p><b>Address:</b> Ajmer Kishangarh, Rajasthan, India</p>
+  <p><b>Contact:</b> +91 98765 43210</p>
 </footer>
 
-<script>
-function toggleMenu(){
-let d=document.getElementById("dropdown");
-d.style.display=d.style.display==="block"?"none":"block";
-}
-
-function showGame(id){
-document.querySelectorAll('.game-section')
-.forEach(sec=>sec.style.display="none");
-document.getElementById(id).style.display="block";
-}
-
-/* SLIDING PUZZLE */
-let tiles=[],emptyIndex=8,moves=0,timer,seconds=0;
-
-function init(){
-tiles=[1,2,3,4,5,6,7,8,""];
-moves=0; seconds=0;
-document.getElementById("moves").innerText=0;
-document.getElementById("time").innerText=0;
-shuffle();
-render();
-clearInterval(timer);
-timer=setInterval(()=>{
-seconds++;
-document.getElementById("time").innerText=seconds;
-},1000);
-}
-
-function shuffle(){
-for(let i=tiles.length-1;i>0;i--){
-let j=Math.floor(Math.random()*(i+1));
-[tiles[i],tiles[j]]=[tiles[j],tiles[i]];
-}
-emptyIndex=tiles.indexOf("");
-}
-
-function render(){
-const grid=document.getElementById("grid");
-grid.innerHTML="";
-tiles.forEach((tile,index)=>{
-const div=document.createElement("div");
-div.className="tile";
-if(tile===""){
-div.classList.add("empty");
-}else{
-div.innerText=tile;
-div.onclick=()=>move(index);
-}
-grid.appendChild(div);
-});
-}
-
-function move(index){
-const valid=[emptyIndex-1,emptyIndex+1,emptyIndex-3,emptyIndex+3];
-if(valid.includes(index)){
-[tiles[index],tiles[emptyIndex]]=[tiles[emptyIndex],tiles[index]];
-emptyIndex=index;
-moves++;
-document.getElementById("moves").innerText=moves;
-render();
-}
-}
-
-/* MEMORY GAME */
-let memoryValues, memoryFlipped=[];
-function startMemory(){
-memoryValues=[1,1,2,2,3,3,4,4];
-memoryValues.sort(()=>0.5-Math.random());
-const grid=document.getElementById("memoryGrid");
-grid.innerHTML="";
-memoryValues.forEach((val,i)=>{
-let div=document.createElement("div");
-div.className="tile";
-div.innerText="";
-div.onclick=()=>flip(div,val);
-grid.appendChild(div);
-});
-}
-function flip(div,val){
-if(div.innerText!=="") return;
-div.innerText=val;
-memoryFlipped.push({div,val});
-if(memoryFlipped.length===2){
-if(memoryFlipped[0].val!==memoryFlipped[1].val){
-setTimeout(()=>{
-memoryFlipped[0].div.innerText="";
-memoryFlipped[1].div.innerText="";
-memoryFlipped=[];
-},500);
-}else{
-memoryFlipped=[];
-}
-}
-}
-
-/* TIC TAC TOE */
-let tttBoard=["","","","","","","","",""],turn="X";
-
-function resetTTT(){
-tttBoard=["","","","","","","","",""];
-turn="X";
-renderTTT();
-}
-function renderTTT(){
-const grid=document.getElementById("ttt");
-grid.innerHTML="";
-tttBoard.forEach((val,i)=>{
-let div=document.createElement("div");
-div.className="tile";
-div.innerText=val;
-div.onclick=()=>playTTT(i);
-grid.appendChild(div);
-});
-}
-function playTTT(i){
-if(tttBoard[i]!=="") return;
-tttBoard[i]=turn;
-turn=turn==="X"?"O":"X";
-renderTTT();
-}
-
-init();
-startMemory();
-resetTTT();
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
