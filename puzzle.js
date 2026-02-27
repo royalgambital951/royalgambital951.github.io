@@ -90,7 +90,7 @@ function checkWin() {
     if (win) {
         stopTimer();
         setTimeout(() => {
-            alert("🎉 Congratulations! You solved the puzzle!");
+            document.getElementById("win-message").style.display = "block";
         }, 200);
     }
 }
