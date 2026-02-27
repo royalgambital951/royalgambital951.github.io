@@ -20,7 +20,7 @@ function createBoard() {
     
     document.getElementById("win-message").style.display = "none";
  
-    tiles = [];
+
     moveCount = 0;
     time = 0;
 
@@ -30,10 +30,8 @@ function createBoard() {
     stopTimer();
     startTimer();
 
-    for (let i = 1; i <= 8; i++) {
-        tiles.push(i);
-    }
-    tiles.push("");
+    tiles = [1,2,3,4,5,6,7,8,""];
+shuffle();
 
     renderBoard();
 }
@@ -53,14 +51,13 @@ function renderBoard() {
 function moveTile(index) {
     let emptyIndex = tiles.indexOf("");
 
-    let validMoves = [
-        emptyIndex - 1,
-        emptyIndex + 1,
-        emptyIndex - 3,
-        emptyIndex + 3
-    ];
+    let valid = false;
 
-    if (validMoves.includes(index)) {
+if (index === emptyIndex - 1 && emptyIndex % 3 !== 0) valid = true;
+if (index === emptyIndex + 1 && emptyIndex % 3 !== 2) valid = true;
+if (index === emptyIndex - 3) valid = true;
+if (index === emptyIndex + 3) valid = true;
+    if (valid) {
         [tiles[index], tiles[emptyIndex]] =
         [tiles[emptyIndex], tiles[index]];
 
@@ -73,13 +70,24 @@ function moveTile(index) {
 }
 
 function shuffle() {
+    do {
     tiles.sort(() => Math.random() - 0.5);
+} while (isSolved());
     moveCount = 0;
     time = 0;
     document.getElementById("moves").innerText = 0;
     document.getElementById("timer").innerText = 0;
 }
+function isSolved() {
+    let winningPattern = [1,2,3,4,5,6,7,8,""];
 
+    for (let i = 0; i < 9; i++) {
+        if (tiles[i] !== winningPattern[i]) {
+            return false;
+        }
+    }
+    return true;
+}
 function checkWin() {
     let winningPattern = [1,2,3,4,5,6,7,8,""];
 
