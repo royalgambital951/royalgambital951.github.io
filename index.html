@@ -5,99 +5,111 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Royal Gambit</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin: 0;
-    font-family: 'Orbitron', sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: white;
+    font-family: 'Poppins', sans-serif;
+    background: #f4f6f9;
     text-align: center;
+    color: #222;
 }
 
 /* Header */
 header {
-    padding: 20px;
+    padding: 25px 10px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 .logo img {
-    width: 140px;
+    width: 120px;
 }
 
 .site-name {
+    font-family: 'Playfair Display', serif;
     font-size: 26px;
     font-weight: 700;
-    letter-spacing: 2px;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 /* Game Container */
 .container {
-    max-width: 400px;
-    margin: 20px auto;
-    background: #111;
-    padding: 20px;
+    max-width: 420px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
     border-radius: 15px;
-    box-shadow: 0px 0px 20px rgba(255,215,0,0.4);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-/* Puzzle Board Fix */
+/* Puzzle Grid Fix */
 #board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 5px;
+    gap: 10px;
     margin: 20px 0;
 }
 
+/* 3D Raised Tiles */
 .tile {
-    background: gold;
-    color: black;
+    background: linear-gradient(to bottom, #ffffff, #e6e9ef);
     font-size: 24px;
-    font-weight: bold;
-    padding: 25px 0;
-    border-radius: 10px;
+    font-weight: 600;
+    padding: 28px 0;
+    border-radius: 12px;
     cursor: pointer;
-    transition: 0.3s;
+    box-shadow: 
+        0 6px 12px rgba(0,0,0,0.15),
+        inset 0 -3px 5px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
 }
 
-.tile:hover {
-    background: #ffd700;
-    transform: scale(1.05);
+.tile:active {
+    transform: translateY(3px);
+    box-shadow: 
+        0 3px 6px rgba(0,0,0,0.15),
+        inset 0 3px 5px rgba(0,0,0,0.1);
 }
 
+/* Button */
 button {
-    background: gold;
-    border: none;
     padding: 10px 20px;
-    font-weight: bold;
-    cursor: pointer;
+    border: none;
+    background: #2c3e50;
+    color: white;
+    font-weight: 500;
     border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 button:hover {
-    background: #ffd700;
+    background: #34495e;
 }
 
 /* About Section */
 .about {
     padding: 40px 20px;
-    background: #1c1c1c;
+    background: #ffffff;
+    margin-top: 40px;
 }
 
 .about h2 {
-    color: gold;
+    font-family: 'Playfair Display', serif;
 }
 
 /* Footer */
 footer {
-    background: #000;
-    padding: 20px;
+    background: #1f1f1f;
+    color: white;
+    padding: 25px;
     font-size: 14px;
 }
 
 footer a {
-    color: gold;
+    color: #ddd;
     text-decoration: none;
 }
 
@@ -105,7 +117,7 @@ footer a {
     margin: 0 8px;
 }
 
-/* Mobile Fix */
+/* Mobile */
 @media (max-width: 600px) {
     .container {
         width: 90%;
@@ -120,27 +132,27 @@ footer a {
     <div class="logo">
         <img src="logo.png" alt="Royal Gambit Logo">
     </div>
-    <div class="site-name">ROYAL GAMBIT</div>
+    <div class="site-name">Royal Gambit</div>
 </header>
 
 <div class="container">
-    <h2>Sliding Puzzle Challenge</h2>
+    <h2>Sliding Puzzle</h2>
     <p>Moves: <span id="moves">0</span> | Time: <span id="timer">0</span>s</p>
 
     <div id="board"></div>
 
     <button onclick="createBoard()">Restart Game</button>
 
-    <p id="win-message" style="display:none; color:gold; font-weight:bold;">
-        🎉 Victory! Puzzle Solved!
+    <p id="win-message" style="display:none; color:green; font-weight:bold;">
+        🎉 Congratulations! Puzzle Solved!
     </p>
 </div>
 
 <section class="about">
-    <h2>About Royal Gambit</h2>
+    <h2>About Us</h2>
     <p>
-        Royal Gambit is a premium strategy gaming platform inspired by chess,
-        intelligence and tactical mastery. Play. Think. Conquer.
+        Royal Gambit is a classical strategy inspired gaming platform.
+        Designed with elegance, simplicity and professional polish.
     </p>
 </section>
 
@@ -158,5 +170,13 @@ footer a {
 </footer>
 
 <script src="script.js"></script>
+
+<script>
+    // Auto start game when page loads
+    window.onload = function() {
+        createBoard();
+    };
+</script>
+
 </body>
 </html>
