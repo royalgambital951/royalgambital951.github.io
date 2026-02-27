@@ -8,87 +8,78 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
 background:#f4f6f9;
 text-align:center;
 color:#222;
+transition:0.3s;
 }
 
 header{
 background:white;
-padding:25px 10px;
+padding:25px;
 box-shadow:0 5px 20px rgba(0,0,0,0.05);
 position:relative;
-}
-
-.logo img{
-width:100px;
 }
 
 .site-name{
 font-family:'Playfair Display',serif;
 font-size:28px;
 font-weight:700;
-margin-top:5px;
 }
 
 .theme-btn{
 position:absolute;
 right:20px;
-top:30px;
+top:25px;
 padding:8px 16px;
 border:none;
 border-radius:20px;
 background:#2c3e50;
 color:white;
 cursor:pointer;
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
 }
 
-.games{
+section{
 padding:40px 20px;
 }
 
-.game-list{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:25px;
-}
-
-.card{
-background:white;
-width:260px;
-padding:25px;
-border-radius:18px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-6px);
-}
-
-.card h3{
-font-family:'Playfair Display',serif;
-}
-
-.card a{
-display:inline-block;
-margin-top:12px;
-padding:8px 18px;
+.games button{
+margin:10px;
+padding:10px 20px;
+border:none;
+border-radius:10px;
 background:#2c3e50;
 color:white;
-text-decoration:none;
-border-radius:8px;
+cursor:pointer;
 }
 
-.about{
-padding:50px 20px;
-background:#ffffff;
+.game-area{
+display:none;
+margin-top:20px;
+}
+
+.active{
+display:block;
+}
+
+.board{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+max-width:300px;
+margin:20px auto;
+}
+
+.tile{
+background:white;
+padding:25px;
+font-size:20px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+cursor:pointer;
 }
 
 footer{
@@ -97,172 +88,116 @@ color:white;
 padding:25px;
 }
 
-footer a{
-color:#ddd;
-margin:0 8px;
-text-decoration:none;
-}
-
 .dark{
 background:#1e1e1e;
 color:white;
 }
 
 .dark header,
-.dark .card,
-.dark .about{
+.dark .tile{
 background:#2c2c2c;
 color:white;
 }
-
-.dark footer{
-background:black;
-}
-
-@media(max-width:600px){
-.game-list{
-flex-direction:column;
-align-items:center;
-}
-}
-
 </style>
 </head>
 
 <body>
 
 <header>
-<div class="logo">
-<img src="logo.png" alt="Royal Gambit Logo">
-</div>
 <div class="site-name">Royal Gambit</div>
-<button class="theme-btn" onclick="toggleTheme()">🌙 Mode</button>
+<button class="theme-btn" onclick="toggleTheme()">🌙</button>
 </header>
 
 <section class="games">
-<h2>Our Games</h2>
+<h2>Select Game</h2>
 
-<div class="game-list">
+<button onclick="showGame('puzzle')">Sliding Puzzle</button>
+<button onclick="showGame('tictactoe')">Tic Tac Toe</button>
+<button onclick="showGame('memory')">Memory Game</button>
 
-<div class="card">
+<!-- Sliding Puzzle -->
+<div id="puzzle" class="game-area active">
 <h3>Sliding Puzzle</h3>
-<p>Classic 3x3 tile puzzle challenge.</p>
-<a href="sliding.html">Play</a>
+<div class="board" id="puzzleBoard"></div>
+<button onclick="initPuzzle()">Restart</button>
 </div>
 
-<div class="card">
+<!-- Tic Tac Toe -->
+<div id="tictactoe" class="game-area">
 <h3>Tic Tac Toe</h3>
-<p>Traditional strategy game.</p>
-<a href="tictactoe.html">Play</a>
+<div class="board" id="tttBoard"></div>
+<p id="tttStatus"></p>
 </div>
 
-<div class="card">
+<!-- Memory Game -->
+<div id="memory" class="game-area">
 <h3>Memory Game</h3>
-<p>Test your memory power.</p>
-<a href="memory.html">Play</a>
+<div class="board" id="memoryBoard"></div>
 </div>
 
-</div>
-</section>
-
-<section class="about">
-<h2>About Us</h2>
-<p>Royal Gambit is a classical strategy inspired gaming platform designed with elegance, simplicity and professional polish.</p>
 </section>
 
 <footer>
-<p><strong>Address:</strong> Ajmer Kishangarh, Rajasthan, India</p>
-<p><strong>Contact:</strong> +91 98765 43210</p>
-<p>
-<a href="#">Instagram</a> |
-<a href="#">YouTube</a> |
-<a href="#">Facebook</a>
-</p>
+<p>Address: Ajmer Kishangarh, Rajasthan, India</p>
+<p>Contact: +91 98765 43210</p>
 </footer>
 
 <script>
+
 function toggleTheme(){
 document.body.classList.toggle("dark");
 }
-</script>
 
-</body>
-</html>
-footer a {
-    color: #ddd;
-    text-decoration: none;
+function showGame(id){
+document.querySelectorAll(".game-area").forEach(g=>g.classList.remove("active"));
+document.getElementById(id).classList.add("active");
 }
 
-.social a {
-    margin: 0 8px;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-    .container {
-        width: 90%;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-    <div class="logo">
-        <img src="logo.png" alt="Royal Gambit Logo">
-    </div>
-    <div class="site-name">Royal Gambit</div>
-<button id="themeToggle" class="theme-btn">🌙</button>
-</header>
-
-<div class="container">
-    <h2>Sliding Puzzle</h2>
-    <p>Moves: <span id="moves">0</span> | Time: <span id="timer">0</span>s</p>
-
-    <div id="board"></div>
-
-    <button onclick="createBoard()">Restart Game</button>
-
-    <p id="win-message" style="display:none; color:green; font-weight:bold;">
-        🎉 Congratulations! Puzzle Solved!
-    </p>
-</div>
-
-<section class="about">
-    <h2>About Us</h2>
-    <p>
-        Royal Gambit is a classical strategy inspired gaming platform.
-        Designed with elegance, simplicity and professional polish.
-    </p>
-</section>
-
-<footer>
-    <p><strong>Address:</strong> Ajmer Kishangarh, Rajasthan, India</p>
-    <p><strong>Contact:</strong> +91 98765 43210</p>
-
-    <div class="social">
-        <a href="#">Instagram</a> |
-        <a href="#">YouTube</a> |
-        <a href="#">Facebook</a>
-    </div>
-
-    <p>© 2026 Royal Gambit. All Rights Reserved.</p>
-</footer>
-
-<script src="script.js"></script>
-
-<script>
-    // Auto start game when page loads
-    window.onload = function() {
-        createBoard();
-    };
-</script>
-<script>
-document.getElementById("themeToggle").addEventListener("click", function() {
-    document.body.classList.toggle("dark-mode");
+/* Sliding Puzzle */
+function initPuzzle(){
+const board=document.getElementById("puzzleBoard");
+board.innerHTML="";
+let nums=[1,2,3,4,5,6,7,8,""];
+nums.sort(()=>Math.random()-0.5);
+nums.forEach(n=>{
+let tile=document.createElement("div");
+tile.className="tile";
+tile.textContent=n;
+board.appendChild(tile);
 });
+}
+initPuzzle();
+
+/* Tic Tac Toe */
+let current="X";
+const ttt=document.getElementById("tttBoard");
+for(let i=0;i<9;i++){
+let cell=document.createElement("div");
+cell.className="tile";
+cell.onclick=function(){
+if(!cell.textContent){
+cell.textContent=current;
+current=current==="X"?"O":"X";
+}
+};
+ttt.appendChild(cell);
+}
+
+/* Memory Game */
+const memory=document.getElementById("memoryBoard");
+let cards=["A","A","B","B","C","C","D","D","E"];
+cards.sort(()=>Math.random()-0.5);
+cards.forEach(c=>{
+let card=document.createElement("div");
+card.className="tile";
+card.textContent="?";
+card.onclick=function(){
+card.textContent=c;
+};
+memory.appendChild(card);
+});
+
 </script>
-    
+
 </body>
 </html>
