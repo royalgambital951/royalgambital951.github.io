@@ -5,49 +5,82 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Royal Gambit</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
 body{
 margin:0;
-font-family:'Poppins',sans-serif;
+font-family: 'Segoe UI', sans-serif;
 background:#f4f6f9;
-text-align:center;
 color:#222;
+text-align:center;
+}
+
+/* HEADER */
+header{
+background:white;
+padding:15px;
+font-size:28px;
+font-weight:bold;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* GAME SELECT */
+.game-buttons{
+margin:30px 0;
+}
+
+.game-buttons button{
+padding:12px 25px;
+margin:10px;
+border:none;
+border-radius:12px;
+background:#2c3e50;
+color:white;
+font-size:16px;
+cursor:pointer;
+box-shadow:5px 5px 12px #c8d0e7,
+-5px -5px 12px #ffffff;
 transition:0.3s;
 }
 
-header{
+.game-buttons button:hover{
+transform:translateY(-3px);
+}
+
+/* GAME SECTIONS */
+.game-section{
+display:none;
+margin-top:20px;
+}
+
+/* SLIDING PUZZLE */
+.grid{
+display:grid;
+grid-template-columns:repeat(3,90px);
+gap:10px;
+justify-content:center;
+margin:20px 0;
+}
+
+.tile{
+width:90px;
+height:90px;
 background:white;
-padding:25px;
-box-shadow:0 5px 20px rgba(0,0,0,0.05);
-position:relative;
-}
-
-.site-name{
-font-family:'Playfair Display',serif;
-font-size:28px;
-font-weight:700;
-}
-
-.theme-btn{
-position:absolute;
-right:20px;
-top:25px;
-padding:8px 16px;
-border:none;
-border-radius:20px;
-background:#2c3e50;
-color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+border-radius:15px;
+box-shadow:6px 6px 12px #d1d9e6,
+-6px -6px 12px #ffffff;
 cursor:pointer;
 }
 
-section{
-padding:40px 20px;
+.empty{
+background:transparent;
+box-shadow:none;
 }
 
-.games button{
-margin:10px;
+.restart-btn{
 padding:10px 20px;
 border:none;
 border-radius:10px;
@@ -56,147 +89,119 @@ color:white;
 cursor:pointer;
 }
 
-.game-area{
-display:none;
-margin-top:20px;
-}
-
-.active{
-display:block;
-}
-
-.board{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-max-width:300px;
-margin:20px auto;
-}
-
-.tile{
-background:white;
-padding:25px;
-font-size:20px;
-border-radius:10px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-cursor:pointer;
-}
-
+/* FOOTER */
 footer{
+margin-top:40px;
 background:#111;
 color:white;
-padding:25px;
+padding:20px;
+font-size:14px;
 }
 
-.dark{
-background:#1e1e1e;
-color:white;
+/* MOBILE */
+@media(max-width:600px){
+.grid{
+grid-template-columns:repeat(3,70px);
 }
-
-.dark header,
-.dark .tile{
-background:#2c2c2c;
-color:white;
+.tile{
+width:70px;
+height:70px;
+}
 }
 </style>
 </head>
-
 <body>
 
-<header>
-<div class="site-name">Royal Gambit</div>
-<button class="theme-btn" onclick="toggleTheme()">🌙</button>
-</header>
+<header>Royal Gambit</header>
 
-<section class="games">
 <h2>Select Game</h2>
 
-<button onclick="showGame('puzzle')">Sliding Puzzle</button>
-<button onclick="showGame('tictactoe')">Tic Tac Toe</button>
+<div class="game-buttons">
+<button onclick="showGame('sliding')">Sliding Puzzle</button>
 <button onclick="showGame('memory')">Memory Game</button>
+<button onclick="showGame('tictactoe')">Tic Tac Toe</button>
+</div>
 
-<!-- Sliding Puzzle -->
-<div id="puzzle" class="game-area active">
+<!-- SLIDING PUZZLE -->
+<div id="sliding" class="game-section">
 <h3>Sliding Puzzle</h3>
-<div class="board" id="puzzleBoard"></div>
-<button onclick="initPuzzle()">Restart</button>
+<div class="grid" id="grid"></div>
+<button class="restart-btn" onclick="init()">Restart</button>
 </div>
 
-<!-- Tic Tac Toe -->
-<div id="tictactoe" class="game-area">
-<h3>Tic Tac Toe</h3>
-<div class="board" id="tttBoard"></div>
-<p id="tttStatus"></p>
+<!-- MEMORY -->
+<div id="memory" class="game-section">
+<h3>Memory Game Coming Soon</h3>
 </div>
 
-<!-- Memory Game -->
-<div id="memory" class="game-area">
-<h3>Memory Game</h3>
-<div class="board" id="memoryBoard"></div>
+<!-- TICTACTOE -->
+<div id="tictactoe" class="game-section">
+<h3>Tic Tac Toe Coming Soon</h3>
 </div>
-
-</section>
 
 <footer>
-<p>Address: Ajmer Kishangarh, Rajasthan, India</p>
-<p>Contact: +91 98765 43210</p>
+Address: Ajmer Kishangarh, Rajasthan, India <br>
+Contact: +91 98765 43210
 </footer>
 
 <script>
-
-function toggleTheme(){
-document.body.classList.toggle("dark");
-}
+let tiles=[];
+let emptyIndex=8;
 
 function showGame(id){
-document.querySelectorAll(".game-area").forEach(g=>g.classList.remove("active"));
-document.getElementById(id).classList.add("active");
+document.querySelectorAll('.game-section')
+.forEach(sec=>sec.style.display="none");
+
+document.getElementById(id).style.display="block";
 }
 
-/* Sliding Puzzle */
-function initPuzzle(){
-const board=document.getElementById("puzzleBoard");
-board.innerHTML="";
-let nums=[1,2,3,4,5,6,7,8,""];
-nums.sort(()=>Math.random()-0.5);
-nums.forEach(n=>{
-let tile=document.createElement("div");
-tile.className="tile";
-tile.textContent=n;
-board.appendChild(tile);
+function init(){
+tiles=[1,2,3,4,5,6,7,8,""];
+emptyIndex=8;
+shuffle();
+render();
+}
+
+function shuffle(){
+for(let i=tiles.length-1;i>0;i--){
+let j=Math.floor(Math.random()*(i+1));
+[tiles[i],tiles[j]]=[tiles[j],tiles[i]];
+}
+emptyIndex=tiles.indexOf("");
+}
+
+function render(){
+const grid=document.getElementById("grid");
+grid.innerHTML="";
+tiles.forEach((tile,index)=>{
+const div=document.createElement("div");
+div.className="tile";
+if(tile===""){
+div.classList.add("empty");
+}else{
+div.innerText=tile;
+div.onclick=()=>move(index);
+}
+grid.appendChild(div);
 });
 }
-initPuzzle();
 
-/* Tic Tac Toe */
-let current="X";
-const ttt=document.getElementById("tttBoard");
-for(let i=0;i<9;i++){
-let cell=document.createElement("div");
-cell.className="tile";
-cell.onclick=function(){
-if(!cell.textContent){
-cell.textContent=current;
-current=current==="X"?"O":"X";
+function move(index){
+const validMoves=[
+emptyIndex-1,
+emptyIndex+1,
+emptyIndex-3,
+emptyIndex+3
+];
+if(validMoves.includes(index)){
+[tiles[index],tiles[emptyIndex]]=
+[tiles[emptyIndex],tiles[index]];
+emptyIndex=index;
+render();
 }
-};
-ttt.appendChild(cell);
 }
 
-/* Memory Game */
-const memory=document.getElementById("memoryBoard");
-let cards=["A","A","B","B","C","C","D","D","E"];
-cards.sort(()=>Math.random()-0.5);
-cards.forEach(c=>{
-let card=document.createElement("div");
-card.className="tile";
-card.textContent="?";
-card.onclick=function(){
-card.textContent=c;
-};
-memory.appendChild(card);
-});
-
+init();
 </script>
 
 </body>
