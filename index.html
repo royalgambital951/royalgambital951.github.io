@@ -9,7 +9,7 @@
 body{
 margin:0;
 font-family: 'Segoe UI', sans-serif;
-background:#f4f6f9;
+background:#f2f4f8;
 color:#222;
 text-align:center;
 }
@@ -18,12 +18,46 @@ text-align:center;
 header{
 background:white;
 padding:15px;
-font-size:28px;
-font-weight:bold;
+display:flex;
+justify-content:space-between;
+align-items:center;
 box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 
-/* GAME SELECT */
+.logo{
+font-size:24px;
+font-weight:bold;
+}
+
+.menu{
+font-size:22px;
+cursor:pointer;
+}
+
+/* DROPDOWN */
+.dropdown{
+display:none;
+position:absolute;
+right:15px;
+top:60px;
+background:white;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+border-radius:10px;
+padding:10px;
+}
+
+.dropdown a{
+display:block;
+padding:8px;
+text-decoration:none;
+color:#333;
+}
+
+.dropdown a:hover{
+background:#f0f0f0;
+}
+
+/* BUTTONS */
 .game-buttons{
 margin:30px 0;
 }
@@ -52,7 +86,7 @@ display:none;
 margin-top:20px;
 }
 
-/* SLIDING PUZZLE */
+/* GRID */
 .grid{
 display:grid;
 grid-template-columns:repeat(3,90px);
@@ -80,22 +114,32 @@ background:transparent;
 box-shadow:none;
 }
 
-.restart-btn{
-padding:10px 20px;
+button{
+padding:8px 18px;
 border:none;
-border-radius:10px;
+border-radius:8px;
 background:#2c3e50;
 color:white;
 cursor:pointer;
+margin-top:10px;
 }
 
 /* FOOTER */
 footer{
-margin-top:40px;
+margin-top:50px;
 background:#111;
 color:white;
-padding:20px;
-font-size:14px;
+padding:30px 20px;
+}
+
+footer a{
+color:#ddd;
+text-decoration:none;
+margin:0 8px;
+}
+
+footer a:hover{
+color:white;
 }
 
 /* MOBILE */
@@ -110,9 +154,17 @@ height:70px;
 }
 </style>
 </head>
+
 <body>
 
-<header>Royal Gambit</header>
+<header>
+<div class="logo">Royal Gambit</div>
+<div class="menu" onclick="toggleMenu()">⋮</div>
+<div class="dropdown" id="dropdown">
+<a href="#about">About Us</a>
+<a href="#contact">Contact</a>
+</div>
+</header>
 
 <h2>Select Game</h2>
 
@@ -125,41 +177,69 @@ height:70px;
 <!-- SLIDING PUZZLE -->
 <div id="sliding" class="game-section">
 <h3>Sliding Puzzle</h3>
+<p>Moves: <span id="moves">0</span> | Time: <span id="time">0</span>s</p>
 <div class="grid" id="grid"></div>
-<button class="restart-btn" onclick="init()">Restart</button>
+<button onclick="init()">Restart</button>
 </div>
 
-<!-- MEMORY -->
+<!-- MEMORY GAME -->
 <div id="memory" class="game-section">
-<h3>Memory Game Coming Soon</h3>
+<h3>Memory Game</h3>
+<div class="grid" id="memoryGrid"></div>
+<button onclick="startMemory()">Restart</button>
 </div>
 
-<!-- TICTACTOE -->
+<!-- TIC TAC TOE -->
 <div id="tictactoe" class="game-section">
-<h3>Tic Tac Toe Coming Soon</h3>
+<h3>Tic Tac Toe</h3>
+<div class="grid" id="ttt"></div>
+<button onclick="resetTTT()">Restart</button>
 </div>
 
-<footer>
-Address: Ajmer Kishangarh, Rajasthan, India <br>
-Contact: +91 98765 43210
+<!-- ABOUT -->
+<section id="about">
+<h2>About Us</h2>
+<p>Royal Gambit is a professional classical gaming platform built with elegance and modern design.</p>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+<p><b>Address:</b> Ajmer Kishangarh, Rajasthan, India</p>
+<p><b>Contact:</b> +91 98765 43210</p>
+<p>
+<a href="#">Instagram - RoyalGambit</a> |
+<a href="#">Facebook - RoyalGambit</a> |
+<a href="#">Twitter - RoyalGambit</a>
+</p>
 </footer>
 
 <script>
-let tiles=[];
-let emptyIndex=8;
+function toggleMenu(){
+let d=document.getElementById("dropdown");
+d.style.display=d.style.display==="block"?"none":"block";
+}
 
 function showGame(id){
 document.querySelectorAll('.game-section')
 .forEach(sec=>sec.style.display="none");
-
 document.getElementById(id).style.display="block";
 }
 
+/* SLIDING PUZZLE */
+let tiles=[],emptyIndex=8,moves=0,timer,seconds=0;
+
 function init(){
 tiles=[1,2,3,4,5,6,7,8,""];
-emptyIndex=8;
+moves=0; seconds=0;
+document.getElementById("moves").innerText=0;
+document.getElementById("time").innerText=0;
 shuffle();
 render();
+clearInterval(timer);
+timer=setInterval(()=>{
+seconds++;
+document.getElementById("time").innerText=seconds;
+},1000);
 }
 
 function shuffle(){
@@ -187,21 +267,77 @@ grid.appendChild(div);
 }
 
 function move(index){
-const validMoves=[
-emptyIndex-1,
-emptyIndex+1,
-emptyIndex-3,
-emptyIndex+3
-];
-if(validMoves.includes(index)){
-[tiles[index],tiles[emptyIndex]]=
-[tiles[emptyIndex],tiles[index]];
+const valid=[emptyIndex-1,emptyIndex+1,emptyIndex-3,emptyIndex+3];
+if(valid.includes(index)){
+[tiles[index],tiles[emptyIndex]]=[tiles[emptyIndex],tiles[index]];
 emptyIndex=index;
+moves++;
+document.getElementById("moves").innerText=moves;
 render();
 }
 }
 
+/* MEMORY GAME */
+let memoryValues, memoryFlipped=[];
+function startMemory(){
+memoryValues=[1,1,2,2,3,3,4,4];
+memoryValues.sort(()=>0.5-Math.random());
+const grid=document.getElementById("memoryGrid");
+grid.innerHTML="";
+memoryValues.forEach((val,i)=>{
+let div=document.createElement("div");
+div.className="tile";
+div.innerText="";
+div.onclick=()=>flip(div,val);
+grid.appendChild(div);
+});
+}
+function flip(div,val){
+if(div.innerText!=="") return;
+div.innerText=val;
+memoryFlipped.push({div,val});
+if(memoryFlipped.length===2){
+if(memoryFlipped[0].val!==memoryFlipped[1].val){
+setTimeout(()=>{
+memoryFlipped[0].div.innerText="";
+memoryFlipped[1].div.innerText="";
+memoryFlipped=[];
+},500);
+}else{
+memoryFlipped=[];
+}
+}
+}
+
+/* TIC TAC TOE */
+let tttBoard=["","","","","","","","",""],turn="X";
+
+function resetTTT(){
+tttBoard=["","","","","","","","",""];
+turn="X";
+renderTTT();
+}
+function renderTTT(){
+const grid=document.getElementById("ttt");
+grid.innerHTML="";
+tttBoard.forEach((val,i)=>{
+let div=document.createElement("div");
+div.className="tile";
+div.innerText=val;
+div.onclick=()=>playTTT(i);
+grid.appendChild(div);
+});
+}
+function playTTT(i){
+if(tttBoard[i]!=="") return;
+tttBoard[i]=turn;
+turn=turn==="X"?"O":"X";
+renderTTT();
+}
+
 init();
+startMemory();
+resetTTT();
 </script>
 
 </body>
