@@ -162,4 +162,43 @@ footer {
     border-radius: 10px;
     display: none;
     box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}/* ========================= */
+/* DARK MODE STYLING */
+/* ========================= */
+
+.dark-mode {
+    background: #1e1e1e;
+    color: #ffffff;
+}
+
+.dark-mode header {
+    background: #2c2c2c;
+}
+
+.dark-mode nav a {
+    color: #ffffff;
+}
+
+.dark-mode .game-card {
+    background: #2c2c2c;
+    color: #ffffff;
+}
+
+.dark-mode .quote-section {
+    background: #2c2c2c;
+    color: #ffffff;
+}
+
+.dark-mode .cell {
+    background: #333;
+    color: white;
+}
+
+.dark-mode .tile {
+    background: #444;
+    color: white;
+}
+
+.dark-mode footer {
+    background: #000000;
 }
