@@ -3,22 +3,54 @@ let timer = 0;
 let steps = 0;
 let timerInterval;
 let soundOn = true;
+
 const bgMusic = document.getElementById("bgMusic");
 
-/* Logo Modal */
+/* ================= LOGO MODAL ================= */
+
 document.getElementById("mainLogo").onclick = () => {
     document.getElementById("logoModal").style.display="flex";
 };
+
 document.getElementById("logoModal").onclick = () => {
     document.getElementById("logoModal").style.display="none";
 };
 
-/* Open Game */
+/* ================= TIMER ================= */
+
+function startTimer(){
+    clearInterval(timerInterval);
+    timer = 0;
+    document.getElementById("timer").innerText=0;
+
+    timerInterval = setInterval(()=>{
+        timer++;
+        document.getElementById("timer").innerText=timer;
+    },1000);
+}
+
+/* ================= SOUND ================= */
+
+function toggleSound(){
+    soundOn = !soundOn;
+    if(soundOn) bgMusic.play();
+    else bgMusic.pause();
+}
+
+/* ================= OPEN GAME ================= */
+
 function openGame(type){
+
     document.querySelector(".game-grid").style.display="none";
     document.getElementById("gameArea").classList.remove("hidden");
+    document.getElementById("resultDisplay").innerText="";
 
-    level = 1;
+    level=1;
+    steps=0;
+
+    document.getElementById("level").innerText=1;
+    document.getElementById("steps").innerText=0;
+
     startTimer();
     if(soundOn) bgMusic.play();
 
@@ -26,54 +58,26 @@ function openGame(type){
     if(type==="snake") startSnake();
 }
 
-/* Timer */
-function startTimer(){
-    timer=0;
-    timerInterval = setInterval(()=>{
-        timer++;
-        document.getElementById("timer").innerText=timer;
-    },1000);
-}
+/* ================= RESULT ================= */
 
-/* Toggle Sound */
-function toggleSound(){
-    soundOn=!soundOn;
-    if(soundOn) bgMusic.play();
-    else bgMusic.pause();
-}
-
-/* Confetti */
-function launchConfetti(){
-    const duration = 3000;
-    const end = Date.now() + duration;
-
-    (function frame(){
-        confetti({
-            particleCount: 10,
-            spread: 120,
-            origin: { y: 0.6 }
-        });
-        if(Date.now() < end) requestAnimationFrame(frame);
-    })();
-}
-
-/* Result */
 function showResult(win){
     clearInterval(timerInterval);
-    let result = document.getElementById("resultDisplay");
-    result.innerText = win ? "WINNER" : "LOSER";
-    result.style.color = win ? "green" : "red";
-    launchConfetti();
+    let result=document.getElementById("resultDisplay");
+    result.innerText= win ? "WINNER" : "LOSER";
+    result.style.color= win ? "green" : "red";
 }
 
-/* =========================
-   TIC TAC TOE (Minimax AI)
-========================= */
+/* ================= TIC TAC TOE ================= */
 
 function startTicTacToe(){
-    const container = document.getElementById("gameCanvasContainer");
+
+    const container=document.getElementById("gameCanvasContainer");
     container.innerHTML="";
-    let board = Array(9).fill("");
+    container.style.display="grid";
+    container.style.gridTemplateColumns="repeat(3,100px)";
+    container.style.gap="10px";
+
+    let board=Array(9).fill("");
     let human="X", ai="O";
 
     function checkWinner(b){
@@ -85,40 +89,11 @@ function startTicTacToe(){
         return b.includes("")? null : "tie";
     }
 
-    function minimax(newBoard,isMax){
-        let winner = checkWinner(newBoard);
-        if(winner==="O") return 10-level;
-        if(winner==="X") return level-10;
-        if(winner==="tie") return 0;
-
-        let best = isMax? -Infinity : Infinity;
-        for(let i=0;i<9;i++){
-            if(newBoard[i]===""){
-                newBoard[i]=isMax? ai:human;
-                let score = minimax(newBoard,!isMax);
-                newBoard[i]="";
-                best = isMax? Math.max(score,best):Math.min(score,best);
-            }
-        }
-        return best;
-    }
-
     function aiMove(){
-        let bestScore=-Infinity;
-        let move;
-        for(let i=0;i<9;i++){
-            if(board[i]===""){
-                board[i]=ai;
-                let score=minimax(board,false);
-                board[i]="";
-                if(score>bestScore){
-                    bestScore=score;
-                    move=i;
-                }
-            }
-        }
-        board[move]=ai;
-        render();
+        let empty=[];
+        board.forEach((v,i)=>{ if(v==="") empty.push(i); });
+        let move=empty[Math.floor(Math.random()*empty.length)];
+        if(move!==undefined) board[move]=ai;
     }
 
     function render(){
@@ -133,38 +108,44 @@ function startTicTacToe(){
                     steps++;
                     document.getElementById("steps").innerText=steps;
                     aiMove();
+                    render();
                     let winner=checkWinner(board);
                     if(winner) showResult(winner==="X");
                 }
             };
             container.appendChild(div);
         });
-        container.style.display="grid";
-        container.style.gridTemplateColumns="repeat(3,100px)";
-        container.style.gap="10px";
     }
 
     render();
 }
 
-/* =========================
-   SNAKE (Smooth Canvas)
-========================= */
+/* ================= SNAKE ================= */
 
 function startSnake(){
+
     const container=document.getElementById("gameCanvasContainer");
-    container.innerHTML="<canvas id='snakeCanvas' width='500' height='400'></canvas>";
+    container.innerHTML="<canvas id='snakeCanvas' width='350' height='400'></canvas>";
+
     const canvas=document.getElementById("snakeCanvas");
     const ctx=canvas.getContext("2d");
 
-    let x=100,y=100;
-    let dx=2+level, dy=2;
+    let x=150,y=150;
+    let dx=2, dy=2;
+
     function draw(){
-        ctx.clearRect(0,0,500,400);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle="black";
         ctx.fillRect(x,y,20,20);
+
         x+=dx;
         y+=dy;
+
+        if(x<=0 || x>=canvas.width-20) dx=-dx;
+        if(y<=0 || y>=canvas.height-20) dy=-dy;
+
         requestAnimationFrame(draw);
     }
+
     draw();
-}
+    }
