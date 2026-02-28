@@ -4,52 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Royal Gambit</title>
-
 <link rel="stylesheet" href="style.css">
-<script defer src="script.js"></script>
 </head>
 <body>
 
-<!-- Splash -->
-<div id="splash">
-    <h1>Royal Gambit</h1>
-</div>
-
-<!-- Header -->
-<header>
-    <div class="logo">Royal Gambit</div>
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
+<header class="header">
+    <div class="logo" id="logo">♛</div>
+    <h1 class="title">Royal Gambit</h1>
+    <button id="themeToggle">🌙</button>
 </header>
 
-<!-- Sidebar -->
-<div class="sidebar" id="sidebar">
-    <p onclick="closeMenu()">Close ✖</p>
-    <p>Home</p>
-    <p>About</p>
-</div>
+<div class="overlay" id="overlay"></div>
 
-<main>
+<section class="games">
 
-<!-- Game Grid -->
-<section id="gameGrid" class="grid">
-    <div class="card" onclick="openGame('tic')">Tic Tac Toe</div>
-    <div class="card" onclick="openGame('snake')">Snake</div>
-</section>
-
-<!-- Game Area -->
-<section id="gameArea" class="hidden">
-    <div class="topbar">
-        <button onclick="goBack()">Back</button>
-        <button onclick="restartGame()">Restart</button>
+    <div class="card" onclick="location.href='snake.html'">
+        <h2>🐍 Snake Game</h2>
+        <p>Classic royal snake challenge</p>
     </div>
-    <div id="gameContainer"></div>
-</section>
 
-</main>
+    <div class="card" onclick="location.href='tictactoe.html'">
+        <h2>❌ Tic Tac Toe</h2>
+        <p>2 Player Royal Battle</p>
+    </div>
+
+    <div class="card" onclick="location.href='puzzle.html'">
+        <h2>🧩 Puzzle Game</h2>
+        <p>Sliding Royal Challenge</p>
+    </div>
+
+</section>
 
 <footer>
-<p>© 2025 Royal Gambit</p>
+    <p>© 2026 Royal Gambit | Designed by Ronak</p>
 </footer>
 
+<script src="script.js"></script>
 </body>
 </html>
