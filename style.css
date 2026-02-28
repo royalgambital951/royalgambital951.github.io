@@ -1,149 +1,128 @@
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
 }
 
 body{
-    font-family:'Poppins',sans-serif;
-    background:linear-gradient(135deg,#f5f7fa,#e4ebf5);
-    display:flex;
-    flex-direction:column;
-    min-height:100vh;
+background:#f4f6f9;
+display:flex;
+flex-direction:column;
+min-height:100vh;
 }
 
 /* Splash */
 #splash{
-    position:fixed;
-    inset:0;
-    background:white;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-    animation:fadeOut 3s forwards 2s;
+position:fixed;
+width:100%;
+height:100%;
+background:white;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+animation:hideSplash 2s forwards 2s;
 }
-@keyframes fadeOut{
-    to{opacity:0;visibility:hidden;}
+
+@keyframes hideSplash{
+to{opacity:0;visibility:hidden;}
 }
 
 /* Header */
 header{
-    position:fixed;
-    top:0;
-    width:100%;
-    height:70px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 20px;
-    background:rgba(255,255,255,0.7);
-    backdrop-filter:blur(15px);
-    z-index:1000;
+position:fixed;
+top:0;
+width:100%;
+height:60px;
+background:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 20px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+z-index:1000;
 }
 
-header h2{
-    font-family:'Playfair Display';
+main{
+padding-top:80px;
+flex:1;
 }
 
-.logo{
-    width:45px;
-    border-radius:50%;
-    cursor:pointer;
+/* Sidebar */
+.sidebar{
+position:fixed;
+right:-250px;
+top:0;
+width:250px;
+height:100%;
+background:white;
+box-shadow:-5px 0 15px rgba(0,0,0,0.2);
+transition:0.3s;
+padding:20px;
+z-index:1200;
 }
 
-/* 3 Line Menu */
-.menu span{
-    display:block;
-    width:25px;
-    height:3px;
-    background:black;
-    margin:4px 0;
+.sidebar.active{
+right:0;
 }
 
-/* Logo Modal */
-#logoModal{
-    position:fixed;
-    inset:0;
-    display:none;
-    justify-content:center;
-    align-items:center;
-    backdrop-filter:blur(20px);
-    background:rgba(0,0,0,0.4);
-    z-index:5000;
-}
-#logoModal img{
-    width:250px;
+/* Grid */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+padding:20px;
 }
 
-/* Main */
-#main{
-    padding-top:90px;
-    flex:1;
-}
-
-/* Game Grid */
-#gameGrid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:20px;
-    padding:30px;
-}
 .card{
-    padding:50px;
-    text-align:center;
-    background:white;
-    border-radius:15px;
-    cursor:pointer;
-    transition:0.3s;
-}
-.card:hover{
-    transform:translateY(-5px);
+background:white;
+padding:40px;
+text-align:center;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+cursor:pointer;
 }
 
 /* Game Area */
 .hidden{display:none;}
 
-.topBar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px;
+.topbar{
+display:flex;
+justify-content:space-between;
+padding:20px;
 }
 
 #gameContainer{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:300px;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:300px;
 }
 
-/* TicTacToe */
+/* Tic Tac Toe */
+.board{
+display:grid;
+grid-template-columns:repeat(3,90px);
+gap:5px;
+}
+
 .cell{
-    width:90px;
-    height:90px;
-    background:white;
-    border-radius:10px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:35px;
-    cursor:pointer;
-}
-
-/* Result */
-#result{
-    text-align:center;
-    font-size:50px;
-    margin-top:20px;
-    font-weight:bold;
+width:90px;
+height:90px;
+background:white;
+border:2px solid black;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:35px;
+cursor:pointer;
 }
 
 /* Footer */
 footer{
-    background:#111;
-    color:white;
-    padding:20px;
-    text-align:center;
+background:white;
+text-align:center;
+padding:15px;
+box-shadow:0 -2px 10px rgba(0,0,0,0.1);
 }
