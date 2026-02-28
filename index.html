@@ -4,82 +4,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Royal Gambit</title>
-
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-
+<script src="script.js" defer></script>
 </head>
+
 <body>
 
-<!-- ===== SPLASH SCREEN ===== -->
+<!-- Splash -->
 <div id="splash">
-    <div class="logo-3d">♔ Royal Gambit</div>
+    <h1>ROYAL GAMBIT</h1>
 </div>
 
-<!-- ===== HEADER ===== -->
+<!-- Navbar -->
 <header>
-    <div class="logo" id="logoClick">
-        <img src="logo.png" alt="Royal Logo">
-    </div>
-
-    <h1>Royal Gambit</h1>
-
-    <div class="hamburger" id="menuBtn">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
+    <div class="menu-btn" id="menuBtn">&#9776;</div>
+    <div class="logo" id="logoClick">ROYAL GAMBIT</div>
 </header>
 
-<!-- ===== SIDE MENU ===== -->
-<nav id="sideMenu">
-    <ul>
-        <li>Home</li>
-        <li>Dashboard</li>
-        <li>Leaderboard</li>
-        <li>Profile</li>
-    </ul>
-</nav>
-
-<!-- ===== GAME GRID ===== -->
-<section class="game-grid">
-    <div class="card">Tic-Tac-Toe</div>
-    <div class="card">Snake</div>
-    <div class="card">Puzzle</div>
-    <div class="card">Riddle</div>
-</section>
-
-<!-- ===== FOOTER ===== -->
-<footer>
-    <div class="footer-content">
-        <div>
-            <h3>About Us</h3>
-            <p>Phone: 7045678424</p>
-            <p>Floor 3, Apartment 451, Kishangarh, Ajmer, Raj. 305802</p>
-            <p>Owner: Royalgambital.privet.limeted</p>
-        </div>
-
-        <div>
-            <h3>Socials</h3>
-            <p>Email: Royalgambit.@gmail.com</p>
-            <p>Insta: royalgambit.100</p>
-            <p>FB: royalgambit.1734</p>
-        </div>
-
-        <div>
-            <h3>Links</h3>
-            <p>Privacy Policy | Terms & Condition | FAQ</p>
-        </div>
-    </div>
-
-    <p class="copyright">©2025 RoyalGambit</p>
-</footer>
-
-<!-- ===== LOGO ZOOM MODAL ===== -->
-<div id="logoModal">
-    <img src="logo.png">
+<!-- Side Menu -->
+<div id="sideMenu" class="side-menu">
+    <a href="#" onclick="closeGame()">Home</a>
 </div>
 
-<script src="script.js"></script>
+<!-- Logo Modal -->
+<div id="logoModal" class="logo-modal">
+    <div class="logo-big">ROYAL GAMBIT</div>
+</div>
+
+<!-- Home Section -->
+<section id="home">
+
+<h2>Choose Your Game</h2>
+
+<div class="game-list">
+    <button onclick="openGame('tictactoe')">Tic Tac Toe</button>
+    <button onclick="openGame('snake')">Snake</button>
+    <button onclick="openGame('memory')">Memory Game</button>
+</div>
+
+</section>
+
+<!-- Game Container -->
+<section id="gameSection" style="display:none;">
+    <button class="back-btn" onclick="closeGame()">⬅ Back</button>
+    <div id="gameArea"></div>
+</section>
+
 </body>
 </html>
