@@ -6,8 +6,7 @@
 <title>Royal Gambit</title>
 
 <link rel="stylesheet" href="style.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
 
 <script defer src="script.js"></script>
 </head>
@@ -21,12 +20,12 @@
 
 <!-- Header -->
 <header>
-    <div class="logo-container">
-        <img src="logo.png" id="mainLogo">
-    </div>
-    <h2 class="brand">Royal Gambit</h2>
-    <div class="hamburger">
-        <span></span><span></span><span></span>
+    <img src="logo.png" class="logo" id="mainLogo">
+    <h2>Royal Gambit</h2>
+    <div class="menu">
+        <span></span>
+        <span></span>
+        <span></span>
     </div>
 </header>
 
@@ -35,25 +34,29 @@
     <img src="logo.png">
 </div>
 
-<!-- Main Content -->
-<main id="mainContent">
+<!-- Main -->
+<main id="main">
 
-<section class="game-grid">
-    <div class="game-card" onclick="openGame('tic')">Tic Tac Toe</div>
-    <div class="game-card" onclick="openGame('snake')">Snake</div>
-    <div class="game-card">Puzzle</div>
-    <div class="game-card">Riddle</div>
+<!-- Game Grid -->
+<section id="gameGrid">
+    <div class="card" onclick="openGame('tic')">Tic Tac Toe</div>
+    <div class="card" onclick="openGame('snake')">Snake</div>
 </section>
 
+<!-- Game Area -->
 <section id="gameArea" class="hidden">
-    <div class="game-top-bar">
+
+    <div class="topBar">
+        <button onclick="goBack()">⬅ Back</button>
         <div>Level: <span id="level">1</span></div>
-        <div>Time: <span id="timer">0</span>s</div>
+        <div>Time: <span id="timer">0</span></div>
         <div>Steps: <span id="steps">0</span></div>
+        <button onclick="restartGame()">Restart</button>
     </div>
 
-    <div id="gameCanvasContainer"></div>
-    <div id="resultDisplay"></div>
+    <div id="gameContainer"></div>
+    <div id="result"></div>
+
 </section>
 
 </main>
@@ -62,7 +65,6 @@
 <p><strong>About Us:</strong> Mob no.: 7045678424 | Address: Floor 3, Apartment 451, Kishangarh, Ajmer, Raj. 305802.</p>
 <p><strong>Owner:</strong> Royalgambital.privet.limeted.</p>
 <p>Email: Royalgambit.@gmail.com | Instagram: royalgambit.100 | Facebook: royalgambit.1734</p>
-<p>Privacy Policy | Terms & Condition | FAQ</p>
 <p>©2025 Royalgambit. All Rights Reserved.</p>
 </footer>
 
