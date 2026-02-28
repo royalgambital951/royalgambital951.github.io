@@ -1,108 +1,170 @@
-let currentLevel = 1;
-let isSoundOn = true;
-const bgMusic = document.getElementById('bgAudio');
+let level = 1;
+let timer = 0;
+let steps = 0;
+let timerInterval;
+let soundOn = true;
+const bgMusic = document.getElementById("bgMusic");
 
-// --- Splash & Logo ---
-window.onload = () => {
-    setTimeout(() => { document.getElementById('splash-screen').classList.add('hidden'); }, 2500);
+/* Logo Modal */
+document.getElementById("mainLogo").onclick = () => {
+    document.getElementById("logoModal").style.display="flex";
+};
+document.getElementById("logoModal").onclick = () => {
+    document.getElementById("logoModal").style.display="none";
 };
 
-const logo = document.getElementById('main-logo');
-logo.onclick = () => {
-    document.getElementById('logo-modal').style.display = "flex";
-    document.querySelector('.container').style.filter = "blur(15px)";
-};
+/* Open Game */
+function openGame(type){
+    document.querySelector(".game-grid").style.display="none";
+    document.getElementById("gameArea").classList.remove("hidden");
 
-document.querySelector('.close-modal').onclick = () => {
-    document.getElementById('logo-modal').style.display = "none";
-    document.querySelector('.container').style.filter = "none";
-};
+    level = 1;
+    startTimer();
+    if(soundOn) bgMusic.play();
 
-// --- Sound Controls ---
-function toggleSound() {
-    isSoundOn = !isSoundOn;
-    const btn = document.getElementById('sound-btn');
-    if (isSoundOn) {
-        btn.innerText = "🔊 Music: ON";
-        if (!document.getElementById('game-overlay').classList.contains('hidden')) bgMusic.play();
-    } else {
-        btn.innerText = "🔇 Music: OFF";
-        bgMusic.pause();
-    }
+    if(type==="tic") startTicTacToe();
+    if(type==="snake") startSnake();
 }
 
-// --- Game Engine ---
-function startGame(type) {
-    document.getElementById('game-overlay').classList.remove('hidden');
-    const container = document.getElementById('game-container');
-    container.innerHTML = '';
-    
-    // Play Music on Start
-    if (isSoundOn) {
-        bgMusic.currentTime = 0; 
-        bgMusic.play().catch(e => console.log("User interaction required for audio"));
-    }
-
-    if (type === 'ttt') initTTT(container);
-    if (type === 'snake') initSnake(container);
-    if (type === 'riddle') initRiddle(container);
+/* Timer */
+function startTimer(){
+    timer=0;
+    timerInterval = setInterval(()=>{
+        timer++;
+        document.getElementById("timer").innerText=timer;
+    },1000);
 }
 
-// Exit Game and Stop Music
-document.getElementById('exit-game').onclick = () => {
-    document.getElementById('game-overlay').classList.add('hidden');
-    bgMusic.pause();
-};
-
-// --- Tic-Tac-Toe AI ---
-function initTTT(parent) {
-    let board = ["","","","","","","","",""];
-    const grid = document.createElement('div');
-    grid.className = 'ttt-grid';
-    for(let i=0; i<9; i++) {
-        const cell = document.createElement('div');
-        cell.className = 'ttt-cell';
-        cell.onclick = () => {
-            if(board[i] === "") {
-                board[i] = "X"; cell.innerText = "X";
-                if(!checkWin(board)) setTimeout(() => aiMove(board), 500);
-            }
-        };
-        grid.appendChild(cell);
-    }
-    parent.appendChild(grid);
+/* Toggle Sound */
+function toggleSound(){
+    soundOn=!soundOn;
+    if(soundOn) bgMusic.play();
+    else bgMusic.pause();
 }
 
-function aiMove(board) {
-    let empty = board.map((v, i) => v === "" ? i : null).filter(v => v !== null);
-    if(empty.length > 0) {
-        let move = empty[Math.floor(Math.random() * empty.length)];
-        board[move] = "O";
-        document.querySelectorAll('.ttt-cell')[move].innerText = "O";
-        checkWin(board);
-    }
+/* Confetti */
+function launchConfetti(){
+    const duration = 3000;
+    const end = Date.now() + duration;
+
+    (function frame(){
+        confetti({
+            particleCount: 10,
+            spread: 120,
+            origin: { y: 0.6 }
+        });
+        if(Date.now() < end) requestAnimationFrame(frame);
+    })();
 }
 
-function checkWin(board) {
-    const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-    for(let p of wins) {
-        if(board[p[0]] && board[p[0]]==board[p[1]] && board[p[0]]==board[p[2]]) {
-            triggerWin(); return true;
+/* Result */
+function showResult(win){
+    clearInterval(timerInterval);
+    let result = document.getElementById("resultDisplay");
+    result.innerText = win ? "WINNER" : "LOSER";
+    result.style.color = win ? "green" : "red";
+    launchConfetti();
+}
+
+/* =========================
+   TIC TAC TOE (Minimax AI)
+========================= */
+
+function startTicTacToe(){
+    const container = document.getElementById("gameCanvasContainer");
+    container.innerHTML="";
+    let board = Array(9).fill("");
+    let human="X", ai="O";
+
+    function checkWinner(b){
+        const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+        for(let w of wins){
+            if(b[w[0]] && b[w[0]]===b[w[1]] && b[w[1]]===b[w[2]])
+                return b[w[0]];
         }
+        return b.includes("")? null : "tie";
     }
-    return false;
+
+    function minimax(newBoard,isMax){
+        let winner = checkWinner(newBoard);
+        if(winner==="O") return 10-level;
+        if(winner==="X") return level-10;
+        if(winner==="tie") return 0;
+
+        let best = isMax? -Infinity : Infinity;
+        for(let i=0;i<9;i++){
+            if(newBoard[i]===""){
+                newBoard[i]=isMax? ai:human;
+                let score = minimax(newBoard,!isMax);
+                newBoard[i]="";
+                best = isMax? Math.max(score,best):Math.min(score,best);
+            }
+        }
+        return best;
+    }
+
+    function aiMove(){
+        let bestScore=-Infinity;
+        let move;
+        for(let i=0;i<9;i++){
+            if(board[i]===""){
+                board[i]=ai;
+                let score=minimax(board,false);
+                board[i]="";
+                if(score>bestScore){
+                    bestScore=score;
+                    move=i;
+                }
+            }
+        }
+        board[move]=ai;
+        render();
+    }
+
+    function render(){
+        container.innerHTML="";
+        board.forEach((cell,i)=>{
+            let div=document.createElement("div");
+            div.className="cell";
+            div.innerText=cell;
+            div.onclick=()=>{
+                if(!board[i]){
+                    board[i]=human;
+                    steps++;
+                    document.getElementById("steps").innerText=steps;
+                    aiMove();
+                    let winner=checkWinner(board);
+                    if(winner) showResult(winner==="X");
+                }
+            };
+            container.appendChild(div);
+        });
+        container.style.display="grid";
+        container.style.gridTemplateColumns="repeat(3,100px)";
+        container.style.gap="10px";
+    }
+
+    render();
 }
 
-// --- Victory ---
-function triggerWin() {
-    confetti({ particleCount: 150, spread: 70 });
-    const res = document.getElementById('result-overlay');
-    res.classList.remove('hidden');
-    document.getElementById('result-text').innerText = "WINNER";
-    setTimeout(() => {
-        res.classList.add('hidden');
-        document.getElementById('game-overlay').classList.add('hidden');
-        bgMusic.pause();
-        if(currentLevel < 10) currentLevel++;
-    }, 3000);
+/* =========================
+   SNAKE (Smooth Canvas)
+========================= */
+
+function startSnake(){
+    const container=document.getElementById("gameCanvasContainer");
+    container.innerHTML="<canvas id='snakeCanvas' width='500' height='400'></canvas>";
+    const canvas=document.getElementById("snakeCanvas");
+    const ctx=canvas.getContext("2d");
+
+    let x=100,y=100;
+    let dx=2+level, dy=2;
+    function draw(){
+        ctx.clearRect(0,0,500,400);
+        ctx.fillRect(x,y,20,20);
+        x+=dx;
+        y+=dy;
+        requestAnimationFrame(draw);
+    }
+    draw();
 }
