@@ -1,108 +1,145 @@
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-font-family:'Poppins',sans-serif;
-background:linear-gradient(135deg,#e4ecf5,#f5f7fa);
-text-align:center;
+body {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: linear-gradient(135deg, #f2f6ff, #ffffff);
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 /* Splash */
-#splash{
-position:fixed;inset:0;
-background:#111;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-animation:fadeOut 3s forwards 3s;
-}
-.logo3d{
-font-family:'Playfair Display',serif;
-font-size:45px;
-color:#fff;
-animation:rotate3d 3s ease;
-}
-@keyframes rotate3d{
-from{transform:rotateY(0);}
-to{transform:rotateY(360deg);}
-}
-@keyframes fadeOut{
-to{opacity:0;visibility:hidden;}
+#splash {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
-/* Glass */
-.glass{
-margin:20px auto;
-padding:20px;
-width:90%;
-max-width:400px;
-background:rgba(255,255,255,0.6);
-backdrop-filter:blur(10px);
-border-radius:15px;
+.logo-3d {
+    font-size: 40px;
+    color: gold;
+    animation: rotate3d 2s infinite linear;
 }
 
-.hidden{display:none;}
-
-input{
-width:100%;
-padding:10px;
-margin:8px 0;
-border:none;
-border-radius:8px;
+@keyframes rotate3d {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
 }
 
-button{
-padding:10px 20px;
-margin:5px;
-border:none;
-border-radius:8px;
-background:#000;
-color:#fff;
-cursor:pointer;
+/* Header */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    z-index: 1000;
 }
 
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px;
-background:#fff;
+header h1 {
+    margin: 0;
 }
 
-.logo-img{
-width:50px;
-height:50px;
-border-radius:50%;
-object-fit:cover;
+.logo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
-.board{
-display:grid;
-grid-template-columns:repeat(3,100px);
-gap:5px;
-justify-content:center;
-margin-top:20px;
+/* Hamburger */
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: black;
+    margin: 4px 0;
+    cursor: pointer;
 }
 
-.cell{
-width:100px;
-height:100px;
-background:#fff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:32px;
-font-weight:bold;
-cursor:pointer;
+/* Side Menu */
+#sideMenu {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background: white;
+    transition: 0.4s;
+    padding-top: 80px;
 }
 
-canvas{
-background:#fff;
-margin:20px auto;
-border-radius:10px;
+#sideMenu ul {
+    list-style: none;
+    padding: 0;
 }
 
-#result{
-font-size:32px;
-font-weight:bold;
-margin-top:15px;
+#sideMenu ul li {
+    padding: 15px;
+    cursor: pointer;
+}
+
+/* Auth */
+.auth-container {
+    margin-top: 120px;
+    text-align: center;
+}
+
+.auth-container input {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 250px;
+}
+
+.auth-buttons button {
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+/* Game Grid */
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+    gap: 20px;
+    padding: 40px;
+}
+
+.card {
+    padding: 40px;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Footer */
+footer {
+    background: #111;
+    color: white;
+    padding: 30px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+copyright {
+    text-align: center;
 }
