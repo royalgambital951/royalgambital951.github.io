@@ -1,45 +1,36 @@
-let level = 1;
-let timer = 0;
-let steps = 0;
+document.addEventListener("DOMContentLoaded", function(){
+
+let level=1;
+let timer=0;
+let steps=0;
 let timerInterval;
-let soundOn = true;
 
-const bgMusic = document.getElementById("bgMusic");
+/* LOGO MODAL FIX */
+const logo=document.getElementById("mainLogo");
+const modal=document.getElementById("logoModal");
 
-/* ================= LOGO MODAL ================= */
+logo.addEventListener("click",()=>{
+    modal.style.display="flex";
+});
 
-document.getElementById("mainLogo").onclick = () => {
-    document.getElementById("logoModal").style.display="flex";
-};
+modal.addEventListener("click",()=>{
+    modal.style.display="none";
+});
 
-document.getElementById("logoModal").onclick = () => {
-    document.getElementById("logoModal").style.display="none";
-};
-
-/* ================= TIMER ================= */
-
+/* TIMER */
 function startTimer(){
     clearInterval(timerInterval);
-    timer = 0;
+    timer=0;
     document.getElementById("timer").innerText=0;
 
-    timerInterval = setInterval(()=>{
+    timerInterval=setInterval(()=>{
         timer++;
         document.getElementById("timer").innerText=timer;
     },1000);
 }
 
-/* ================= SOUND ================= */
-
-function toggleSound(){
-    soundOn = !soundOn;
-    if(soundOn) bgMusic.play();
-    else bgMusic.pause();
-}
-
-/* ================= OPEN GAME ================= */
-
-function openGame(type){
+/* OPEN GAME */
+window.openGame=function(type){
 
     document.querySelector(".game-grid").style.display="none";
     document.getElementById("gameArea").classList.remove("hidden");
@@ -52,14 +43,12 @@ function openGame(type){
     document.getElementById("steps").innerText=0;
 
     startTimer();
-    if(soundOn) bgMusic.play();
 
     if(type==="tic") startTicTacToe();
     if(type==="snake") startSnake();
 }
 
-/* ================= RESULT ================= */
-
+/* RESULT */
 function showResult(win){
     clearInterval(timerInterval);
     let result=document.getElementById("resultDisplay");
@@ -67,8 +56,7 @@ function showResult(win){
     result.style.color= win ? "green" : "red";
 }
 
-/* ================= TIC TAC TOE ================= */
-
+/* TIC TAC TOE */
 function startTicTacToe(){
 
     const container=document.getElementById("gameCanvasContainer");
@@ -92,8 +80,10 @@ function startTicTacToe(){
     function aiMove(){
         let empty=[];
         board.forEach((v,i)=>{ if(v==="") empty.push(i); });
-        let move=empty[Math.floor(Math.random()*empty.length)];
-        if(move!==undefined) board[move]=ai;
+        if(empty.length>0){
+            let move=empty[Math.floor(Math.random()*empty.length)];
+            board[move]=ai;
+        }
     }
 
     function render(){
@@ -120,8 +110,7 @@ function startTicTacToe(){
     render();
 }
 
-/* ================= SNAKE ================= */
-
+/* SNAKE */
 function startSnake(){
 
     const container=document.getElementById("gameCanvasContainer");
@@ -131,7 +120,7 @@ function startSnake(){
     const ctx=canvas.getContext("2d");
 
     let x=150,y=150;
-    let dx=2, dy=2;
+    let dx=2,dy=2;
 
     function draw(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -141,11 +130,13 @@ function startSnake(){
         x+=dx;
         y+=dy;
 
-        if(x<=0 || x>=canvas.width-20) dx=-dx;
-        if(y<=0 || y>=canvas.height-20) dy=-dy;
+        if(x<=0||x>=canvas.width-20) dx=-dx;
+        if(y<=0||y>=canvas.height-20) dy=-dy;
 
         requestAnimationFrame(draw);
     }
 
     draw();
-    }
+}
+
+});
