@@ -1,84 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Gambit | Premium Gaming</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Gambit</title>
+
+<link rel="stylesheet" href="style.css">
+
+<!-- Google Font (Luxury Serif) -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<!-- Confetti Library -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
+
 <body>
 
-    <audio id="bgAudio" loop>
-        <source src="bg-music.mp3" type="audio/mpeg">
-    </audio>
+<!-- Splash Intro -->
+<div id="splash">
+    <img src="logo.png" id="splashLogo">
+    <h1>Royal Gambit</h1>
+</div>
 
-    <div id="splash-screen">
-        <div class="splash-content">
-            <img src="logo.jpg" alt="Royal Gambit" class="splash-logo">
-            <h1 class="splash-text">Royal Gambit</h1>
-        </div>
+<!-- Header -->
+<header>
+    <div class="logo-container">
+        <img src="logo.png" id="mainLogo">
+    </div>
+    <h2 class="brand">Royal Gambit</h2>
+    <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+    </div>
+</header>
+
+<!-- Logo Modal -->
+<div id="logoModal">
+    <img src="logo.png">
+</div>
+
+<!-- Game Hub -->
+<section class="game-grid">
+
+    <div class="game-card" onclick="openGame('tic')">Tic Tac Toe</div>
+    <div class="game-card" onclick="openGame('snake')">Snake</div>
+    <div class="game-card" onclick="openGame('puzzle')">Puzzle</div>
+    <div class="game-card" onclick="openGame('riddle')">Riddle</div>
+
+</section>
+
+<!-- Game Area -->
+<section id="gameArea" class="hidden">
+    <div class="game-top-bar">
+        <div>Level: <span id="level">1</span></div>
+        <div>Time: <span id="timer">0</span>s</div>
+        <div>Steps: <span id="steps">0</span></div>
+        <div class="settings" onclick="toggleSound()">⚙</div>
     </div>
 
-    <header>
-        <div class="header-container">
-            <img src="logo.jpg" alt="Logo" id="main-logo" class="clickable-logo">
-            <h1 class="brand-name">Royal Gambit</h1>
-            <div class="menu-toggle" id="mobile-menu">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-    </header>
+    <div id="gameCanvasContainer"></div>
 
-    <div id="logo-modal" class="modal">
-        <span class="close-modal">&times;</span>
-        <img src="logo.jpg" class="modal-content">
+    <div id="resultDisplay"></div>
+</section>
+
+<!-- Audio -->
+<audio id="bgMusic" loop>
+    <source src="bg-music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-section">
+        <p><strong>About Us:</strong> Mob no.: 7045678424 | Address: Floor 3, Apartment 451, Kishangarh, Ajmer, Raj. 305802.</p>
+        <p><strong>Owner:</strong> Royalgambital.privet.limeted.</p>
+        <p>Email: Royalgambit.@gmail.com | Instagram: royalgambit.100 | Facebook: royalgambit.1734</p>
+        <p>Privacy Policy | Terms & Condition | FAQ</p>
+        <p>©2025 Royalgambit. All Rights Reserved.</p>
     </div>
+</footer>
 
-    <main class="container">
-        <section class="game-grid">
-            <div class="game-card" onclick="startGame('ttt')">
-                <div class="card-glass"><h3>Tic-Tac-Toe</h3><p>Smart AI Battle</p></div>
-            </div>
-            <div class="game-card" onclick="startGame('snake')">
-                <div class="card-glass"><h3>Snake</h3><p>Canvas Run</p></div>
-            </div>
-            <div class="game-card" onclick="startGame('riddle')">
-                <div class="card-glass"><h3>Riddle</h3><p>Royal Secrets</p></div>
-            </div>
-        </section>
-    </main>
-
-    <div id="game-overlay" class="hidden">
-        <div class="game-window">
-            <div class="game-stats">
-                <span>Lvl: <b id="lvl-display">1</b></span>
-                <button id="sound-btn" onclick="toggleSound()">🔊 Music: ON</button>
-                <button id="exit-game">Exit</button>
-            </div>
-            <div id="game-container"></div>
-        </div>
-    </div>
-
-    <div id="result-overlay" class="hidden"><h2 id="result-text"></h2></div>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>About Us</h4>
-                <p>Phone: 7045678424</p>
-                <p>Address: Floor 3, Apartment 451, Kishangarh, Ajmer, Raj. 305802</p>
-                <p>Owner: Royalgambital.privet.limeted.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Socials</h4>
-                <p>Email: Royalgambit.@gmail.com | Insta: royalgambit.100</p>
-                <p>©2025 Royalgambit. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
