@@ -1,0 +1,59 @@
+:root {
+    --glass: rgba(255, 255, 255, 0.4);
+    --border: rgba(255, 255, 255, 0.6);
+    --gold: #d4af37;
+}
+
+body {
+    margin: 0; font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: #333; overflow-x: hidden;
+}
+
+/* Splash */
+#splash {
+    position: fixed; inset: 0; background: white; z-index: 9999;
+    display: flex; justify-content: center; align-items: center; transition: 0.8s;
+}
+.splash-box img { width: 120px; animation: scaleUp 1.5s forwards; }
+
+/* Header */
+header {
+    position: fixed; top: 15px; left: 50%; transform: translateX(-50%);
+    width: 90%; background: var(--glass); backdrop-filter: blur(10px);
+    border: 1px solid var(--border); border-radius: 40px; z-index: 1000;
+    padding: 10px 25px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+.header-inner { display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { width: 45px; border-radius: 50%; cursor: pointer; }
+.brand-title { font-family: 'Cinzel', serif; font-size: 1.4rem; letter-spacing: 2px; color: var(--gold); }
+
+/* Modal & Blur */
+.modal {
+    display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(15px); z-index: 2000; align-items: center; justify-content: center;
+}
+.modal-img { width: 300px; animation: zoom 0.4s; }
+
+/* Cards */
+.container { margin-top: 130px; padding: 20px; }
+.game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.card {
+    background: var(--glass); border: 1px solid var(--border);
+    padding: 40px 20px; border-radius: 25px; text-align: center;
+    cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px);
+}
+.card:hover { transform: translateY(-10px); background: white; }
+
+/* Game Area */
+#gameOverlay { position: fixed; inset: 0; background: rgba(255,255,255,0.9); z-index: 1500; display: flex; align-items: center; justify-content: center; }
+.game-box { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); width: 90%; max-width: 500px; }
+canvas { background: #f0f0f0; border-radius: 10px; display: block; margin: 0 auto; }
+
+/* Footer */
+footer { background: var(--glass); padding: 40px 20px; margin-top: 50px; border-top: 1px solid var(--border); }
+.footer-grid { display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px; }
+.f-sec { min-width: 250px; }
+
+@keyframes zoom { from {transform: scale(0);} to {transform: scale(1);} }
+
