@@ -5,302 +5,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Royal Gambit</title>
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family: Arial, sans-serif;
-}
-
-body{
-background:#f4f6f9;
-overflow-x:hidden;
-}
-
-/* ================= Splash Logo ================= */
-
-#splash{
-position:fixed;
-width:100%;
-height:100vh;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-#splash h1{
-font-size:40px;
-color:#111;
-}
-
-/* ================= Header ================= */
-
-header{
-position:fixed;
-top:0;
-width:100%;
-height:60px;
-background:white;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0 20px;
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
-z-index:1000;
-}
-
-.logo{
-font-size:22px;
-font-weight:bold;
-}
-
-.menu-btn{
-font-size:26px;
-cursor:pointer;
-}
-
-/* ================= Sidebar ================= */
-
-.sidebar{
-position:fixed;
-top:0;
-right:-250px;
-width:250px;
-height:100%;
-background:white;
-box-shadow:-5px 0 15px rgba(0,0,0,0.2);
-transition:0.3s;
-padding:20px;
-z-index:1500;
-}
-
-.sidebar.active{
-right:0;
-}
-
-.sidebar h3{
-margin-bottom:20px;
-}
-
-.sidebar ul{
-list-style:none;
-}
-
-.sidebar ul li{
-margin:15px 0;
-cursor:pointer;
-}
-
-/* Blur Effect */
-.blur{
-filter:blur(5px);
-}
-
-/* ================= Main ================= */
-
-main{
-padding-top:80px;
-padding-bottom:60px;
-}
-
-.games{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:20px;
-padding:20px;
-}
-
-.game-card{
-background:white;
-padding:30px;
-text-align:center;
-border-radius:10px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-cursor:pointer;
-transition:0.3s;
-}
-
-.game-card:hover{
-transform:scale(1.05);
-}
-
-/* ================= Game Section ================= */
-
-#gameSection{
-display:none;
-padding:20px;
-text-align:center;
-}
-
-.board{
-display:grid;
-grid-template-columns:repeat(3,100px);
-grid-gap:5px;
-justify-content:center;
-margin:20px auto;
-}
-
-.cell{
-width:100px;
-height:100px;
-background:white;
-font-size:40px;
-display:flex;
-justify-content:center;
-align-items:center;
-cursor:pointer;
-border:2px solid #111;
-}
-
-button{
-padding:10px 20px;
-margin:10px;
-cursor:pointer;
-border:none;
-background:black;
-color:white;
-border-radius:5px;
-}
-
-/* ================= Footer ================= */
-
-footer{
-position:fixed;
-bottom:0;
-width:100%;
-height:40px;
-background:white;
-display:flex;
-justify-content:center;
-align-items:center;
-box-shadow:0 -2px 10px rgba(0,0,0,0.1);
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
+<script defer src="script.js"></script>
 </head>
 <body>
 
 <!-- Splash -->
 <div id="splash">
-<h1>ROYAL GAMBIT</h1>
+    <h1>Royal Gambit</h1>
 </div>
 
+<!-- Header -->
 <header>
-<div class="logo">Royal Gambit</div>
-<div class="menu-btn" onclick="toggleMenu()">⋮</div>
+    <div class="logo">Royal Gambit</div>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
 </header>
 
+<!-- Sidebar -->
 <div class="sidebar" id="sidebar">
-<h3>Menu</h3>
-<ul>
-<li>Home</li>
-<li>About</li>
-<li>Contact</li>
-</ul>
+    <p onclick="closeMenu()">Close ✖</p>
+    <p>Home</p>
+    <p>About</p>
 </div>
 
-<main id="mainContent">
+<main>
 
-<div class="games">
-<div class="game-card" onclick="openGame()">Tic Tac Toe</div>
-<div class="game-card">Coming Soon</div>
-</div>
+<!-- Game Grid -->
+<section id="gameGrid" class="grid">
+    <div class="card" onclick="openGame('tic')">Tic Tac Toe</div>
+    <div class="card" onclick="openGame('snake')">Snake</div>
+</section>
 
-<div id="gameSection">
-<h2>Tic Tac Toe</h2>
-
-<div class="board" id="board"></div>
-
-<button onclick="restartGame()">Restart</button>
-<button onclick="goBack()">Back</button>
-</div>
+<!-- Game Area -->
+<section id="gameArea" class="hidden">
+    <div class="topbar">
+        <button onclick="goBack()">Back</button>
+        <button onclick="restartGame()">Restart</button>
+    </div>
+    <div id="gameContainer"></div>
+</section>
 
 </main>
 
 <footer>
-© 2026 Royal Gambit
+<p>© 2025 Royal Gambit</p>
 </footer>
-
-<script>
-
-/* ================= Splash ================= */
-
-window.onload = function(){
-setTimeout(()=>{
-document.getElementById("splash").style.display="none";
-},2000);
-}
-
-/* ================= Menu ================= */
-
-function toggleMenu(){
-document.getElementById("sidebar").classList.toggle("active");
-document.getElementById("mainContent").classList.toggle("blur");
-}
-
-/* ================= Game Open ================= */
-
-function openGame(){
-document.querySelector(".games").style.display="none";
-document.getElementById("gameSection").style.display="block";
-createBoard();
-}
-
-function goBack(){
-document.querySelector(".games").style.display="grid";
-document.getElementById("gameSection").style.display="none";
-}
-
-/* ================= Tic Tac Toe ================= */
-
-let currentPlayer="X";
-let cells=[];
-
-function createBoard(){
-let board=document.getElementById("board");
-board.innerHTML="";
-cells=[];
-for(let i=0;i<9;i++){
-let cell=document.createElement("div");
-cell.classList.add("cell");
-cell.addEventListener("click",()=>makeMove(cell,i));
-board.appendChild(cell);
-cells.push("");
-}
-}
-
-function makeMove(cell,index){
-if(cells[index]!="") return;
-cells[index]=currentPlayer;
-cell.textContent=currentPlayer;
-checkWinner();
-currentPlayer=currentPlayer==="X"?"O":"X";
-}
-
-function checkWinner(){
-const wins=[
-[0,1,2],[3,4,5],[6,7,8],
-[0,3,6],[1,4,7],[2,5,8],
-[0,4,8],[2,4,6]
-];
-for(let combo of wins){
-let [a,b,c]=combo;
-if(cells[a] && cells[a]==cells[b] && cells[a]==cells[c]){
-alert(cells[a]+" Wins!");
-restartGame();
-}
-}
-}
-
-function restartGame(){
-currentPlayer="X";
-createBoard();
-}
-
-</script>
 
 </body>
 </html>
