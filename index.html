@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Gambit | Premium Game Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="bg-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="splash">
+        <div class="splash-box">
+            <img src="logo.png" alt="Royal Gambit">
+            <h1>Royal Gambit</h1>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-inner">
+            <img src="logo.png" id="logoBtn" class="nav-logo" alt="Logo">
+            <h1 class="brand-title">Royal Gambit</h1>
+            <div class="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </header>
+
+    <div id="logoModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img src="logo.png" class="modal-img">
+    </div>
+
+    <main class="container">
+        <section class="game-grid">
+            <div class="card" onclick="openGame('ttt')"><h3>Tic-Tac-Toe</h3><p>Smart AI Battle</p></div>
+            <div class="card" onclick="openGame('snake')"><h3>Snake 🐍</h3><p>Canvas Run</p></div>
+            <div class="card" onclick="openGame('puzzle')"><h3>Puzzle 🧩</h3><p>Logic Grid</p></div>
+            <div class="card" onclick="openGame('riddle')"><h3>Riddle</h3><p>The Sphinx</p></div>
+        </section>
+    </main>
+
+    <div id="gameOverlay" class="hidden">
+        <div class="game-box">
+            <div class="game-head">
+                <span>Lvl: <b id="lvl">1</b></span>
+                <span>Steps: <b id="stp">0</b></span>
+                <div class="controls">
+                    <button id="soundBtn" onclick="toggleSound()">🔊 ON</button>
+                    <button onclick="closeGame()">Exit</button>
+                </div>
+            </div>
+            <div id="gameArea"></div>
+        </div>
+    </div>
+
+    <div id="resOverlay" class="hidden">
+        <h2 id="resText"></h2>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="f-sec">
+                <h4>About Us</h4>
+                <p>Mobile: 7045678424</p>
+                <p>Address: Floor 3, Apartment 451, Kishangarh, Ajmer, Raj. 305802</p>
+                <p>Owner: Royalgambital.privet.limeted</p>
+            </div>
+            <div class="f-sec">
+                <h4>Follow Us</h4>
+                <p>Email: Royalgambit.@gmail.com</p>
+                <p>Insta: royalgambit.100</p>
+                <p>FB: royalgambit.1734</p>
+            </div>
+            <div class="f-sec">
+                <h4>Legal</h4>
+                <p>Privacy Policy | Terms & Condition | FAQ</p>
+                <p>©2025 Royalgambit. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
