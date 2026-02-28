@@ -1,74 +1,67 @@
-/* Body fix to handle footer */
-html, body {
-    height: 100%;
-    margin: 0;
+* { box-sizing: border-box; }
+body { 
+    margin: 0; font-family: 'Poppins', sans-serif; 
+    background: #f0f2f5; min-height: 100vh;
 }
-body {
+
+/* Footer ko neeche rakhne ke liye wrapper */
+.wrapper {
     display: flex;
     flex-direction: column;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
 }
 
-.content-wrapper {
-    flex: 1 0 auto; /* Yeh content ko bada rakhta hai footer ko niche dhakelta hai */
-}
+.container { flex: 1; padding: 120px 20px 40px; }
 
-/* Footer should stay at bottom */
-footer {
-    flex-shrink: 0;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(10px);
-    padding: 30px;
-    border-top: 1px solid rgba(255,255,255,0.8);
-}
-
-.footer-grid {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Game Window Fix */
+/* Game Overlay Styling - Isse dabba screen par dikhega */
 #gameOverlay {
     position: fixed; inset: 0;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(8px);
-    z-index: 3000;
+    background: rgba(255,255,255,0.98);
+    z-index: 9999;
     display: flex; align-items: center; justify-content: center;
 }
 
 .game-box {
-    background: white;
-    width: 90%;
-    max-width: 400px;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    background: #fff; width: 95%; max-width: 450px;
+    padding: 20px; border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    border: 1px solid #ddd;
+}
+
+.game-head {
+    display: flex; justify-content: space-between;
+    padding-bottom: 15px; border-bottom: 2px solid #f0f0f0;
+    margin-bottom: 15px; font-weight: bold;
 }
 
 #gameArea {
-    width: 100%;
-    min-height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 100%; min-height: 320px;
+    display: flex; justify-content: center; align-items: center;
 }
 
-/* Tic-Tac-Toe Grid */
+/* Tic-Tac-Toe Grid Fix */
 .ttt-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    width: 100%;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 8px; width: 300px; height: 300px;
 }
 .ttt-cell {
-    aspect-ratio: 1/1;
-    background: #f1f1f1;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.5rem; font-weight: bold; cursor: pointer;
+    background: #f8f9fa; border: 2px solid #eee;
+    border-radius: 10px; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 2.5rem; cursor: pointer; transition: 0.2s;
 }
+.ttt-cell:hover { background: #fff; border-color: #d4af37; }
+
+/* Footer Desktop Fix */
+footer {
+    background: #fff; border-top: 1px solid #ddd;
+    padding: 30px 20px; width: 100%;
+}
+.footer-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+.footer-bottom { text-align: center; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; font-size: 0.9rem; }
+
 .hidden { display: none !important; }
