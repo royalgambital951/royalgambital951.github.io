@@ -10,59 +10,42 @@
 </head>
 <body>
 
+    <audio id="bgAudio" loop>
+        <source src="bg-music.mp3" type="audio/mpeg">
+    </audio>
+
     <div id="splash-screen">
         <div class="splash-content">
-            <img src="logo.png" alt="Royal Gambit Logo" class="splash-logo">
+            <img src="logo.jpg" alt="Royal Gambit" class="splash-logo">
             <h1 class="splash-text">Royal Gambit</h1>
         </div>
     </div>
 
     <header>
         <div class="header-container">
-            <img src="logo.png" alt="Logo" id="main-logo" class="clickable-logo">
+            <img src="logo.jpg" alt="Logo" id="main-logo" class="clickable-logo">
             <h1 class="brand-name">Royal Gambit</h1>
             <div class="menu-toggle" id="mobile-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+                <span></span><span></span><span></span>
             </div>
         </div>
     </header>
 
     <div id="logo-modal" class="modal">
         <span class="close-modal">&times;</span>
-        <img src="logo.png" class="modal-content">
+        <img src="logo.jpg" class="modal-content">
     </div>
 
     <main class="container">
         <section class="game-grid">
-            <div class="game-card" onclick="startGame('tic-tac-toe')">
-                <div class="card-glass">
-                    <h3>Tic-Tac-Toe</h3>
-                    <p>Beat the Smart AI</p>
-                    <span class="level-badge">Level 1-10</span>
-                </div>
+            <div class="game-card" onclick="startGame('ttt')">
+                <div class="card-glass"><h3>Tic-Tac-Toe</h3><p>Smart AI Battle</p></div>
             </div>
             <div class="game-card" onclick="startGame('snake')">
-                <div class="card-glass">
-                    <h3>Snake</h3>
-                    <p>High Speed Action</p>
-                    <span class="level-badge">Level 1-10</span>
-                </div>
-            </div>
-            <div class="game-card" onclick="startGame('puzzle')">
-                <div class="card-glass">
-                    <h3>Puzzle</h3>
-                    <p>Mental Agility</p>
-                    <span class="level-badge">Level 1-10</span>
-                </div>
+                <div class="card-glass"><h3>Snake</h3><p>Canvas Run</p></div>
             </div>
             <div class="game-card" onclick="startGame('riddle')">
-                <div class="card-glass">
-                    <h3>Riddle</h3>
-                    <p>The Royal Sphinx</p>
-                    <span class="level-badge">Level 1-10</span>
-                </div>
+                <div class="card-glass"><h3>Riddle</h3><p>Royal Secrets</p></div>
             </div>
         </section>
     </main>
@@ -70,20 +53,15 @@
     <div id="game-overlay" class="hidden">
         <div class="game-window">
             <div class="game-stats">
-                <span>Level: <b id="lvl-display">1</b></span>
-                <span>Time: <b id="timer">00:00</b></span>
-                <span>Steps: <b id="steps">0</b></span>
-                <button id="sound-toggle">🔊 Sound: ON</button>
+                <span>Lvl: <b id="lvl-display">1</b></span>
+                <button id="sound-btn" onclick="toggleSound()">🔊 Music: ON</button>
                 <button id="exit-game">Exit</button>
             </div>
-            <div id="game-canvas-container">
-                </div>
+            <div id="game-container"></div>
         </div>
     </div>
 
-    <div id="result-overlay" class="hidden">
-        <h2 id="result-text"></h2>
-    </div>
+    <div id="result-overlay" class="hidden"><h2 id="result-text"></h2></div>
 
     <footer>
         <div class="footer-content">
@@ -95,13 +73,7 @@
             </div>
             <div class="footer-section">
                 <h4>Socials</h4>
-                <p>Email: Royalgambit.@gmail.com</p>
-                <p>Instagram: royalgambit.100</p>
-                <p>Facebook: royalgambit.1734.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Legal</h4>
-                <p>Privacy Policy | Terms & Condition | FAQ</p>
+                <p>Email: Royalgambit.@gmail.com | Insta: royalgambit.100</p>
                 <p>©2025 Royalgambit. All Rights Reserved.</p>
             </div>
         </div>
