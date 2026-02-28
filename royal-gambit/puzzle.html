@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Puzzle - Royal Gambit</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="script.js"></script>
+<style>
+.puzzle{display:grid;grid-template-columns:repeat(3,100px);gap:5px;justify-content:center;}
+.tile{width:100px;height:100px;background:#ccc;font-size:30px;text-align:center;line-height:100px;cursor:pointer;}
+</style>
+</head>
+<body onload="init();startTimer();playMusic()">
+
+<header>
+<h2>Puzzle Game</h2>
+<button onclick="toggleMode()">Toggle</button>
+</header>
+
+<div class="game-info">
+<div>Timer: <span id="timer">0</span></div>
+<div>Moves: <span id="steps">0</span></div>
+<button onclick="location.reload()">Restart</button>
+</div>
+
+<div class="puzzle" id="puzzle"></div>
+<audio id="bg-music" src="assets/bg-music.mp3" loop></audio>
+
+<script>
+let arr=[1,2,3,4,5,6,7,8,""];
+let moves=0;
+
+function init(){
+arr.sort(()=>Math.random()-0.5);
+render();
+}
+
+function render(){
+let p=document.getElementById("puzzle");
+p.innerHTML="";
+arr.forEach((v,i)=>{
+let d=document.createElement("div");
+d.className="tile";
+d.innerText=v;
+d.onclick=()=>swap(i);
+p.appendChild(d);
+});
+}
+
+function swap(i){
+let empty=arr.indexOf("");
+[arr[i],arr[empty]]=[arr[empty],arr[i]];
+moves++;
+document.getElementById("steps").innerText=moves;
+render();
+check();
+}
+
+function check(){
+if(arr.join()=="1,2,3,4,5,6,7,8,"){
+alert("WINNER");
+launchConfetti();
+stopTimer();
+stopMusic();
+}
+}
+</script>
+
+</body>
+</html>
