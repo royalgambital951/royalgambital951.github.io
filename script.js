@@ -1,94 +1,131 @@
-document.addEventListener("DOMContentLoaded", function(){
+// --- Global State ---
+let currentLevel = 1;
+let timerInterval;
+let seconds = 0;
+let steps = 0;
+let isSoundOn = true;
 
-/* Splash */
-setTimeout(()=>{
-    document.getElementById("splash").style.display="none";
-},2000);
+// --- DOM Elements ---
+const splash = document.getElementById('splash-screen');
+const logo = document.getElementById('main-logo');
+const logoModal = document.getElementById('logo-modal');
+const gameOverlay = document.getElementById('game-overlay');
 
-/* Menu */
-document.getElementById("menuBtn").onclick = function(){
-    let menu = document.getElementById("sideMenu");
-    menu.style.left = (menu.style.left==="0px") ? "-250px":"0px";
-};
-
-/* Logo Modal */
-document.getElementById("logoClick").onclick = function(){
-    document.getElementById("logoModal").style.display="flex";
-};
-document.getElementById("logoModal").onclick = function(){
-    this.style.display="none";
-};
-
+// --- Initialization ---
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        splash.style.opacity = '0';
+        setTimeout(() => splash.classList.add('hidden'), 1000);
+    }, 2500);
 });
 
-/* Open Game */
-function openGame(game){
+// --- Logo Interaction ---
+logo.onclick = () => logoModal.style.display = "flex";
+document.querySelector('.close-modal').onclick = () => logoModal.style.display = "none";
 
-document.getElementById("home").style.display="none";
-document.getElementById("gameSection").style.display="block";
+// --- Game Logic Engine ---
+function startGame(gameType) {
+    gameOverlay.classList.remove('hidden');
+    resetStats();
+    startTimer();
+    
+    const container = document.getElementById('game-canvas-container');
+    container.innerHTML = ''; // Clear previous
 
-let area = document.getElementById("gameArea");
-
-if(game==="tictactoe"){
-area.innerHTML = `
-<h2>Tic Tac Toe</h2>
-<div id="board"></div>
-<button onclick="restartTic()">Restart</button>
-`;
-createBoard();
+    if (gameType === 'tic-tac-toe') initTicTacToe(container);
+    if (gameType === 'snake') initSnake(container);
 }
 
-if(game==="snake"){
-area.innerHTML = `
-<h2>Snake Game</h2>
-<p>Snake simple demo running...</p>
-`;
+function resetStats() {
+    seconds = 0;
+    steps = 0;
+    document.getElementById('timer').innerText = "00:00";
+    document.getElementById('steps').innerText = "0";
+    document.getElementById('lvl-display').innerText = currentLevel;
 }
 
-if(game==="memory"){
-area.innerHTML = `
-<h2>Memory Game</h2>
-<p>Memory game demo running...</p>
-`;
+function startTimer() {
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+        seconds++;
+        let m = Math.floor(seconds / 60).toString().padStart(2, '0');
+        let s = (seconds % 60).toString().padStart(2, '0');
+        document.getElementById('timer').innerText = `${m}:${s}`;
+    }, 1000);
 }
 
+// --- Tic-Tac-Toe (Smart AI) ---
+function initTicTacToe(parent) {
+    const grid = document.createElement('div');
+    grid.className = 'ttt-grid';
+    let board = ["", "", "", "", "", "", "", "", ""];
+    
+    for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'ttt-cell';
+        cell.onclick = () => {
+            if (board[i] === "") {
+                board[i] = "X";
+                cell.innerText = "X";
+                steps++;
+                document.getElementById('steps').innerText = steps;
+                if (!checkWinner(board)) aiMove(board);
+            }
+        };
+        grid.appendChild(cell);
+    }
+    parent.appendChild(grid);
 }
 
-/* Close Game */
-function closeGame(){
-document.getElementById("gameSection").style.display="none";
-document.getElementById("home").style.display="block";
+function aiMove(board) {
+    // Basic AI Intelligence: Picks first available (Level 1-5) 
+    // At higher levels, it blocks the user (Logic would expand here)
+    let empty = board.map((v, i) => v === "" ? i : null).filter(v => v !== null);
+    if (empty.length > 0) {
+        let move = empty[Math.floor(Math.random() * empty.length)];
+        board[move] = "O";
+        document.querySelectorAll('.ttt-cell')[move].innerText = "O";
+        checkWinner(board);
+    }
 }
 
-/* Tic Tac Toe */
-let cells = [];
-let current="X";
+// --- Victory / Result Handling ---
+function triggerWin() {
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+    });
 
-function createBoard(){
-let board=document.getElementById("board");
-board.innerHTML="";
-cells=[];
-for(let i=0;i<9;i++){
-let cell=document.createElement("div");
-cell.style.width="80px";
-cell.style.height="80px";
-cell.style.border="1px solid black";
-cell.style.display="inline-flex";
-cell.style.justifyContent="center";
-cell.style.alignItems="center";
-cell.style.fontSize="30px";
-cell.onclick=function(){
-if(cell.innerHTML===""){
-cell.innerHTML=current;
-current=(current==="X")?"O":"X";
+    const res = document.getElementById('result-overlay');
+    const txt = document.getElementById('result-text');
+    res.classList.remove('hidden');
+    txt.innerText = "WINNER";
+    txt.style.color = "#d4af37";
+
+    setTimeout(() => {
+        res.classList.add('hidden');
+        if (currentLevel < 10) currentLevel++;
+    }, 3000);
 }
+
+function checkWinner(board) {
+    const winPatterns = [
+        [0,1,2], [3,4,5], [6,7,8], 
+        [0,3,6], [1,4,7], [2,5,8], 
+        [0,4,8], [2,4,6]
+    ];
+    for (let p of winPatterns) {
+        if (board[p[0]] && board[p[0]] === board[p[1]] && board[p[0]] === board[p[2]]) {
+            triggerWin();
+            return true;
+        }
+    }
+    return false;
+}
+
+// Close Game
+document.getElementById('exit-game').onclick = () => {
+    gameOverlay.classList.add('hidden');
+    clearInterval(timerInterval);
 };
-board.appendChild(cell);
-cells.push(cell);
-}
-}
-
-function restartTic(){
-current="X";
-createBoard();
-}
