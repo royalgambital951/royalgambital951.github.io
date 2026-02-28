@@ -7,18 +7,15 @@
 
 <link rel="stylesheet" href="style.css">
 
-<!-- Google Font (Luxury Serif) -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 
-<!-- Confetti Library -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script defer src="script.js"></script>
 </head>
-
 <body>
 
-<!-- Splash Intro -->
+<!-- Splash -->
 <div id="splash">
-    <img src="logo.png" id="splashLogo">
+    <img src="logo.png">
     <h1>Royal Gambit</h1>
 </div>
 
@@ -28,7 +25,7 @@
         <img src="logo.png" id="mainLogo">
     </div>
     <h2 class="brand">Royal Gambit</h2>
-    <div class="hamburger" id="hamburger">
+    <div class="hamburger">
         <span></span><span></span><span></span>
     </div>
 </header>
@@ -38,46 +35,36 @@
     <img src="logo.png">
 </div>
 
-<!-- Game Hub -->
-<section class="game-grid">
+<!-- Main Content -->
+<main id="mainContent">
 
+<section class="game-grid">
     <div class="game-card" onclick="openGame('tic')">Tic Tac Toe</div>
     <div class="game-card" onclick="openGame('snake')">Snake</div>
-    <div class="game-card" onclick="openGame('puzzle')">Puzzle</div>
-    <div class="game-card" onclick="openGame('riddle')">Riddle</div>
-
+    <div class="game-card">Puzzle</div>
+    <div class="game-card">Riddle</div>
 </section>
 
-<!-- Game Area -->
 <section id="gameArea" class="hidden">
     <div class="game-top-bar">
         <div>Level: <span id="level">1</span></div>
         <div>Time: <span id="timer">0</span>s</div>
         <div>Steps: <span id="steps">0</span></div>
-        <div class="settings" onclick="toggleSound()">⚙</div>
     </div>
 
     <div id="gameCanvasContainer"></div>
-
     <div id="resultDisplay"></div>
 </section>
 
-<!-- Audio -->
-<audio id="bgMusic" loop>
-    <source src="bg-music.mp3" type="audio/mpeg">
-</audio>
+</main>
 
-<!-- Footer -->
 <footer>
-    <div class="footer-section">
-        <p><strong>About Us:</strong> Mob no.: 7045678424 | Address: Floor 3, Apartment 451, Kishangarh, Ajmer, Raj. 305802.</p>
-        <p><strong>Owner:</strong> Royalgambital.privet.limeted.</p>
-        <p>Email: Royalgambit.@gmail.com | Instagram: royalgambit.100 | Facebook: royalgambit.1734</p>
-        <p>Privacy Policy | Terms & Condition | FAQ</p>
-        <p>©2025 Royalgambit. All Rights Reserved.</p>
-    </div>
+<p><strong>About Us:</strong> Mob no.: 7045678424 | Address: Floor 3, Apartment 451, Kishangarh, Ajmer, Raj. 305802.</p>
+<p><strong>Owner:</strong> Royalgambital.privet.limeted.</p>
+<p>Email: Royalgambit.@gmail.com | Instagram: royalgambit.100 | Facebook: royalgambit.1734</p>
+<p>Privacy Policy | Terms & Condition | FAQ</p>
+<p>©2025 Royalgambit. All Rights Reserved.</p>
 </footer>
 
-<script src="script.js"></script>
 </body>
 </html>
