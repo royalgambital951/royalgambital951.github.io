@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Gambit | Premium Game Hub</title>
+    <title>Royal Gambit | Premium Gaming</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -16,14 +16,14 @@
 
     <div id="splash">
         <div class="splash-box">
-            <img src="logo.png" alt="Royal Gambit">
+            <img src="logo.jpg" alt="Logo">
             <h1>Royal Gambit</h1>
         </div>
     </div>
 
     <header>
         <div class="header-inner">
-            <img src="logo.png" id="logoBtn" class="nav-logo" alt="Logo">
+            <img src="logo.jpg" id="logoBtn" class="nav-logo" alt="Logo">
             <h1 class="brand-title">Royal Gambit</h1>
             <div class="hamburger"><span></span><span></span><span></span></div>
         </div>
@@ -31,26 +31,27 @@
 
     <div id="logoModal" class="modal">
         <span class="close-modal">&times;</span>
-        <img src="logo.png" class="modal-img">
+        <img src="logo.jpg" class="modal-img">
     </div>
 
-    <main class="container">
-        <section class="game-grid">
-            <div class="card" onclick="openGame('ttt')"><h3>Tic-Tac-Toe</h3><p>Smart AI Battle</p></div>
-            <div class="card" onclick="openGame('snake')"><h3>Snake 🐍</h3><p>Canvas Run</p></div>
-            <div class="card" onclick="openGame('puzzle')"><h3>Puzzle 🧩</h3><p>Logic Grid</p></div>
-            <div class="card" onclick="openGame('riddle')"><h3>Riddle</h3><p>The Sphinx</p></div>
-        </section>
-    </main>
+    <div class="content-wrapper">
+        <main class="container">
+            <section class="game-grid">
+                <div class="card" onclick="openGame('ttt')"><h3>Tic-Tac-Toe</h3><p>Smart AI Battle</p></div>
+                <div class="card" onclick="openGame('snake')"><h3>Snake 🐍</h3><p>Canvas Run</p></div>
+                <div class="card" onclick="openGame('puzzle')"><h3>Puzzle 🧩</h3><p>Logic Grid</p></div>
+                <div class="card" onclick="openGame('riddle')"><h3>Riddle</h3><p>The Sphinx</p></div>
+            </section>
+        </main>
+    </div>
 
     <div id="gameOverlay" class="hidden">
         <div class="game-box">
             <div class="game-head">
-                <span>Lvl: <b id="lvl">1</b></span>
-                <span>Steps: <b id="stp">0</b></span>
+                <span>Lvl: <b id="lvl">1</b> | Steps: <b id="stp">0</b></span>
                 <div class="controls">
                     <button id="soundBtn" onclick="toggleSound()">🔊 ON</button>
-                    <button onclick="closeGame()">Exit</button>
+                    <button id="exitBtn">Exit</button>
                 </div>
             </div>
             <div id="gameArea"></div>
@@ -71,8 +72,7 @@
             </div>
             <div class="f-sec">
                 <h4>Follow Us</h4>
-                <p>Email: Royalgambit.@gmail.com</p>
-                <p>Insta: royalgambit.100</p>
+                <p>Email: Royalgambit.@gmail.com | Insta: royalgambit.100</p>
                 <p>FB: royalgambit.1734</p>
             </div>
             <div class="f-sec">
@@ -86,4 +86,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
