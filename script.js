@@ -1,18 +1,48 @@
-// --- TIC TAC TOE INITIALIZATION ---
+let level = 1, stp = 0, isMuted = false;
+const music = document.getElementById('bgMusic');
+
+// Splash logic
+window.addEventListener('load', () => {
+    setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 2000);
+});
+
+// Logo zoom
+document.getElementById('logoBtn').onclick = () => document.getElementById('logoModal').style.display = 'flex';
+document.querySelector('.close-modal').onclick = () => document.getElementById('logoModal').style.display = 'none';
+
+// Sound
+function toggleSound() {
+    isMuted = !isMuted;
+    const btn = document.getElementById('soundBtn');
+    if(isMuted) { music.pause(); btn.innerText = "🔇 OFF"; }
+    else { music.play(); btn.innerText = "🔊 ON"; }
+}
+
+// Launcher
+function openGame(type) {
+    const overlay = document.getElementById('gameOverlay');
+    const area = document.getElementById('gameArea');
+    overlay.classList.remove('hidden');
+    area.innerHTML = '';
+    stp = 0; updateStats();
+
+    if(!isMuted) music.play();
+
+    if(type === 'ttt') initTTT(area);
+    if(type === 'snake') initSnake(area);
+}
+
+// Tic-Tac-Toe
 function initTTT(parent) {
     let board = ["","","","","","","","",""];
     const grid = document.createElement('div');
     grid.className = 'ttt-grid';
-    
     for(let i=0; i<9; i++) {
         const cell = document.createElement('div');
         cell.className = 'ttt-cell';
-        cell.setAttribute('data-index', i);
         cell.onclick = () => {
             if(board[i] === "") {
-                board[i] = "X"; 
-                cell.innerText = "X";
-                stp++; updateStats();
+                board[i] = "X"; cell.innerText = "X";
                 if(!checkWin(board)) setTimeout(() => aiMove(board, grid), 500);
             }
         };
@@ -27,46 +57,8 @@ function aiMove(board, grid) {
         let move = empty[Math.floor(Math.random() * empty.length)];
         board[move] = "O";
         grid.children[move].innerText = "O";
-        grid.children[move].style.color = "#d4af37";
         checkWin(board);
     }
-}
-
-// --- SNAKE GAME FIX ---
-function initSnake(parent) {
-    const canvas = document.createElement('canvas');
-    canvas.width = 280; canvas.height = 280;
-    canvas.style.border = "2px solid #ddd";
-    parent.appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-    
-    let snake = [{x: 10, y: 10}];
-    let food = {x: 5, y: 5};
-    let dx = 1, dy = 0;
-    let speed = 180 - (level * 12);
-
-    const gameLoop = setInterval(() => {
-        ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, 280, 280); // Clear
-        
-        ctx.fillStyle = "#2ecc71"; // Snake
-        snake.forEach(p => ctx.fillRect(p.x*10, p.y*10, 9, 9));
-        
-        ctx.fillStyle = "red"; // Food
-        ctx.fillRect(food.x*10, food.y*10, 9, 9);
-        
-        let head = {x: snake[0].x + dx, y: snake[0].y + dy};
-        snake.unshift(head);
-
-        if(head.x === food.x && head.y === food.y) {
-            food = {x: Math.floor(Math.random()*27), y: Math.floor(Math.random()*27)};
-            stp++; updateStats();
-            if(stp >= 10) { clearInterval(gameLoop); triggerWin(); }
-        } else { snake.pop(); }
-
-        if(head.x < 0 || head.x > 27 || head.y < 0 || head.y > 27) {
-            clearInterval(gameLoop); triggerLoss();
-        }
-    }, speed);
 }
 
 function checkWin(board) {
@@ -76,6 +68,26 @@ function checkWin(board) {
             triggerWin(); return true;
         }
     }
-    if(!board.includes("")) { showResult("DRAW", "gray"); return true; }
     return false;
+}
+
+function triggerWin() {
+    confetti({ particleCount: 150, spread: 70 });
+    document.getElementById('resOverlay').classList.remove('hidden');
+    document.getElementById('resText').innerText = "WINNER";
+    setTimeout(() => {
+        document.getElementById('resOverlay').classList.add('hidden');
+        closeGame();
+    }, 3000);
+}
+
+function closeGame() {
+    document.getElementById('gameOverlay').classList.add('hidden');
+    music.pause();
+}
+
+document.getElementById('exitBtn').onclick = closeGame;
+function updateStats() {
+    document.getElementById('lvl').innerText = level;
+    document.getElementById('stp').innerText = stp;
 }
