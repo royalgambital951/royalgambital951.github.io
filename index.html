@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,31 +10,17 @@
 </head>
 <body>
 
-    <audio id="bgMusic" loop>
-        <source src="bg-music.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="bgMusic" loop><source src="bg-music.mp3" type="audio/mpeg"></audio>
 
-    <div id="splash">
-        <div class="splash-box">
-            <img src="logo.jpg" alt="Logo">
-            <h1>Royal Gambit</h1>
-        </div>
-    </div>
+    <div class="wrapper">
+        <header>
+            <div class="header-inner">
+                <img src="logo.jpg" id="logoBtn" class="nav-logo" alt="Logo">
+                <h1 class="brand-title">Royal Gambit</h1>
+                <div class="menu-toggle"><span></span><span></span><span></span></div>
+            </div>
+        </header>
 
-    <header>
-        <div class="header-inner">
-            <img src="logo.jpg" id="logoBtn" class="nav-logo" alt="Logo">
-            <h1 class="brand-title">Royal Gambit</h1>
-            <div class="hamburger"><span></span><span></span><span></span></div>
-        </div>
-    </header>
-
-    <div id="logoModal" class="modal">
-        <span class="close-modal">&times;</span>
-        <img src="logo.jpg" class="modal-img">
-    </div>
-
-    <div class="content-wrapper">
         <main class="container">
             <section class="game-grid">
                 <div class="card" onclick="openGame('ttt')"><h3>Tic-Tac-Toe</h3><p>Smart AI Battle</p></div>
@@ -43,45 +29,47 @@
                 <div class="card" onclick="openGame('riddle')"><h3>Riddle</h3><p>The Sphinx</p></div>
             </section>
         </main>
+
+        <footer>
+            <div class="footer-grid">
+                <div class="f-sec">
+                    <h4>About Us</h4>
+                    <p>Mobile: 7045678424</p>
+                    <p>Address: Floor 3, Apartment 451, Kishangarh, Ajmer, Raj. 305802</p>
+                    <p>Owner: Royalgambital.privet.limeted</p>
+                </div>
+                <div class="f-sec">
+                    <h4>Follow Us</h4>
+                    <p>Email: Royalgambit.@gmail.com</p>
+                    <p>Insta: royalgambit.100</p>
+                    <p>FB: royalgambit.1734</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Privacy Policy | Terms & Condition | FAQ</p>
+                <p>©2025 Royalgambit. All Rights Reserved.</p>
+            </div>
+        </footer>
     </div>
 
     <div id="gameOverlay" class="hidden">
         <div class="game-box">
             <div class="game-head">
-                <span>Lvl: <b id="lvl">1</b> | Steps: <b id="stp">0</b></span>
-                <div class="controls">
+                <div class="stats-left">
+                    <span>Lvl: <b id="lvl">1</b></span> | <span>Steps: <b id="stp">0</b></span>
+                </div>
+                <div class="controls-right">
                     <button id="soundBtn" onclick="toggleSound()">🔊 ON</button>
-                    <button id="exitBtn">Exit</button>
+                    <button id="exitBtn" onclick="closeGame()">Exit</button>
                 </div>
             </div>
-            <div id="gameArea"></div>
+            <div id="gameArea">
+                </div>
         </div>
     </div>
 
-    <div id="resOverlay" class="hidden">
-        <h2 id="resText"></h2>
-    </div>
-
-    <footer>
-        <div class="footer-grid">
-            <div class="f-sec">
-                <h4>About Us</h4>
-                <p>Mobile: 7045678424</p>
-                <p>Address: Floor 3, Apartment 451, Kishangarh, Ajmer, Raj. 305802</p>
-                <p>Owner: Royalgambital.privet.limeted</p>
-            </div>
-            <div class="f-sec">
-                <h4>Follow Us</h4>
-                <p>Email: Royalgambit.@gmail.com | Insta: royalgambit.100</p>
-                <p>FB: royalgambit.1734</p>
-            </div>
-            <div class="f-sec">
-                <h4>Legal</h4>
-                <p>Privacy Policy | Terms & Condition | FAQ</p>
-                <p>©2025 Royalgambit. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer>
+    <div id="resOverlay" class="hidden"><h2 id="resText"></h2></div>
+    <div id="logoModal" class="modal"><span class="close-modal">&times;</span><img src="logo.jpg" class="modal-img"></div>
 
     <script src="script.js"></script>
 </body>
