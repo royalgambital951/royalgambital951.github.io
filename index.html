@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Gambit PRO MAX</title>
+
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <h1 class="logo3d">Royal Gambit</h1>
+</div>
+
+<!-- AUTH -->
+<div id="authBox" class="glass">
+  <h2>Login / Signup</h2>
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="signup()">Signup</button>
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="hidden">
+  <header>
+    <h1>Royal Gambit</h1>
+    <button onclick="logout()">Logout</button>
+  </header>
+
+  <section class="profile">
+    <h3>Profile</h3>
+    <p id="userEmail"></p>
+  </section>
+
+  <section class="games">
+    <button onclick="startOnlineMatch()">Online Multiplayer</button>
+    <button onclick="loadLeaderboard()">Leaderboard</button>
+  </section>
+
+  <section id="leaderboard" class="hidden"></section>
+
+  <section id="gameArea" class="hidden">
+    <div id="ticBoard" class="board"></div>
+  </section>
+
+  <section id="adminPanel" class="hidden">
+    <h3>Admin Panel</h3>
+    <button onclick="getAllUsers()">View All Users</button>
+    <div id="adminData"></div>
+  </section>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
