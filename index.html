@@ -5,14 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Royal Gambit PRO MAX</title>
 
+<link rel="icon" href="logo.png">
 <link rel="manifest" href="manifest.json">
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 
@@ -20,46 +21,62 @@
 
 <!-- SPLASH -->
 <div id="splash">
-  <h1 class="logo3d">Royal Gambit</h1>
+  <div class="logo3d">Royal Gambit</div>
 </div>
 
 <!-- AUTH -->
 <div id="authBox" class="glass">
+  <img src="logo.png" class="logo-img">
   <h2>Login / Signup</h2>
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
   <button onclick="signup()">Signup</button>
   <button onclick="login()">Login</button>
 </div>
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="hidden">
-  <header>
-    <h1>Royal Gambit</h1>
-    <button onclick="logout()">Logout</button>
-  </header>
 
-  <section class="profile">
-    <h3>Profile</h3>
-    <p id="userEmail"></p>
-  </section>
+<header>
+  <img src="logo.png" class="logo-img">
+  <h1>Royal Gambit</h1>
+  <button onclick="logout()">Logout</button>
+</header>
 
-  <section class="games">
-    <button onclick="startOnlineMatch()">Online Multiplayer</button>
-    <button onclick="loadLeaderboard()">Leaderboard</button>
-  </section>
+<section class="profile glass">
+  <h3>Profile</h3>
+  <p id="userEmail"></p>
+</section>
 
-  <section id="leaderboard" class="hidden"></section>
+<section class="games glass">
+  <button onclick="startTicAI()">Tic Tac Toe AI</button>
+  <button onclick="startTicMulti()">2 Player Mode</button>
+  <button onclick="startOnlineMatch()">Online Multiplayer</button>
+  <button onclick="startSnake()">Snake PRO</button>
+  <button onclick="loadLeaderboard()">Leaderboard</button>
+</section>
 
-  <section id="gameArea" class="hidden">
-    <div id="ticBoard" class="board"></div>
-  </section>
+<section id="leaderboard" class="glass hidden"></section>
 
-  <section id="adminPanel" class="hidden">
-    <h3>Admin Panel</h3>
-    <button onclick="getAllUsers()">View All Users</button>
-    <div id="adminData"></div>
-  </section>
+<section id="gameArea" class="glass hidden">
+  <div class="game-top">
+    Level: <span id="level">1</span> |
+    Time: <span id="timer">0</span> |
+    Steps: <span id="steps">0</span> |
+    Score: <span id="score">0</span>
+  </div>
+
+  <div id="ticBoard" class="board hidden"></div>
+  <canvas id="snakeCanvas" width="400" height="400" class="hidden"></canvas>
+  <div id="result"></div>
+</section>
+
+<section id="adminPanel" class="glass hidden">
+  <h3>Admin Panel</h3>
+  <button onclick="getAllUsers()">View Users</button>
+  <div id="adminData"></div>
+</section>
+
 </div>
 
 <script src="script.js"></script>
