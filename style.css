@@ -7,12 +7,12 @@
 body{
     font-family:'Poppins',sans-serif;
     background:linear-gradient(135deg,#f5f7fa,#e4ebf5);
-    min-height:100vh;
     display:flex;
     flex-direction:column;
+    min-height:100vh;
 }
 
-/* SPLASH */
+/* Splash */
 #splash{
     position:fixed;
     inset:0;
@@ -24,124 +24,126 @@ body{
     z-index:9999;
     animation:fadeOut 3s forwards 2s;
 }
-#splash img{width:120px;}
-#splash h1{font-family:'Playfair Display';margin-top:20px;}
-
 @keyframes fadeOut{
     to{opacity:0;visibility:hidden;}
 }
 
-/* HEADER */
+/* Header */
 header{
     position:fixed;
     top:0;
     width:100%;
-    height:80px;
+    height:70px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:0 40px;
+    padding:0 20px;
     background:rgba(255,255,255,0.7);
     backdrop-filter:blur(15px);
     z-index:1000;
 }
 
-.brand{
+header h2{
     font-family:'Playfair Display';
-    font-size:26px;
 }
 
-.logo-container img{
-    width:50px;
+.logo{
+    width:45px;
     border-radius:50%;
     cursor:pointer;
 }
 
-/* FIX HEADER SPACE */
-#mainContent{
-    padding-top:100px;
-    flex:1;
+/* 3 Line Menu */
+.menu span{
+    display:block;
+    width:25px;
+    height:3px;
+    background:black;
+    margin:4px 0;
 }
 
-/* LOGO MODAL */
+/* Logo Modal */
 #logoModal{
     position:fixed;
     inset:0;
     display:none;
     justify-content:center;
     align-items:center;
-    background:rgba(0,0,0,0.4);
     backdrop-filter:blur(20px);
-    z-index:5000;   /* VERY HIGH */
+    background:rgba(0,0,0,0.4);
+    z-index:5000;
 }
 #logoModal img{
-    width:300px;
+    width:250px;
 }
 
-/* GAME GRID */
-.game-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:30px;
-    padding:40px;
+/* Main */
+#main{
+    padding-top:90px;
+    flex:1;
 }
-.game-card{
-    padding:60px;
-    background:rgba(255,255,255,0.6);
-    backdrop-filter:blur(10px);
-    border-radius:20px;
+
+/* Game Grid */
+#gameGrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+    padding:30px;
+}
+.card{
+    padding:50px;
     text-align:center;
+    background:white;
+    border-radius:15px;
     cursor:pointer;
     transition:0.3s;
 }
-.game-card:hover{
-    transform:translateY(-8px);
+.card:hover{
+    transform:translateY(-5px);
 }
 
-/* GAME AREA */
-#gameArea{
-    padding:40px;
-}
-.hidden{
-    display:none;
-}
-.game-top-bar{
+/* Game Area */
+.hidden{display:none;}
+
+.topBar{
     display:flex;
     justify-content:space-between;
-    margin-bottom:20px;
+    align-items:center;
+    padding:20px;
 }
-#gameCanvasContainer{
+
+#gameContainer{
     display:flex;
     justify-content:center;
     align-items:center;
     min-height:300px;
 }
 
-/* TIC TAC TOE */
+/* TicTacToe */
 .cell{
-    width:100px;
-    height:100px;
+    width:90px;
+    height:90px;
     background:white;
+    border-radius:10px;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-size:40px;
-    border-radius:15px;
+    font-size:35px;
     cursor:pointer;
 }
 
-/* RESULT */
-#resultDisplay{
-    font-size:60px;
+/* Result */
+#result{
     text-align:center;
+    font-size:50px;
     margin-top:20px;
     font-weight:bold;
 }
 
-/* FOOTER */
+/* Footer */
 footer{
     background:#111;
     color:white;
-    padding:30px;
+    padding:20px;
     text-align:center;
 }
