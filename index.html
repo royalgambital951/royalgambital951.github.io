@@ -1,76 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Gambit | Premium Gaming</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royal Gambit</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <audio id="bgMusic" loop><source src="bg-music.mp3" type="audio/mpeg"></audio>
+<header>
+  <div class="logo-container">
+    <img src="assets/logo.png" class="logo" id="logo">
+    <h1>Royal Gambit</h1>
+  </div>
 
-    <div class="wrapper">
-        <header>
-            <div class="header-inner">
-                <img src="logo.jpg" id="logoBtn" class="nav-logo" alt="Logo">
-                <h1 class="brand-title">Royal Gambit</h1>
-                <div class="menu-toggle"><span></span><span></span><span></span></div>
-            </div>
-        </header>
+  <div class="menu">&#9776;</div>
+</header>
 
-        <main class="container">
-            <section class="game-grid">
-                <div class="card" onclick="openGame('ttt')"><h3>Tic-Tac-Toe</h3><p>Smart AI Battle</p></div>
-                <div class="card" onclick="openGame('snake')"><h3>Snake 🐍</h3><p>Canvas Run</p></div>
-                <div class="card" onclick="openGame('puzzle')"><h3>Puzzle 🧩</h3><p>Logic Grid</p></div>
-                <div class="card" onclick="openGame('riddle')"><h3>Riddle</h3><p>The Sphinx</p></div>
-            </section>
-        </main>
+<div class="games">
+  <a href="tic.html" class="card">Tic Tac Toe</a>
+  <a href="snake.html" class="card">Snake 🐍</a>
+  <a href="puzzle.html" class="card">Puzzle 🧩</a>
+</div>
 
-        <footer>
-            <div class="footer-grid">
-                <div class="f-sec">
-                    <h4>About Us</h4>
-                    <p>Mobile: 7045678424</p>
-                    <p>Address: Floor 3, Apartment 451, Kishangarh, Ajmer, Raj. 305802</p>
-                    <p>Owner: Royalgambital.privet.limeted</p>
-                </div>
-                <div class="f-sec">
-                    <h4>Follow Us</h4>
-                    <p>Email: Royalgambit.@gmail.com</p>
-                    <p>Insta: royalgambit.100</p>
-                    <p>FB: royalgambit.1734</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>Privacy Policy | Terms & Condition | FAQ</p>
-                <p>©2025 Royalgambit. All Rights Reserved.</p>
-            </div>
-        </footer>
-    </div>
+<footer>
+  <h3>About Us</h3>
+  <p>Mobile: 7045678424</p>
+  <p>Address: Floor 3, Apartment 451, Kishangarh, Ajmer, Raj. 305802</p>
+  <p>Owner: Royalgambital.privet.limeted</p>
 
-    <div id="gameOverlay" class="hidden">
-        <div class="game-box">
-            <div class="game-head">
-                <div class="stats-left">
-                    <span>Lvl: <b id="lvl">1</b></span> | <span>Steps: <b id="stp">0</b></span>
-                </div>
-                <div class="controls-right">
-                    <button id="soundBtn" onclick="toggleSound()">🔊 ON</button>
-                    <button id="exitBtn" onclick="closeGame()">Exit</button>
-                </div>
-            </div>
-            <div id="gameArea">
-                </div>
-        </div>
-    </div>
+  <h4>Follow Us</h4>
+  <p>Email: Royalgambit.@gmail.com</p>
+  <p>Instagram: royalgambit.100</p>
+  <p>Facebook: royalgambit.1734</p>
 
-    <div id="resOverlay" class="hidden"><h2 id="resText"></h2></div>
-    <div id="logoModal" class="modal"><span class="close-modal">&times;</span><img src="logo.jpg" class="modal-img"></div>
+  <p class="policy">
+    Privacy Policy | Terms & Condition | FAQ
+  </p>
+  <p>©2025 Royalgambit. All Rights Reserved.</p>
+</footer>
 
-    <script src="script.js"></script>
+<div class="popup" id="popup">
+  <img src="assets/logo.png">
+</div>
+
+<script src="js/main.js"></script>
 </body>
 </html>
