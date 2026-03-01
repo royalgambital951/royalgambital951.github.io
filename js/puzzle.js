@@ -1,30 +1,25 @@
 let puzzle=document.getElementById("puzzle");
-let steps=0,time=0;
+let moves=0;
+let time=0;
 
 puzzle.style.display="grid";
 puzzle.style.gridTemplateColumns="repeat(3,100px)";
 puzzle.style.gap="5px";
 puzzle.style.justifyContent="center";
 
-let numbers=[1,2,3,4,5,6,7,8,""];
-numbers.sort(()=>Math.random()-0.5);
-
-numbers.forEach(n=>{
-let div=document.createElement("div");
-div.innerText=n;
-div.style.height="100px";
-div.style.background="white";
-div.style.display="flex";
-div.style.alignItems="center";
-div.style.justifyContent="center";
-div.style.fontSize="25px";
-div.onclick=()=>move(div);
-puzzle.appendChild(div);
-});
-
-function move(div){
-steps++;
-document.getElementById("steps").innerText="Steps: "+steps;
+for(let i=1;i<=9;i++){
+let box=document.createElement("div");
+box.innerText=i;
+box.style.height="100px";
+box.style.display="flex";
+box.style.alignItems="center";
+box.style.justifyContent="center";
+box.style.border="1px solid #ccc";
+box.onclick=()=>{
+moves++;
+document.getElementById("steps").innerText="Moves: "+moves;
+};
+puzzle.appendChild(box);
 }
 
 setInterval(()=>{
