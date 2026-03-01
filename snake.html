@@ -4,24 +4,19 @@
 <title>Snake Game</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body onload="initSnake(); startGame();">
+<body>
+
+<h2>Snake Game</h2>
 
 <div class="game-header">
-  <div id="timer">Time: 0s</div>
-  <div id="steps">Steps: 0</div>
-  <div class="settings" onclick="toggleSound()">🔊</div>
+<span id="timer">Time: 0</span>
+<span id="steps">Steps: 0</span>
+<button onclick="toggleSound()">🔊</button>
 </div>
 
-<canvas id="snakeCanvas" width="400" height="400"></canvas>
+<canvas id="game" width="300" height="300"></canvas>
 
-<div class="controls">
-  <button onclick="setDir('up')">⬆️</button><br>
-  <button onclick="setDir('left')">⬅️</button>
-  <button onclick="setDir('right')">➡️</button><br>
-  <button onclick="setDir('down')">⬇️</button>
-</div>
-
-<div id="winScreen" class="win-screen"></div>
+<button onclick="restart()">Restart</button>
 
 <script src="js/main.js"></script>
 <script src="js/snake.js"></script>
