@@ -1,45 +1,392 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Royal Gambit</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Gambit | Professional Gaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-gold: #D4AF37;
+            --dark-gray: #333;
+            --light-bg: #f9f9f9;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body { background-color: var(--light-bg); color: var(--dark-gray); overflow-x: hidden; }
+
+        /* --- Header Section --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+        
+        #main-logo {
+            width: 50px; height: 50px; border-radius: 50%; 
+            cursor: pointer; border: 2px solid var(--primary-gold);
+            transition: transform 0.3s;
+        }
+
+        .site-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem; color: var(--primary-gold); font-weight: bold;
+        }
+
+        .menu-icon { font-size: 24px; cursor: pointer; }
+
+        /* --- Logo Modal & Blur --- */
+        #logo-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+            z-index: 2000; justify-content: center; align-items: center;
+        }
+        #big-logo { width: 300px; height: 300px; border-radius: 50%; box-shadow: 0 0 30px rgba(0,0,0,0.2); }
+
+        /* --- Games Section --- */
+        .games-container { padding: 50px 5%; text-align: center; }
+        .game-card {
+            background: white; border-radius: 15px; padding: 20px; margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #eee;
+        }
+        .game-controls { margin: 15px 0; display: flex; justify-content: center; gap: 20px; font-weight: bold; }
+        
+        /* Tic-Tac-Toe Grid */
+        .ttt-grid {
+            display: grid; grid-template-columns: repeat(3, 100px); gap: 5px; justify-content: center; margin: 20px auto;
+        }
+        .cell {
+            width: 100px; height: 100px; background: #f0f0f0; border: 2px solid var(--primary-gold);
+            display: flex; justify-content: center; align-items: center; font-size: 2rem; cursor: pointer;
+        }
+
+        /* Snake Canvas */
+        canvas { background: #000; display: block; margin: 0 auto; border-radius: 8px; }
+        .d-pad { display: grid; grid-template-columns: repeat(3, 50px); gap: 5px; justify-content: center; margin-top: 15px; }
+        .d-btn { width: 50px; height: 50px; background: #ddd; border: none; border-radius: 5px; font-weight: bold; }
+
+        /* Puzzle Grid */
+        .puzzle-grid {
+            display: grid; grid-template-columns: repeat(4, 60px); gap: 5px; justify-content: center; margin: 20px auto;
+        }
+        .p-cell { width: 60px; height: 60px; background: var(--primary-gold); color: white; display: flex; 
+                  justify-content: center; align-items: center; cursor: pointer; font-weight: bold; }
+
+        /* --- Footer Section --- */
+        footer {
+            background: #1a1a1a; color: white; padding: 40px 5%; margin-top: 50px; line-height: 1.6;
+        }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .footer-bottom { border-top: 1px solid #333; margin-top: 30px; padding-top: 20px; text-align: center; font-size: 0.9rem; }
+        a { color: var(--primary-gold); text-decoration: none; }
+
+        /* Win/Loss Message */
+        #game-result {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 4rem; font-weight: bold; z-index: 3000; display: none; text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+    </style>
 </head>
 <body>
 
-<header>
-<div class="logo-box">
-<img src="logo.png" class="logo">
-<h1>Royal Gambit</h1>
-</div>
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" id="main-logo" alt="RG Logo" onclick="toggleLogo(true)">
+            <span class="site-title">Royal Gambit</span>
+        </div>
+        <div class="menu-icon">☰</div>
+    </header>
 
-<nav>
-<a href="index.html">Home</a>
-<a href="tictactoe.html">Tic Tac Toe</a>
-<a href="snake.html">Snake</a>
-<a href="puzzle.html">Puzzle</a>
-</nav>
-</header>
+    <div id="logo-modal" onclick="toggleLogo(false)">
+        <img src="logo.png" id="big-logo">
+    </div>
 
-<section class="hero">
-<h2>Welcome to Royal Gambit</h2>
-<p>Play Premium Classic Games</p>
+    <div id="game-result"></div>
 
-<div class="game-links">
-<a href="tictactoe.html" class="card">Tic Tac Toe</a>
-<a href="snake.html" class="card">Snake Game</a>
-<a href="puzzle.html" class="card">Hard Puzzle</a>
-</div>
-</section>
+    <main class="games-container">
+        
+        <section class="game-card">
+            <h2>Tic-Tac-Toe</h2>
+            <div class="game-controls">
+                <span>Time: <span id="ttt-timer">0</span>s</span>
+                <span>Steps: <span id="ttt-steps">0</span></span>
+                <button onclick="setMode('friend')">With Friend</button>
+                <button onclick="setMode('ai')">With Computer (Hard)</button>
+            </div>
+            <div class="ttt-grid" id="ttt-board"></div>
+            <button onclick="resetTTT()">Restart</button>
+        </section>
 
-<footer>
-<div class="footer-content">
-<h3>Royal Gambit</h3>
-<p>Created by Ronak Kumawat</p>
-<p>Premium Multi Game Website</p>
-</div>
-</footer>
+        <section class="game-card">
+            <h2>Snake 🐍</h2>
+            <div class="game-controls">
+                <span>Score: <span id="snake-score">0</span></span>
+                <button onclick="toggleMusic()">🎵 Sound On/Off</button>
+            </div>
+            <canvas id="snakeGame" width="300" height="300"></canvas>
+            <div class="d-pad">
+                <div></div><button class="d-btn" onclick="moveSnake('UP')">▲</button><div></div>
+                <button class="d-btn" onclick="moveSnake('LEFT')">◀</button>
+                <button class="d-btn" onclick="moveSnake('DOWN')">▼</button>
+                <button class="d-btn" onclick="moveSnake('RIGHT')">▶</button>
+            </div>
+        </section>
 
+        <section class="game-card">
+            <h2>Puzzle 🧩 (4x4)</h2>
+            <div class="game-controls">
+                <span>Steps: <span id="puzzle-steps">0</span></span>
+                <button onclick="initPuzzle()">Shuffle & Start</button>
+            </div>
+            <div class="puzzle-grid" id="puzzle-board"></div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <h3>About Us</h3>
+                <p>Mobile: +91 7045678424</p>
+                <p>Address: Floor 3, Apartment 451, Kishangarh, Ajmer, Raj. 305802</p>
+                <p>Owner: Royalgambital.private.limited</p>
+            </div>
+            <div>
+                <h3>Follow Us</h3>
+                <p>Email: Royalgambit.@gmail.com</p>
+                <p>Instagram: @royalgambit.100</p>
+                <p>Facebook: royalgambit.1734</p>
+                <p>Twitter (X): @royalgambit_x</p>
+            </div>
+            <div>
+                <h3>Information</h3>
+                <p><a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a> | <a href="#">FAQ</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Royal Gambit. All Rights Reserved.
+        </div>
+    </footer>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // --- Global Helpers ---
+        let musicOn = false;
+        const bgMusic = document.getElementById('bgMusic');
+
+        function toggleMusic() {
+            if(!musicOn) { bgMusic.play(); musicOn = true; } 
+            else { bgMusic.pause(); musicOn = false; }
+        }
+
+        function toggleLogo(show) {
+            document.getElementById('logo-modal').style.display = show ? 'flex' : 'none';
+        }
+
+        function showResult(text, color) {
+            const res = document.getElementById('game-result');
+            res.innerText = text;
+            res.style.color = color;
+            res.style.display = 'block';
+            if(text.includes("WIN")) {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }
+            setTimeout(() => { res.style.display = 'none'; }, 3000);
+        }
+
+        // --- Tic-Tac-Toe Logic (Minimax AI) ---
+        let board = ["","","","","","","","",""];
+        let currentPlayer = "X";
+        let mode = 'ai';
+        let tttSteps = 0;
+
+        function setMode(m) { mode = m; resetTTT(); }
+
+        function createTTTBoard() {
+            const container = document.getElementById('ttt-board');
+            container.innerHTML = '';
+            board.forEach((cell, i) => {
+                const div = document.createElement('div');
+                div.classList.add('cell');
+                div.innerText = cell;
+                div.onclick = () => handleMove(i);
+                container.appendChild(div);
+            });
+        }
+
+        function handleMove(i) {
+            if(board[i] !== "" || checkWin(board)) return;
+            board[i] = "X";
+            tttSteps++;
+            document.getElementById('ttt-steps').innerText = tttSteps;
+            createTTTBoard();
+            if(checkWin(board)) return showResult("YOU WIN! 🎉", "#D4AF37");
+            if(!board.includes("")) return showResult("DRAW!", "#333");
+
+            if(mode === 'ai') {
+                setTimeout(aiMove, 500);
+            } else {
+                currentPlayer = "O";
+            }
+        }
+
+        function aiMove() {
+            let bestScore = -Infinity;
+            let move;
+            for(let i=0; i<9; i++) {
+                if(board[i] === "") {
+                    board[i] = "O";
+                    let score = minimax(board, 0, false);
+                    board[i] = "";
+                    if(score > bestScore) { bestScore = score; move = i; }
+                }
+            }
+            board[move] = "O";
+            createTTTBoard();
+            if(checkWin(board)) showResult("AI WINS!", "red");
+        }
+
+        function minimax(currBoard, depth, isMaximizing) {
+            if(checkWin(currBoard) === "O") return 10;
+            if(checkWin(currBoard) === "X") return -10;
+            if(!currBoard.includes("")) return 0;
+
+            if(isMaximizing) {
+                let best = -Infinity;
+                for(let i=0; i<9; i++) {
+                    if(currBoard[i] === "") {
+                        currBoard[i] = "O";
+                        best = Math.max(best, minimax(currBoard, depth+1, false));
+                        currBoard[i] = "";
+                    }
+                }
+                return best;
+            } else {
+                let best = Infinity;
+                for(let i=0; i<9; i++) {
+                    if(currBoard[i] === "") {
+                        currBoard[i] = "X";
+                        best = Math.min(best, minimax(currBoard, depth+1, true));
+                        currBoard[i] = "";
+                    }
+                }
+                return best;
+            }
+        }
+
+        function checkWin(b) {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            for(let s of wins) {
+                if(b[s[0]] && b[s[0]] === b[s[1]] && b[s[0]] === b[s[2]]) return b[s[0]];
+            }
+            return null;
+        }
+
+        function resetTTT() {
+            board = ["","","","","","","","",""];
+            tttSteps = 0;
+            document.getElementById('ttt-steps').innerText = 0;
+            createTTTBoard();
+        }
+
+        // --- Snake Game Logic ---
+        const canvas = document.getElementById("snakeGame");
+        const ctx = canvas.getContext("2d");
+        let box = 20;
+        let snake = [{x: 10 * box, y: 10 * box}];
+        let food = { x: Math.floor(Math.random()*15)*box, y: Math.floor(Math.random()*15)*box };
+        let d;
+
+        function moveSnake(dir) { d = dir; if(!musicOn) toggleMusic(); }
+
+        function drawSnake() {
+            ctx.fillStyle = "black"; ctx.fillRect(0,0,300,300);
+            for(let i=0; i<snake.length; i++) {
+                ctx.fillStyle = (i==0) ? "gold" : "white";
+                ctx.fillRect(snake[i].x, snake[i].y, box, box);
+            }
+            ctx.fillStyle = "red"; ctx.fillRect(food.x, food.y, box, box);
+
+            let snakeX = snake[0].x; let snakeY = snake[0].y;
+            if(d == "LEFT") snakeX -= box;
+            if(d == "UP") snakeY -= box;
+            if(d == "RIGHT") snakeX += box;
+            if(d == "DOWN") snakeY += box;
+
+            if(snakeX == food.x && snakeY == food.y) {
+                food = { x: Math.floor(Math.random()*14+1)*box, y: Math.floor(Math.random()*14+1)*box };
+                document.getElementById('snake-score').innerText = snake.length;
+            } else {
+                snake.pop();
+            }
+
+            let newHead = {x: snakeX, y: snakeY};
+            if(snakeX < 0 || snakeY < 0 || snakeX >= 300 || snakeY >= 300 || collision(newHead, snake)) {
+                clearInterval(gameInterval);
+                showResult("GAME OVER", "red");
+            }
+            snake.unshift(newHead);
+        }
+
+        function collision(head, array) {
+            for(let i=0; i<array.length; i++) if(head.x == array[i].x && head.y == array[i].y) return true;
+            return false;
+        }
+        let gameInterval = setInterval(drawSnake, 150);
+
+        // --- Puzzle Logic ---
+        let puzzleSteps = 0;
+        let puzzleArr = [...Array(15).keys()].map(x => x+1).concat([null]);
+
+        function initPuzzle() {
+            puzzleArr.sort(() => Math.random() - 0.5);
+            renderPuzzle();
+            puzzleSteps = 0;
+            document.getElementById('puzzle-steps').innerText = 0;
+        }
+
+        function renderPuzzle() {
+            const board = document.getElementById('puzzle-board');
+            board.innerHTML = '';
+            puzzleArr.forEach((val, i) => {
+                const div = document.createElement('div');
+                div.className = 'p-cell';
+                if(!val) div.style.background = "#eee";
+                div.innerText = val || "";
+                div.onclick = () => swapPuzzle(i);
+                board.appendChild(div);
+            });
+        }
+
+        function swapPuzzle(i) {
+            const emptyIdx = puzzleArr.indexOf(null);
+            const validMoves = [i-1, i+1, i-4, i+4];
+            if(validMoves.includes(emptyIdx)) {
+                [puzzleArr[i], puzzleArr[emptyIdx]] = [puzzleArr[emptyIdx], puzzleArr[i]];
+                puzzleSteps++;
+                document.getElementById('puzzle-steps').innerText = puzzleSteps;
+                renderPuzzle();
+                if(puzzleArr.every((v, idx) => v === null || v === idx + 1)) showResult("PUZZLE SOLVED!", "#D4AF37");
+            }
+        }
+
+        // Initialize
+        createTTTBoard();
+        initPuzzle();
+    </script>
 </body>
 </html>
