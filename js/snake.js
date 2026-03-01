@@ -1,52 +1,44 @@
-let canvas,ctx;
-let snake,food,dir;
-let size=20;
+let canvas=document.getElementById("game");
+let ctx=canvas.getContext("2d");
 
-function initSnake(){
-  canvas=document.getElementById("snakeCanvas");
-  ctx=canvas.getContext("2d");
-  snake=[{x:200,y:200}];
-  dir="right";
-  food=randomFood();
-  setInterval(drawSnake,120);
+let snake=[{x:10,y:10}];
+let food={x:5,y:5};
+let dx=1,dy=0;
+let steps=0,time=0;
+
+function draw(){
+ctx.clearRect(0,0,300,300);
+snake.forEach(s=>{
+ctx.fillRect(s.x*15,s.y*15,15,15);
+});
+ctx.fillRect(food.x*15,food.y*15,15,15);
 }
 
-function randomFood(){
-  return{
-    x:Math.floor(Math.random()*20)*20,
-    y:Math.floor(Math.random()*20)*20
-  }
+function update(){
+let head={x:snake[0].x+dx,y:snake[0].y+dy};
+snake.unshift(head);
+if(head.x==food.x && head.y==food.y){
+food.x=Math.floor(Math.random()*20);
+food.y=Math.floor(Math.random()*20);
+steps++;
+document.getElementById("steps").innerText="Steps: "+steps;
+}else{
+snake.pop();
+}
+draw();
 }
 
-function setDir(d){
-  dir=d;
-  addStep();
-}
+document.addEventListener("keydown",e=>{
+if(e.key=="ArrowUp"){dx=0;dy=-1;}
+if(e.key=="ArrowDown"){dx=0;dy=1;}
+if(e.key=="ArrowLeft"){dx=-1;dy=0;}
+if(e.key=="ArrowRight"){dx=1;dy=0;}
+});
 
-function drawSnake(){
-  ctx.clearRect(0,0,400,400);
+setInterval(()=>{
+update();
+time++;
+document.getElementById("timer").innerText="Time: "+time;
+},200);
 
-  let head={...snake[0]};
-  if(dir=="right") head.x+=size;
-  if(dir=="left") head.x-=size;
-  if(dir=="up") head.y-=size;
-  if(dir=="down") head.y+=size;
-
-  snake.unshift(head);
-
-  if(head.x==food.x && head.y==food.y){
-    food=randomFood();
-  }else{
-    snake.pop();
-  }
-
-  if(head.x<0||head.y<0||head.x>=400||head.y>=400){
-    showWin("GAME OVER");
-  }
-
-  ctx.fillStyle="green";
-  snake.forEach(s=>ctx.fillRect(s.x,s.y,size,size));
-
-  ctx.fillStyle="red";
-  ctx.fillRect(food.x,food.y,size,size);
-}
+function restart(){location.reload();}
