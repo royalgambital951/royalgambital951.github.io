@@ -1,23 +1,173 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Puzzle</title>
-<link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Puzzle - Royal Gambit</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.game-container{
+text-align:center;
+padding:20px;
+}
+
+.puzzle{
+width:300px;
+display:grid;
+grid-template-columns:repeat(3,100px);
+gap:5px;
+margin:20px auto;
+}
+
+.tile{
+width:100px;
+height:100px;
+background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:25px;
+cursor:pointer;
+box-shadow:0 0 5px rgba(0,0,0,0.2);
+}
+
+.empty{
+background:#ddd;
+}
+
+#result{
+font-size:28px;
+font-weight:bold;
+margin-top:15px;
+}
+
+.controls button{
+padding:8px 15px;
+margin:5px;
+}
+
+.confetti{
+position:fixed;
+width:10px;
+height:10px;
+animation:fall 3s linear forwards;
+}
+
+@keyframes fall{
+to{transform:translateY(600px);opacity:0;}
+}
+</style>
 </head>
+
 <body>
 
-<h2>Puzzle Game</h2>
+<header>
+<div class="logo-section">
+<h1>Royal Gambit</h1>
+</div>
+<a href="index.html" class="btn">Home</a>
+</header>
 
-<div class="game-header">
-<span id="timer">Time: 0</span>
-<span id="steps">Moves: 0</span>
-<button onclick="toggleSound()">🔊</button>
+<div class="game-container">
+<h2>Hard Puzzle 🧩</h2>
+
+<div>
+Time: <span id="timer">0</span>s |
+Steps: <span id="steps">0</span>
 </div>
 
-<div id="puzzle"></div>
-<button onclick="restart()">Restart</button>
+<div class="puzzle" id="puzzle"></div>
 
-<script src="js/main.js"></script>
-<script src="js/puzzle.js"></script>
+<div id="result"></div>
+
+<div class="controls">
+<button onclick="startGame()">Start</button>
+<button onclick="restart()">Restart</button>
+</div>
+
+</div>
+
+<script>
+let tiles=[];
+let steps=0;
+let timer=0;
+let interval;
+
+function startGame(){
+tiles=[1,2,3,4,5,6,7,8,""];
+shuffle(tiles);
+steps=0;
+timer=0;
+document.getElementById("steps").innerText=0;
+document.getElementById("timer").innerText=0;
+document.getElementById("result").innerText="";
+clearInterval(interval);
+interval=setInterval(()=>{
+timer++;
+document.getElementById("timer").innerText=timer;
+},1000);
+render();
+}
+
+function shuffle(arr){
+for(let i=arr.length-1;i>0;i--){
+let j=Math.floor(Math.random()*(i+1));
+[arr[i],arr[j]]=[arr[j],arr[i]];
+}
+}
+
+function render(){
+let puzzle=document.getElementById("puzzle");
+puzzle.innerHTML="";
+tiles.forEach((num,index)=>{
+let tile=document.createElement("div");
+tile.classList.add("tile");
+if(num===""){
+tile.classList.add("empty");
+}else{
+tile.innerText=num;
+tile.onclick=()=>move(index);
+}
+puzzle.appendChild(tile);
+});
+}
+
+function move(index){
+let emptyIndex=tiles.indexOf("");
+let validMoves=[index-1,index+1,index-3,index+3];
+if(validMoves.includes(emptyIndex)){
+[tiles[index],tiles[emptyIndex]]=[tiles[emptyIndex],tiles[index]];
+steps++;
+document.getElementById("steps").innerText=steps;
+render();
+checkWin();
+}
+}
+
+function checkWin(){
+if(JSON.stringify(tiles)===JSON.stringify([1,2,3,4,5,6,7,8,""])){
+clearInterval(interval);
+document.getElementById("result").innerText="You Win!";
+createConfetti();
+}
+}
+
+function restart(){
+startGame();
+}
+
+function createConfetti(){
+for(let i=0;i<80;i++){
+let conf=document.createElement("div");
+conf.classList.add("confetti");
+conf.style.left=Math.random()*100+"%";
+conf.style.background="hsl("+Math.random()*360+",100%,50%)";
+document.body.appendChild(conf);
+setTimeout(()=>conf.remove(),3000);
+}
+}
+</script>
+
 </body>
 </html>
