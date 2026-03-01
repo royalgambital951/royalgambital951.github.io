@@ -1,45 +1,35 @@
-let arr=[1,2,3,4,5,6,7,8,""];
-let board=document.getElementById("puzzleBoard");
+let puzzle=document.getElementById("puzzle");
+let steps=0,time=0;
 
-function initPuzzle(){
-  board.style.display="grid";
-  board.style.gridTemplateColumns="repeat(3,100px)";
-  shuffle();
-  render();
+puzzle.style.display="grid";
+puzzle.style.gridTemplateColumns="repeat(3,100px)";
+puzzle.style.gap="5px";
+puzzle.style.justifyContent="center";
+
+let numbers=[1,2,3,4,5,6,7,8,""];
+numbers.sort(()=>Math.random()-0.5);
+
+numbers.forEach(n=>{
+let div=document.createElement("div");
+div.innerText=n;
+div.style.height="100px";
+div.style.background="white";
+div.style.display="flex";
+div.style.alignItems="center";
+div.style.justifyContent="center";
+div.style.fontSize="25px";
+div.onclick=()=>move(div);
+puzzle.appendChild(div);
+});
+
+function move(div){
+steps++;
+document.getElementById("steps").innerText="Steps: "+steps;
 }
 
-function shuffle(){
-  arr.sort(()=>Math.random()-0.5);
-}
+setInterval(()=>{
+time++;
+document.getElementById("timer").innerText="Time: "+time;
+},1000);
 
-function render(){
-  board.innerHTML="";
-  arr.forEach((n,i)=>{
-    let d=document.createElement("div");
-    d.style.height="100px";
-    d.style.display="flex";
-    d.style.justifyContent="center";
-    d.style.alignItems="center";
-    d.style.background="#fff";
-    d.style.fontSize="30px";
-    d.innerText=n;
-    d.onclick=()=>move(i);
-    board.appendChild(d);
-  });
-}
-
-function move(i){
-  let empty=arr.indexOf("");
-  if([i-1,i+1,i-3,i+3].includes(empty)){
-    [arr[i],arr[empty]]=[arr[empty],arr[i]];
-    addStep();
-    render();
-    checkWin();
-  }
-}
-
-function checkWin(){
-  if(arr.join()=="1,2,3,4,5,6,7,8,"){
-    showWin("YOU WIN 🎉");
-  }
-}
+function restart(){location.reload();}
