@@ -47,3 +47,4 @@ function confettiBlast(){
     setTimeout(()=>c.remove(),3000);
   }
 }
+let music = new Audio("assets/bg-music.mp3");
