@@ -1,211 +1,164 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Snake - Royal Gambit</title>
+<title>Snake Game - Royal Gambit</title>
 <link rel="stylesheet" href="style.css">
-
-<style>
-.game-container{
-text-align:center;
-padding:20px;
-}
-
-canvas{
-background:#fff;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
-margin-top:15px;
-}
-
-.controls{
-margin-top:15px;
-}
-
-.controls button{
-padding:8px 15px;
-margin:5px;
-}
-
-.mobile-controls{
-margin-top:15px;
-}
-
-.mobile-controls button{
-width:60px;
-height:60px;
-margin:5px;
-font-size:18px;
-}
-
-#result{
-font-size:28px;
-font-weight:bold;
-margin-top:15px;
-}
-
-.confetti{
-position:fixed;
-width:10px;
-height:10px;
-animation:fall 3s linear forwards;
-}
-
-@keyframes fall{
-to{transform:translateY(600px);opacity:0;}
-}
-</style>
 </head>
-
 <body>
 
 <header>
-<div class="logo-section">
+<div class="logo-box">
+<img src="logo.png" class="logo">
 <h1>Royal Gambit</h1>
 </div>
-<a href="index.html" class="btn">Home</a>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="tictactoe.html">Tic Tac Toe</a>
+<a href="snake.html">Snake</a>
+<a href="puzzle.html">Puzzle</a>
+</nav>
 </header>
 
-<div class="game-container">
-<h2>Snake Game 🐍</h2>
+<section class="game-section">
 
-<div>
-Time: <span id="timer">0</span>s |
-Score: <span id="score">0</span>
+<h2>Snake Game</h2>
+
+<div class="game-info">
+<span>Score: <span id="score">0</span></span>
+<span>Time: <span id="timer">0</span>s</span>
 </div>
 
-<canvas id="game" width="300" height="300"></canvas>
-
-<div id="result"></div>
+<canvas id="gameCanvas" width="400" height="400"></canvas>
 
 <div class="controls">
-<button onclick="startGame()">Start</button>
-<button onclick="restart()">Restart</button>
-<button onclick="toggleSound()">Sound On/Off</button>
+<button onclick="restartGame()">Restart</button>
+<button onclick="toggleSound()">🔊 Sound</button>
 </div>
 
+<!-- Mobile Controls -->
 <div class="mobile-controls">
-<br>
-<button onclick="setDirection('UP')">↑</button><br>
-<button onclick="setDirection('LEFT')">←</button>
-<button onclick="setDirection('DOWN')">↓</button>
-<button onclick="setDirection('RIGHT')">→</button>
+<button onclick="changeDirection('up')">⬆</button>
+<div>
+<button onclick="changeDirection('left')">⬅</button>
+<button onclick="changeDirection('down')">⬇</button>
+<button onclick="changeDirection('right')">➡</button>
+</div>
 </div>
 
-<audio id="music" src="music.mp3" loop></audio>
+</section>
 
-</div>
+<footer>
+<p>© 2025 Royal Gambit</p>
+</footer>
 
 <script>
-const canvas=document.getElementById("game");
-const ctx=canvas.getContext("2d");
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
-let box=15;
-let snake;
-let direction;
-let food;
-let score;
-let timer=0;
-let interval;
-let timerInterval;
-let music=document.getElementById("music");
+let box = 20;
+let snake = [{x: 200, y: 200}];
+let food = randomFood();
+let direction = "RIGHT";
+let score = 0;
+let timer = 0;
+let soundOn = true;
+let game;
 
-function startGame(){
-snake=[{x:150,y:150}];
-direction="RIGHT";
-score=0;
-timer=0;
-document.getElementById("score").innerText=0;
-document.getElementById("timer").innerText=0;
-document.getElementById("result").innerText="";
-food={
-x:Math.floor(Math.random()*20)*box,
-y:Math.floor(Math.random()*20)*box
+const eatSound = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-game-ball-tap-2073.mp3");
+
+function randomFood() {
+return {
+x: Math.floor(Math.random()*20)*box,
+y: Math.floor(Math.random()*20)*box
 };
-
-clearInterval(interval);
-clearInterval(timerInterval);
-
-interval=setInterval(draw,100);
-timerInterval=setInterval(()=>{
-timer++;
-document.getElementById("timer").innerText=timer;
-},1000);
-
-music.play();
 }
 
-function draw(){
-ctx.clearRect(0,0,300,300);
+function draw() {
+ctx.fillStyle = "#f5f5f5";
+ctx.fillRect(0,0,400,400);
 
-snake.forEach((part)=>{
-ctx.fillStyle="green";
-ctx.fillRect(part.x,part.y,box,box);
-});
+for(let i=0;i<snake.length;i++){
+ctx.fillStyle = i==0 ? "#222" : "#777";
+ctx.fillRect(snake[i].x, snake[i].y, box, box);
+}
 
-ctx.fillStyle="red";
-ctx.fillRect(food.x,food.y,box,box);
+ctx.fillStyle = "gold";
+ctx.fillRect(food.x, food.y, box, box);
 
-let headX=snake[0].x;
-let headY=snake[0].y;
+let headX = snake[0].x;
+let headY = snake[0].y;
 
-if(direction==="LEFT") headX-=box;
-if(direction==="RIGHT") headX+=box;
-if(direction==="UP") headY-=box;
-if(direction==="DOWN") headY+=box;
+if(direction=="LEFT") headX -= box;
+if(direction=="RIGHT") headX += box;
+if(direction=="UP") headY -= box;
+if(direction=="DOWN") headY += box;
 
-if(headX===food.x && headY===food.y){
+if(headX==food.x && headY==food.y){
 score++;
-document.getElementById("score").innerText=score;
-food={
-x:Math.floor(Math.random()*20)*box,
-y:Math.floor(Math.random()*20)*box
-};
+document.getElementById("score").innerText = score;
+food = randomFood();
+if(soundOn) eatSound.play();
 }else{
 snake.pop();
 }
 
-let newHead={x:headX,y:headY};
+let newHead = {x: headX, y: headY};
 
-if(headX<0||headY<0||headX>=300||headY>=300||
-snake.some(part=>part.x===headX && part.y===headY)){
-endGame();
-return;
+if(headX<0 || headY<0 || headX>=400 || headY>=400 || collision(newHead,snake)){
+clearInterval(game);
+alert("Game Over! Score: "+score);
 }
 
 snake.unshift(newHead);
 }
 
-function endGame(){
-clearInterval(interval);
-clearInterval(timerInterval);
-document.getElementById("result").innerText="Game Over!";
-createConfetti();
+function collision(head,array){
+for(let i=0;i<array.length;i++){
+if(head.x==array[i].x && head.y==array[i].y) return true;
+}
+return false;
 }
 
-function restart(){
-startGame();
+document.addEventListener("keydown",function(e){
+if(e.key=="ArrowLeft" && direction!="RIGHT") direction="LEFT";
+if(e.key=="ArrowUp" && direction!="DOWN") direction="UP";
+if(e.key=="ArrowRight" && direction!="LEFT") direction="RIGHT";
+if(e.key=="ArrowDown" && direction!="UP") direction="DOWN";
+});
+
+function changeDirection(dir){
+if(dir=="left" && direction!="RIGHT") direction="LEFT";
+if(dir=="up" && direction!="DOWN") direction="UP";
+if(dir=="right" && direction!="LEFT") direction="RIGHT";
+if(dir=="down" && direction!="UP") direction="DOWN";
 }
 
-function setDirection(dir){
-direction=dir;
+function restartGame(){
+snake = [{x:200,y:200}];
+direction="RIGHT";
+score=0;
+timer=0;
+document.getElementById("score").innerText=0;
+document.getElementById("timer").innerText=0;
+food=randomFood();
+clearInterval(game);
+game=setInterval(draw,120);
 }
 
 function toggleSound(){
-if(music.paused) music.play();
-else music.pause();
+soundOn=!soundOn;
+alert(soundOn?"Sound On":"Sound Off");
 }
 
-function createConfetti(){
-for(let i=0;i<80;i++){
-let conf=document.createElement("div");
-conf.classList.add("confetti");
-conf.style.left=Math.random()*100+"%";
-conf.style.background="hsl("+Math.random()*360+",100%,50%)";
-document.body.appendChild(conf);
-setTimeout(()=>conf.remove(),3000);
-}
-}
+setInterval(()=>{
+timer++;
+document.getElementById("timer").innerText=timer;
+},1000);
+
+game=setInterval(draw,120);
 </script>
 
 </body>
