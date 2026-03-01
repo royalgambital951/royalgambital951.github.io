@@ -1,81 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tic Tac Toe - Royal Gambit</title>
 <link rel="stylesheet" href="style.css">
-<style>
-.game-container{
-text-align:center;
-padding:30px;
-}
 
+<style>
 .board{
 display:grid;
 grid-template-columns:repeat(3,100px);
-gap:5px;
+gap:8px;
 justify-content:center;
-margin:20px auto;
+margin:25px auto;
 }
 
 .cell{
 width:100px;
 height:100px;
 background:white;
-font-size:40px;
 display:flex;
 align-items:center;
 justify-content:center;
-cursor:pointer;
-box-shadow:0 0 5px rgba(0,0,0,0.2);
-}
-
-.info{
-margin:10px;
-font-size:18px;
-}
-
-#result{
-font-size:30px;
-margin:20px;
+font-size:40px;
 font-weight:bold;
+cursor:pointer;
+border-radius:8px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
-.controls button{
-margin:5px;
-padding:8px 15px;
-}
-
-.confetti{
-position:fixed;
-width:10px;
-height:10px;
-background:red;
-animation:fall 3s linear forwards;
-}
-
-@keyframes fall{
-to{transform:translateY(600px);opacity:0;}
+.mode-buttons{
+margin-top:15px;
 }
 </style>
 </head>
 <body>
 
 <header>
-<div class="logo-section">
+<div class="logo-box">
+<img src="logo.png" class="logo">
 <h1>Royal Gambit</h1>
 </div>
-<a href="index.html" class="btn">Home</a>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="snake.html">Snake</a>
+<a href="puzzle.html">Puzzle</a>
+</nav>
 </header>
 
 <div class="game-container">
 
 <h2>Tic Tac Toe</h2>
 
-<div>
+<div class="mode-buttons">
 <button onclick="startGame('friend')">Play with Friend</button>
-<button onclick="startGame('computer')">Play with Computer</button>
+<button onclick="startGame('ai')">Play with Computer (Hard)</button>
 </div>
 
 <div class="info">
@@ -87,10 +67,11 @@ Steps: <span id="steps">0</span>
 
 <div id="result"></div>
 
-<div class="controls">
-<button onclick="restart()">Restart</button>
-<button onclick="toggleSound()">Sound On/Off</button>
-</div>
+<button onclick="restartGame()">Restart</button>
+<button onclick="toggleSound()">Sound On / Off</button>
+
+<br><br>
+<button onclick="startMusic()">Start Music</button>
 
 <audio id="music" src="music.mp3" loop></audio>
 
@@ -98,18 +79,19 @@ Steps: <span id="steps">0</span>
 
 <script>
 let board = document.getElementById("board");
-let cells = [];
 let currentPlayer = "X";
-let mode = "";
+let gameMode = "";
+let cells = [];
 let steps = 0;
 let timer = 0;
 let interval;
 let music = document.getElementById("music");
 
-function startGame(selectedMode){
-mode = selectedMode;
+function startGame(mode){
+gameMode = mode;
 board.innerHTML="";
-cells=[];
+cells = ["","","","","","","","",""];
+currentPlayer="X";
 steps=0;
 timer=0;
 document.getElementById("steps").innerText=0;
@@ -121,20 +103,18 @@ timer++;
 document.getElementById("timer").innerText=timer;
 },1000);
 
-music.play();
-
 for(let i=0;i<9;i++){
 let cell=document.createElement("div");
 cell.classList.add("cell");
 cell.dataset.index=i;
 cell.onclick=handleClick;
 board.appendChild(cell);
-cells.push("");
 }
 }
 
 function handleClick(){
 let index=this.dataset.index;
+
 if(cells[index]!=="" || document.getElementById("result").innerText!=="") return;
 
 cells[index]=currentPlayer;
@@ -142,7 +122,7 @@ this.innerText=currentPlayer;
 steps++;
 document.getElementById("steps").innerText=steps;
 
-if(checkWin()){
+if(checkWinner(currentPlayer)){
 endGame(currentPlayer+" Wins!");
 return;
 }
@@ -152,23 +132,36 @@ endGame("Draw!");
 return;
 }
 
-if(mode==="computer" && currentPlayer==="X"){
+if(gameMode==="ai" && currentPlayer==="X"){
 currentPlayer="O";
-computerMove();
+bestMove();
 }else{
 currentPlayer=currentPlayer==="X"?"O":"X";
 }
 }
 
-function computerMove(){
-let empty=cells.map((v,i)=>v===""?i:null).filter(v=>v!==null);
-let move=empty[Math.floor(Math.random()*empty.length)];
+function bestMove(){
+let bestScore=-Infinity;
+let move;
+
+for(let i=0;i<9;i++){
+if(cells[i]===""){
+cells[i]="O";
+let score=minimax(cells,0,false);
+cells[i]="";
+if(score>bestScore){
+bestScore=score;
+move=i;
+}
+}
+}
+
 cells[move]="O";
 board.children[move].innerText="O";
 steps++;
 document.getElementById("steps").innerText=steps;
 
-if(checkWin()){
+if(checkWinner("O")){
 endGame("Computer Wins!");
 return;
 }
@@ -176,13 +169,43 @@ return;
 currentPlayer="X";
 }
 
-function checkWin(){
-let wins=[[0,1,2],[3,4,5],[6,7,8],
+function minimax(newBoard,depth,isMaximizing){
+if(checkWinner("O")) return 10-depth;
+if(checkWinner("X")) return depth-10;
+if(newBoard.every(c=>c!=="")) return 0;
+
+if(isMaximizing){
+let bestScore=-Infinity;
+for(let i=0;i<9;i++){
+if(newBoard[i]===""){
+newBoard[i]="O";
+let score=minimax(newBoard,depth+1,false);
+newBoard[i]="";
+bestScore=Math.max(score,bestScore);
+}
+}
+return bestScore;
+}else{
+let bestScore=Infinity;
+for(let i=0;i<9;i++){
+if(newBoard[i]===""){
+newBoard[i]="X";
+let score=minimax(newBoard,depth+1,true);
+newBoard[i]="";
+bestScore=Math.min(score,bestScore);
+}
+}
+return bestScore;
+}
+}
+
+function checkWinner(player){
+const wins=[
+[0,1,2],[3,4,5],[6,7,8],
 [0,3,6],[1,4,7],[2,5,8],
-[0,4,8],[2,4,6]];
-return wins.some(combo=>{
-return combo.every(i=>cells[i]===currentPlayer);
-});
+[0,4,8],[2,4,6]
+];
+return wins.some(combo=>combo.every(i=>cells[i]===player));
 }
 
 function endGame(msg){
@@ -191,13 +214,17 @@ clearInterval(interval);
 createConfetti();
 }
 
-function restart(){
-startGame(mode);
+function restartGame(){
+startGame(gameMode);
 }
 
 function toggleSound(){
 if(music.paused) music.play();
 else music.pause();
+}
+
+function startMusic(){
+music.play();
 }
 
 function createConfetti(){
