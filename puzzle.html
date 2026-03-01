@@ -4,16 +4,18 @@
 <title>Puzzle Game</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body onload="initPuzzle(); startGame();">
+<body>
+
+<h2>Puzzle Game</h2>
 
 <div class="game-header">
-  <div id="timer">Time: 0s</div>
-  <div id="steps">Steps: 0</div>
-  <div onclick="toggleSound()">🔊</div>
+<span id="timer">Time: 0</span>
+<span id="steps">Steps: 0</span>
+<button onclick="toggleSound()">🔊</button>
 </div>
 
-<div id="puzzleBoard"></div>
-<div id="winScreen" class="win-screen"></div>
+<div id="puzzle"></div>
+<button onclick="restart()">Restart</button>
 
 <script src="js/main.js"></script>
 <script src="js/puzzle.js"></script>
