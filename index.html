@@ -1,37 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Royal Gambit</title>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-<img src="assets/logo.png" class="logo" id="logo">
-<h1>Royal Gambit</h1>
-<nav>
-<a href="index.html">Home</a>
-<a href="tic.html">Tic Tac Toe</a>
-<a href="snake.html">Snake</a>
-<a href="puzzle.html">Puzzle</a>
-</nav>
+    <div class="logo-section">
+        <img src="logo.png" id="logo">
+        <h1>Royal Gambit</h1>
+    </div>
+
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
 </header>
 
-<section class="hero">
-<h2>Welcome to Royal Gambit</h2>
-<p>Select a game below</p>
-</section>
+<nav id="mobileMenu">
+    <a href="tictactoe.html">Tic Tac Toe</a>
+    <a href="snake.html">Snake</a>
+    <a href="puzzle.html">Puzzle</a>
+</nav>
 
-<section class="games">
-<a href="tic.html" class="card">Tic Tac Toe</a>
-<a href="snake.html" class="card">Snake Game</a>
-<a href="puzzle.html" class="card">Puzzle Game</a>
+<section class="home">
+    <h2>Welcome to Royal Gambit</h2>
+    <p>Premium Strategy & Fun Games Platform</p>
+
+    <div class="game-buttons">
+        <a href="tictactoe.html" class="btn">Play Tic Tac Toe</a>
+        <a href="snake.html" class="btn">Play Snake</a>
+        <a href="puzzle.html" class="btn">Play Puzzle</a>
+    </div>
 </section>
 
 <footer>
-<p>© 2026 Royal Gambit</p>
+<div class="footer-content">
+<h3>About Us</h3>
+<p>Mobile: 7045678424</p>
+<p>Address: Flour 3, Apartment 451, Kishangarh, Ajmer, Raj. 305802</p>
+<p>Owner: Royalgambital Private Limited</p>
+
+<h3>Follow Us</h3>
+<p>Email: Royalgambit.@gmail.com</p>
+<p>Instagram: royalgambit.100</p>
+<p>Facebook: royalgambit.1734</p>
+
+<div class="footer-bottom">
+<p>Privacy Policy | Terms & Conditions | FAQ</p>
+<p>©2025 Royalgambit. All Rights Reserved.</p>
+</div>
+</div>
 </footer>
 
-<script src="js/main.js"></script>
+<div id="logoPreview" onclick="closeLogo()">
+    <img src="logo.png">
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
