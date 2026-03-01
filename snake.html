@@ -1,23 +1,212 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Snake</title>
-<link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snake - Royal Gambit</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.game-container{
+text-align:center;
+padding:20px;
+}
+
+canvas{
+background:#fff;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+margin-top:15px;
+}
+
+.controls{
+margin-top:15px;
+}
+
+.controls button{
+padding:8px 15px;
+margin:5px;
+}
+
+.mobile-controls{
+margin-top:15px;
+}
+
+.mobile-controls button{
+width:60px;
+height:60px;
+margin:5px;
+font-size:18px;
+}
+
+#result{
+font-size:28px;
+font-weight:bold;
+margin-top:15px;
+}
+
+.confetti{
+position:fixed;
+width:10px;
+height:10px;
+animation:fall 3s linear forwards;
+}
+
+@keyframes fall{
+to{transform:translateY(600px);opacity:0;}
+}
+</style>
 </head>
+
 <body>
 
-<h2>Snake Game</h2>
+<header>
+<div class="logo-section">
+<h1>Royal Gambit</h1>
+</div>
+<a href="index.html" class="btn">Home</a>
+</header>
 
-<div class="game-header">
-<span id="timer">Time: 0</span>
-<span id="steps">Score: 0</span>
-<button onclick="toggleSound()">🔊</button>
+<div class="game-container">
+<h2>Snake Game 🐍</h2>
+
+<div>
+Time: <span id="timer">0</span>s |
+Score: <span id="score">0</span>
 </div>
 
 <canvas id="game" width="300" height="300"></canvas>
-<button onclick="restart()">Restart</button>
 
-<script src="js/main.js"></script>
-<script src="js/snake.js"></script>
+<div id="result"></div>
+
+<div class="controls">
+<button onclick="startGame()">Start</button>
+<button onclick="restart()">Restart</button>
+<button onclick="toggleSound()">Sound On/Off</button>
+</div>
+
+<div class="mobile-controls">
+<br>
+<button onclick="setDirection('UP')">↑</button><br>
+<button onclick="setDirection('LEFT')">←</button>
+<button onclick="setDirection('DOWN')">↓</button>
+<button onclick="setDirection('RIGHT')">→</button>
+</div>
+
+<audio id="music" src="music.mp3" loop></audio>
+
+</div>
+
+<script>
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+let box=15;
+let snake;
+let direction;
+let food;
+let score;
+let timer=0;
+let interval;
+let timerInterval;
+let music=document.getElementById("music");
+
+function startGame(){
+snake=[{x:150,y:150}];
+direction="RIGHT";
+score=0;
+timer=0;
+document.getElementById("score").innerText=0;
+document.getElementById("timer").innerText=0;
+document.getElementById("result").innerText="";
+food={
+x:Math.floor(Math.random()*20)*box,
+y:Math.floor(Math.random()*20)*box
+};
+
+clearInterval(interval);
+clearInterval(timerInterval);
+
+interval=setInterval(draw,100);
+timerInterval=setInterval(()=>{
+timer++;
+document.getElementById("timer").innerText=timer;
+},1000);
+
+music.play();
+}
+
+function draw(){
+ctx.clearRect(0,0,300,300);
+
+snake.forEach((part)=>{
+ctx.fillStyle="green";
+ctx.fillRect(part.x,part.y,box,box);
+});
+
+ctx.fillStyle="red";
+ctx.fillRect(food.x,food.y,box,box);
+
+let headX=snake[0].x;
+let headY=snake[0].y;
+
+if(direction==="LEFT") headX-=box;
+if(direction==="RIGHT") headX+=box;
+if(direction==="UP") headY-=box;
+if(direction==="DOWN") headY+=box;
+
+if(headX===food.x && headY===food.y){
+score++;
+document.getElementById("score").innerText=score;
+food={
+x:Math.floor(Math.random()*20)*box,
+y:Math.floor(Math.random()*20)*box
+};
+}else{
+snake.pop();
+}
+
+let newHead={x:headX,y:headY};
+
+if(headX<0||headY<0||headX>=300||headY>=300||
+snake.some(part=>part.x===headX && part.y===headY)){
+endGame();
+return;
+}
+
+snake.unshift(newHead);
+}
+
+function endGame(){
+clearInterval(interval);
+clearInterval(timerInterval);
+document.getElementById("result").innerText="Game Over!";
+createConfetti();
+}
+
+function restart(){
+startGame();
+}
+
+function setDirection(dir){
+direction=dir;
+}
+
+function toggleSound(){
+if(music.paused) music.play();
+else music.pause();
+}
+
+function createConfetti(){
+for(let i=0;i<80;i++){
+let conf=document.createElement("div");
+conf.classList.add("confetti");
+conf.style.left=Math.random()*100+"%";
+conf.style.background="hsl("+Math.random()*360+",100%,50%)";
+document.body.appendChild(conf);
+setTimeout(()=>conf.remove(),3000);
+}
+}
+</script>
+
 </body>
 </html>
