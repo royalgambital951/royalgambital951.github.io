@@ -4,24 +4,24 @@ let ctx=canvas.getContext("2d");
 let snake=[{x:10,y:10}];
 let food={x:5,y:5};
 let dx=1,dy=0;
-let steps=0,time=0;
+let score=0;
+let time=0;
 
 function draw(){
 ctx.clearRect(0,0,300,300);
-snake.forEach(s=>{
-ctx.fillRect(s.x*15,s.y*15,15,15);
-});
+snake.forEach(s=>ctx.fillRect(s.x*15,s.y*15,15,15));
 ctx.fillRect(food.x*15,food.y*15,15,15);
 }
 
 function update(){
 let head={x:snake[0].x+dx,y:snake[0].y+dy};
 snake.unshift(head);
+
 if(head.x==food.x && head.y==food.y){
 food.x=Math.floor(Math.random()*20);
 food.y=Math.floor(Math.random()*20);
-steps++;
-document.getElementById("steps").innerText="Steps: "+steps;
+score++;
+document.getElementById("steps").innerText="Score: "+score;
 }else{
 snake.pop();
 }
