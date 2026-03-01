@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Puzzle Game</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body onload="initPuzzle(); startGame();">
+
+<div class="game-header">
+  <div id="timer">Time: 0s</div>
+  <div id="steps">Steps: 0</div>
+  <div onclick="toggleSound()">🔊</div>
+</div>
+
+<div id="puzzleBoard"></div>
+<div id="winScreen" class="win-screen"></div>
+
+<script src="js/main.js"></script>
+<script src="js/puzzle.js"></script>
+</body>
+</html>
