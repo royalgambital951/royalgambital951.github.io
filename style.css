@@ -73,3 +73,56 @@ footer {
 .popup img {
   width:300px;
 }
+.game-header{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 20px;
+  background:#ffffff;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.timer, .steps{
+  font-weight:bold;
+}
+
+.settings{
+  cursor:pointer;
+}
+
+.win-screen{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  font-size:50px;
+  font-weight:bold;
+  background:rgba(255,255,255,0.9);
+  z-index:1000;
+}
+
+.confetti{
+  position:fixed;
+  width:10px;
+  height:10px;
+  background:red;
+  top:-10px;
+  animation:fall 3s linear forwards;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(100vh) rotate(720deg);
+  }
+}
+
+.controls{
+  margin-top:20px;
+}
+
+.controls button{
+  padding:15px;
+  margin:5px;
+  font-size:20px;
+}
