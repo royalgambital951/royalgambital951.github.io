@@ -1,23 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Puzzle - Royal Gambit</title>
+<title>Hard Puzzle - Royal Gambit</title>
 <link rel="stylesheet" href="style.css">
 
 <style>
-.game-container{
-text-align:center;
-padding:20px;
-}
-
-.puzzle{
+.puzzle-board{
 width:300px;
 display:grid;
 grid-template-columns:repeat(3,100px);
-gap:5px;
-margin:20px auto;
+gap:6px;
+margin:30px auto;
 }
 
 .tile{
@@ -27,99 +22,108 @@ background:white;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:25px;
+font-size:28px;
+font-weight:bold;
 cursor:pointer;
-box-shadow:0 0 5px rgba(0,0,0,0.2);
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+transition:0.2s;
+}
+
+.tile:hover{
+background:#e8eaf6;
 }
 
 .empty{
 background:#ddd;
+cursor:default;
 }
 
-#result{
-font-size:28px;
-font-weight:bold;
+.game-info{
+display:flex;
+justify-content:center;
+gap:25px;
+font-size:18px;
 margin-top:15px;
 }
 
-.controls button{
-padding:8px 15px;
-margin:5px;
-}
-
-.confetti{
-position:fixed;
-width:10px;
-height:10px;
-animation:fall 3s linear forwards;
-}
-
-@keyframes fall{
-to{transform:translateY(600px);opacity:0;}
+.win-message{
+font-size:26px;
+color:#1a237e;
+margin-top:15px;
+font-weight:bold;
 }
 </style>
 </head>
-
 <body>
 
 <header>
-<div class="logo-section">
+<div class="logo-box">
+<img src="logo.png" class="logo">
 <h1>Royal Gambit</h1>
 </div>
-<a href="index.html" class="btn">Home</a>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="tictactoe.html">Tic Tac Toe</a>
+<a href="snake.html">Snake</a>
+<a href="puzzle.html">Puzzle</a>
+</nav>
 </header>
 
-<div class="game-container">
-<h2>Hard Puzzle 🧩</h2>
+<section class="game-section">
 
-<div>
-Time: <span id="timer">0</span>s |
-Steps: <span id="steps">0</span>
+<h2>Hard Puzzle</h2>
+
+<div class="game-info">
+<span>Steps: <span id="steps">0</span></span>
+<span>Time: <span id="timer">0</span>s</span>
 </div>
 
-<div class="puzzle" id="puzzle"></div>
+<div class="puzzle-board" id="board"></div>
 
-<div id="result"></div>
+<button onclick="restartGame()">Restart</button>
 
-<div class="controls">
-<button onclick="startGame()">Start</button>
-<button onclick="restart()">Restart</button>
-</div>
+<div class="win-message" id="winMessage"></div>
 
-</div>
+</section>
+
+<footer>
+<p>© 2025 Royal Gambit</p>
+</footer>
 
 <script>
-let tiles=[];
-let steps=0;
-let timer=0;
-let interval;
+let board = document.getElementById("board");
+let tiles = [];
+let steps = 0;
+let timer = 0;
+let timerInterval;
 
-function startGame(){
-tiles=[1,2,3,4,5,6,7,8,""];
+function initGame(){
+tiles = [1,2,3,4,5,6,7,8,""];
 shuffle(tiles);
 steps=0;
 timer=0;
 document.getElementById("steps").innerText=0;
 document.getElementById("timer").innerText=0;
-document.getElementById("result").innerText="";
-clearInterval(interval);
-interval=setInterval(()=>{
+document.getElementById("winMessage").innerText="";
+clearInterval(timerInterval);
+timerInterval=setInterval(()=>{
 timer++;
 document.getElementById("timer").innerText=timer;
 },1000);
-render();
+renderBoard();
 }
 
-function shuffle(arr){
-for(let i=arr.length-1;i>0;i--){
+function shuffle(array){
+for(let i=array.length-1;i>0;i--){
 let j=Math.floor(Math.random()*(i+1));
-[arr[i],arr[j]]=[arr[j],arr[i]];
+[array[i],array[j]]=[array[j],array[i]];
 }
 }
 
-function render(){
-let puzzle=document.getElementById("puzzle");
-puzzle.innerHTML="";
+function renderBoard(){
+board.innerHTML="";
 tiles.forEach((num,index)=>{
 let tile=document.createElement("div");
 tile.classList.add("tile");
@@ -127,34 +131,35 @@ if(num===""){
 tile.classList.add("empty");
 }else{
 tile.innerText=num;
-tile.onclick=()=>move(index);
+tile.onclick=()=>moveTile(index);
 }
-puzzle.appendChild(tile);
+board.appendChild(tile);
 });
 }
 
-function move(index){
+function moveTile(index){
 let emptyIndex=tiles.indexOf("");
 let validMoves=[index-1,index+1,index-3,index+3];
+
 if(validMoves.includes(emptyIndex)){
 [tiles[index],tiles[emptyIndex]]=[tiles[emptyIndex],tiles[index]];
 steps++;
 document.getElementById("steps").innerText=steps;
-render();
+renderBoard();
 checkWin();
 }
 }
 
 function checkWin(){
 if(JSON.stringify(tiles)===JSON.stringify([1,2,3,4,5,6,7,8,""])){
-clearInterval(interval);
-document.getElementById("result").innerText="You Win!";
+clearInterval(timerInterval);
+document.getElementById("winMessage").innerText="🎉 You Solved It!";
 createConfetti();
 }
 }
 
-function restart(){
-startGame();
+function restartGame(){
+initGame();
 }
 
 function createConfetti(){
@@ -167,6 +172,8 @@ document.body.appendChild(conf);
 setTimeout(()=>conf.remove(),3000);
 }
 }
+
+initGame();
 </script>
 
 </body>
